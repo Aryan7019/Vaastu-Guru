@@ -155,6 +155,69 @@ try {
           </div>
         </section>
 
+{/* Our Services Section */}
+<section className="py-20 bg-white">
+  <div className="container mx-auto px-4">
+    <motion.div 
+      initial={{ opacity: 0, y: 30 }} 
+      whileInView={{ opacity: 1, y: 0 }} 
+      transition={{ duration: 0.8 }} 
+      className="text-center mb-12"
+    >
+      <h2 className="text-4xl font-bold gradient-text mb-4">Our Services</h2>
+      <p className="text-xl text-gray-600">
+        Explore the powerful tools we use to bring harmony and balance into your life
+      </p>
+    </motion.div>
+
+    {/* Horizontal Scrollable Cards */}
+    <div className="overflow-x-auto scrollbar-hide pb-4">
+      <div className="flex space-x-6 w-max px-1">
+        {[
+          {
+            title: "Numerology",
+            desc: "Uncover your life's blueprint through numbers and enhance luck through Name Correction."
+          },
+          {
+            title: "Residential Vaastu",
+            desc: "Align your home’s energy to bring peace, prosperity, and good health to your family."
+          },
+          {
+            title: "Industrial Vaastu",
+            desc: "Optimize industrial spaces for increased productivity, safety, and positive outcomes."
+          },
+          {
+            title: "Commercial Vaastu",
+            desc: "Attract success in business by balancing energies in shops, offices, and workspaces."
+          },
+          {
+            title: "Pyramid Therapy",
+            desc: "Harness the ancient power of pyramids to neutralize negativity and amplify positivity."
+          },
+          {
+            title: "Colour Therapy",
+            desc: "Use the vibration of colors to heal, balance emotions, and enhance well-being."
+          },
+        ].map((service, index) => (
+          <motion.div 
+            key={index}
+            initial={{ opacity: 0, y: 20 }} 
+            whileInView={{ opacity: 1, y: 0 }} 
+            transition={{ duration: 0.5, delay: index * 0.1 }}
+            className="bg-gradient-to-br from-orange-50 to-white p-8 rounded-2xl shadow-lg min-w-[300px] max-w-[300px] flex-shrink-0 text-left"
+          >
+            <h3 className="text-2xl font-semibold gradient-text mb-2">{service.title}</h3>
+            <p className="text-gray-700 text-sm leading-relaxed">
+              {service.desc}
+            </p>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+
         {/* Experts Section */}
         <section className="py-20 bg-gradient-to-r from-orange-50 to-white">
           <div className="container mx-auto px-4">
