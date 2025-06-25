@@ -176,27 +176,33 @@ try {
         {[
           {
             title: "Numerology",
-            desc: "Uncover your life's blueprint through numbers and enhance luck through Name Correction."
+            desc: "Uncover your life's blueprint through numbers and enhance luck through Name Correction.",
+            img: "https://plus.unsplash.com/premium_photo-1717717670034-0d673f50f895?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bnVtZXJvbG9neXxlbnwwfHwwfHx8MA%3D%3D"
           },
           {
             title: "Residential Vaastu",
-            desc: "Align your home’s energy to bring peace, prosperity, and good health to your family."
+            desc: "Align your home’s energy to bring peace, prosperity, and good health to your family.",
+            img: "https://aurorealty.com/blog/wp-content/uploads/2019/10/vastu-shastra-for-home.jpg"
           },
           {
             title: "Industrial Vaastu",
-            desc: "Optimize industrial spaces for increased productivity, safety, and positive outcomes."
+            desc: "Optimize industrial spaces for increased productivity, safety, and positive outcomes.",
+            img: "https://www.mahavaastushastra.com/wp-content/uploads/2021/11/Industrial-Vaastu-factory.jpg"
           },
           {
             title: "Commercial Vaastu",
-            desc: "Attract success in business by balancing energies in shops, offices, and workspaces."
+            desc: "Attract success in business by balancing energies in shops, offices, and workspaces.",
+            img: "https://www.vasthusubramanyam.com/wp-content/uploads/2019/09/commercial-e1568478793888.jpg"
           },
           {
             title: "Pyramid Therapy",
-            desc: "Harness the ancient power of pyramids to neutralize negativity and amplify positivity."
+            desc: "Harness the ancient power of pyramids to neutralize negativity and amplify positivity.",
+            img: "https://dailygalaxy.com/wp-content/uploads/2025/04/The-Great-Pyramid-of-Giza-Has-MORE-Than-Four-Sides.jpg"
           },
           {
             title: "Colour Therapy",
-            desc: "Use the vibration of colors to heal, balance emotions, and enhance well-being."
+            desc: "Use the vibration of colors to heal, balance emotions, and enhance well-being.",
+            img: "https://www.shutterstock.com/image-illustration/human-spirit-powerful-energy-connect-600nw-1416917957.jpg"
           },
         ].map((service, index) => (
           <motion.div 
@@ -204,12 +210,15 @@ try {
             initial={{ opacity: 0, y: 20 }} 
             whileInView={{ opacity: 1, y: 0 }} 
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-gradient-to-br from-orange-50 to-white p-8 rounded-2xl shadow-lg min-w-[300px] max-w-[300px] flex-shrink-0 text-left"
+            className="bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl shadow-lg min-w-[300px] max-w-[300px] flex-shrink-0 text-left"
           >
+            <img
+              src={service.img}
+              alt={service.title}
+              className="w-full h-40 object-cover rounded-xl mb-4"
+            />
             <h3 className="text-2xl font-semibold gradient-text mb-2">{service.title}</h3>
-            <p className="text-gray-700 text-sm leading-relaxed">
-              {service.desc}
-            </p>
+            <p className="text-gray-700 text-sm leading-relaxed">{service.desc}</p>
           </motion.div>
         ))}
       </div>
