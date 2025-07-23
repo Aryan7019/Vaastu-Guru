@@ -131,7 +131,7 @@ try {
               <div className="flex flex-wrap justify-center gap-4 mt-8">
                 <Button onClick={handleBookConsultation} className="orange-gradient text-white hover:orange-gradient-hover px-8 py-3 text-lg rounded-xl">Book Consultation</Button>
                 <Button asChild variant="outline" className="border-white text-white hover:bg-white hover:text-orange-500 px-8 py-3 text-lg rounded-xl">
-                  <Link to="/study">Learn More</Link>
+                  <Link to="/learn">Learn More</Link>
                 </Button>
               </div>
             </motion.div>
