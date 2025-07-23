@@ -142,7 +142,7 @@ try {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              {[{ icon: Users, number: "5000+", label: "Happy Clients" }, { icon: Calendar, number: "25+", label: "Years Experience" }, { icon: Award, number: "98%", label: "Success Rate" }, { icon: TrendingUp, number: "24/7", label: "Support" }].map((stat, index) => (
+              {[{ icon: Users, number: "10000+", label: "Happy Clients" }, { icon: Calendar, number: "25+", label: "Years Experience" }, { icon: Award, number: "98%", label: "Success Rate" }, { icon: TrendingUp, number: "24/7", label: "Support" }].map((stat, index) => (
                 <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.1 }} className="space-y-4">
                   <stat.icon className="h-12 w-12 text-orange-500 mx-auto" />
                   <div>
