@@ -28,15 +28,69 @@ const StudySection = () => {
   };
 
 const numerologyPrinciples = [
-  { number: 1, meaning: "Leadership", description: "Natural leaders with strong willpower, independence, and a pioneering spirit.", color: "text-red-500" },
-  { number: 2, meaning: "Innovation", description: "Highly intuitive, emotionally aware, and creatively innovative individuals.", color: "text-orange-500" },
-  { number: 3, meaning: "Knowledge", description: "Lifelong learners who value wisdom, learning, and intellectual pursuits.", color: "text-yellow-500" },
-  { number: 4, meaning: "Stability", description: "Grounded and dependable individuals who create structure and order.", color: "text-green-500" },
-  { number: 5, meaning: "Communication", description: "Expressive, sociable, and persuasive communicators who influence through words.", color: "text-blue-500" },
-  { number: 6, meaning: "Luxury", description: "Caring, responsible, and nurturing personalities with a taste for elegance and comfort.", color: "text-indigo-500" },
-  { number: 7, meaning: "Spirituality", description: "Introspective, analytical minds who seek deeper meaning and truth.", color: "text-purple-500" },
-  { number: 8, meaning: "Discipline", description: "Ambitious and goal-oriented individuals who succeed through structure and effort.", color: "text-pink-500" },
-  { number: 9, meaning: "Humanity", description: "Kind-hearted souls who dedicate themselves to service, compassion, and global harmony.", color: "text-teal-500" }
+   {
+    number: 1,
+    meaning: "Leadership",
+    description:
+      "Independent, driven, and natural leaders with a pioneering spirit.",
+    color: "text-red-500"
+  },
+  {
+    number: 2,
+    meaning: "Harmony",
+    description:
+      "Sensitive, diplomatic, and gifted at bringing people together.",
+    color: "text-orange-500"
+  },
+  {
+    number: 3,
+    meaning: "Knowledge",
+    description:
+      "Curious minds who value learning, insight, and intellectual growth.",
+    color: "text-yellow-500"
+  },
+  {
+    number: 4,
+    meaning: "Stability",
+    description:
+      "Practical, reliable, and hardworking with a love for order.",
+    color: "text-green-500"
+  },
+  {
+    number: 5,
+    meaning: "Freedom",
+    description:
+      "Adventurous and versatile individuals who thrive on change and express themselves with clarity and confidence.",
+    color: "text-blue-500"
+  },
+  {
+    number: 6,
+    meaning: "Luxury",
+    description:
+      "Caring, family-focused, and drawn to beauty, comfort, and elegance.",
+    color: "text-indigo-500"
+  },
+  {
+    number: 7,
+    meaning: "Spiritual",
+    description:
+      "Introspective, analytical, and seekers of deeper meaning.",
+    color: "text-purple-500"
+  },
+  {
+    number: 8,
+    meaning: "Ambition",
+    description:
+      "Confident, disciplined, and success-oriented with strong willpower.",
+    color: "text-pink-500"
+  },
+  {
+    number: 9,
+    meaning: "Compassion",
+    description:
+      "Kind, idealistic, and devoted to service and global harmony.",
+    color: "text-teal-500"
+  }
 ];
 
 
