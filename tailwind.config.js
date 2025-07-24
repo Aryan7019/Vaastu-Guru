@@ -7,6 +7,12 @@ module.exports = {
 		'./app/**/*.{js,jsx}',
 		'./src/**/*.{js,jsx}',
 	],
+   safelist: [
+    'transition-transform',
+    'duration-300',
+    'ease-in-out',
+    'hover:scale-105'
+  ],
 	theme: {
 		container: {
 			center: true,

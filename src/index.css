@@ -2,8 +2,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-
 @tailwind base;
+
+@layer base {
+  button {
+    @apply transition-transform duration-300 ease-in-out;
+  }
+
+  button:hover {
+    @apply scale-105;
+  }
+}
+
 @tailwind components;
 @tailwind utilities;
 
@@ -110,3 +120,4 @@ body {
 .rounded-card {
   border-radius: var(--radius);
 }
+

@@ -4,19 +4,20 @@ import { motion } from 'framer-motion';
 import { Book, Calculator, Home, Star, TrendingUp, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import AuthModal from '@/components/AuthModal';
+import { useUser, SignInButton } from '@clerk/clerk-react'; // Updated imports
 import { sendConsultationRequest } from '@/services/emailService';
 import { toast } from '@/components/ui/use-toast';
+import { ConsultationForm } from "../components/ConsultationForm";
+import { Dialog, DialogContent, DialogTrigger, DialogTitle , DialogHeader,DialogDescription } from '../components/ui/dialog';
 
 const StudySection = () => {
   const [activeTab, setActiveTab] = useState('numerology');
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const { user } = useAuth();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { isSignedIn, user } = useUser(); // Using Clerk's user state
 
   const handleBookConsultation = () => {
-    if (!user) {
-      setIsAuthModalOpen(true);
+    if (!isSignedIn) {
+      // Clerk will handle the sign-in flow via the SignInButton
       return;
     }
     sendConsultationRequest(user);
@@ -158,18 +159,44 @@ const numerologyPrinciples = [
               <h3 className="text-2xl font-bold gradient-text mb-4">Ready to Apply This Knowledge?</h3>
               <p className="text-gray-600 mb-6">Use our calculator to get personalized insights or book a consultation with our experts</p>
               <div className="flex flex-wrap justify-center gap-4">
-                <Button asChild className="orange-gradient text-white hover:orange-gradient-hover rounded-xl">
+                <Button asChild className="orange-gradient text-white transition-transform duration-300 ease-in-out hover:scale-105 hover:orange-gradient-hover rounded-xl">
                   <Link to="/calculator">Try Calculator</Link>
                 </Button>
-                <Button onClick={handleBookConsultation} variant="outline" className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white rounded-xl">
-                  Book Consultation
-                </Button>
+                {isSignedIn ? (
+                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button 
+                      variant="outline"
+                      className="border-orange-500 text-orange-500 transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-orange-500 hover:text-white rounded-xl"
+                    >
+                      Book Consultation
+                    </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Book a Consultation</DialogTitle>
+                        <DialogDescription>
+                          Fill out the form below and we'll contact you shortly
+                        </DialogDescription>
+                      </DialogHeader>
+                      <ConsultationForm onSuccess={() => setIsDialogOpen(false)} />
+                    </DialogContent>
+                  </Dialog>
+                ) : (
+                  <SignInButton mode="modal">
+                    <Button 
+                      variant="outline"
+                      className="border-orange-500 text-orange-500 transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-orange-500 hover:text-white rounded-xl"
+                    >
+                      Book Consultation
+                    </Button>
+                  </SignInButton>
+                )}
               </div>
             </div>
           </motion.div>
         </div>
       </div>
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </>
   );
 };

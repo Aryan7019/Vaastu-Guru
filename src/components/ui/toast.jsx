@@ -23,16 +23,18 @@ const toastVariants = cva(
 	{
 		variants: {
 			variant: {
-				default: 'bg-background border',
+				default:
+					'bg-[rgba(255,107,53,0.15)] border border-[rgba(255,107,53,0.3)] backdrop-blur-md text-orange-900',
 				destructive:
-          'group destructive border-destructive bg-destructive text-destructive-foreground',
+					'bg-[rgba(255,107,53,0.15)] border border-[rgba(255,107,53,0.3)] backdrop-blur-md text-orange-900',
 			},
 		},
 		defaultVariants: {
 			variant: 'default',
 		},
-	},
+	}
 );
+
 
 const Toast = React.forwardRef(({ className, variant, ...props }, ref) => {
 	return (

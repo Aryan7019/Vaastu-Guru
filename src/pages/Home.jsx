@@ -4,56 +4,57 @@ import { motion } from 'framer-motion';
 import { Star, Quote, Calendar, Users, Award, TrendingUp, Trash2, Facebook, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { useAuth } from '@/contexts/AuthContext';
 import { toast } from '@/components/ui/use-toast';
-import AuthModal from '@/components/AuthModal';
 import { Link } from 'react-router-dom';
 import { sendConsultationRequest } from '@/services/emailService';
-import {
-  collection,
-  getDocs,
-  addDoc,
-  deleteDoc,
-  doc,
-  query,
-  orderBy,
-  Timestamp
-} from 'firebase/firestore';
-import { db } from "../components/firebase"; // adjust path to your firebase config
+import { useUser, SignInButton } from '@clerk/clerk-react';
+import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTimestamp, limit } from "firebase/firestore";
+import { db } from "../components/firebase";
+import { ConsultationForm } from "../components/ConsultationForm";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from '../components/ui/dialog';
 
 const Home = () => {
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const { user } = useAuth();
+  const { isLoaded, isSignedIn, user } = useUser();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const q = query(collection(db, "reviews"), orderBy("date", "desc"));
+        const q = query(
+          collection(db, "reviews"),
+          orderBy("createdAt", "desc"),
+          limit(50)
+        );
         const querySnapshot = await getDocs(q);
+        
         const reviewsData = querySnapshot.docs.map(doc => {
           const data = doc.data();
           return {
             id: doc.id,
             ...data,
-            
+            createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : null,
+            isCurrentUser: isSignedIn && data.userId === user?.id
           };
         });
+        
         setReviews(reviewsData);
       } catch (error) {
-        console.error("Error fetching reviews: ", error);
+        console.error("Error fetching reviews:", error);
+        toast({
+          title: "Error",
+          description: "Could not load reviews",
+          variant: "destructive"
+        });
       }
     };
 
     fetchReviews();
-  }, []);
+  }, [isSignedIn, user?.id]);
 
   const handleBookConsultation = () => {
-    if (!user) {
-      setIsAuthModalOpen(true);
-      return;
-    }
+    if (!isSignedIn) return;
     sendConsultationRequest();
     toast({
       title: "Consultation Request Sent!",
@@ -62,46 +63,100 @@ const Home = () => {
   };
 
   const handleDeleteReview = async (id) => {
-    try {
-      await deleteDoc(doc(db, "reviews", id));
-      const filtered = reviews.filter(r => r.id !== id);
-      setReviews(filtered);
-      toast({ title: "Deleted", description: "Your review has been removed." });
-    } catch (error) {
-      console.error("Error deleting review: ", error);
-      toast({ title: "Error", description: "Could not delete review", variant: "destructive" });
-    }
-  };
+  if (!isSignedIn) {
+    toast({
+      title: "Not signed in",
+      description: "Please sign in to delete your review",
+      variant: "destructive"
+    });
+    return;
+  }
 
-  const handleSubmitReview = async (e) => {
-    e.preventDefault();
-    if (!user) return setIsAuthModalOpen(true);
+  try {
+    await deleteDoc(doc(db, "reviews", id));
+    setReviews((prev) => prev.filter((review) => review.id !== id));
 
-    if (!newReview.comment.trim()) {
-      return toast({
-        title: "Error",
-        description: "Please write a comment for your review",
-        variant: "destructive",
-      });
-    }
-
-   const review = {
-  name: user?.displayName || user?.email || "Anonymous",
-  rating: newReview.rating,
-  comment: newReview.comment,
-  date: Timestamp.now(),
+    toast({ 
+      title: "Deleted", 
+      description: "Your review has been removed." 
+    });
+  } catch (error) {
+    console.error("Error deleting review:", error);
+    toast({ 
+      title: "Error", 
+      description: "Could not delete review", 
+      variant: "destructive" 
+    });
+  }
 };
 
-try {
-  const docRef = await addDoc(collection(db, "reviews"), review);
-  setReviews([{ id: docRef.id, ...review, date: review.date.toDate() }, ...reviews]);
-  setNewReview({ rating: 5, comment: '' });
-  toast({ title: "Success!", description: "Your review has been submitted successfully" });
-} catch (error) {
-  console.error("Error adding review: ", error);
-  toast({ title: "Error", description: "Failed to submit review", variant: "destructive" });
-}
-   };
+
+  const handleSubmitReview = async (e) => {
+  e.preventDefault();
+
+  if (!isSignedIn) {
+    return toast({
+      title: "Please sign in",
+      description: "You need to be logged in to submit a review",
+      variant: "destructive",
+    });
+  }
+
+  const trimmedComment = newReview.comment.trim();
+  if (trimmedComment.length < 3) {
+    return toast({
+      title: "Invalid comment",
+      description: "Comment must be at least 3 characters",
+      variant: "destructive",
+    });
+  }
+
+  if (newReview.rating < 1 || newReview.rating > 5) {
+    return toast({
+      title: "Invalid rating",
+      description: "Rating must be between 1 and 5",
+      variant: "destructive",
+    });
+  }
+
+  try {
+    const reviewData = {
+      name: user.fullName || user.username || "Anonymous",
+      userId: user.id, // 👈 Must match request.auth.uid if you're using Firestore auth rules
+      rating: Number(newReview.rating),
+      comment: trimmedComment,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    };
+
+    const docRef = await addDoc(collection(db, "reviews"), reviewData);
+
+    setReviews((prev) => [
+      {
+        id: docRef.id,
+        ...reviewData,
+        createdAt: new Date(), // fallback for UI
+        isCurrentUser: true, // flag for delete button rendering
+      },
+      ...prev,
+    ]);
+
+    setNewReview({ rating: 5, comment: '' });
+
+    toast({
+      title: "Success!",
+      description: "Your review has been submitted",
+    });
+  } catch (error) {
+    console.error("Error adding review:", error);
+    toast({
+      title: "Error",
+      description: error.message || "Failed to submit review",
+      variant: "destructive",
+    });
+  }
+};
+
 
   const renderStars = (rating, interactive = false, onRatingChange = null) => (
     <div className="flex space-x-1">
@@ -114,6 +169,10 @@ try {
       ))}
     </div>
   );
+
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -129,8 +188,33 @@ try {
               <h1 className="text-5xl md:text-7xl font-bold text-white text-shadow">Welcome to <span className="text-black">Vaastu Guru</span></h1>
               <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto">Unlock the secrets of your destiny through ancient numerology and vaastu wisdom</p>
               <div className="flex flex-wrap justify-center gap-4 mt-8">
-                <Button onClick={handleBookConsultation} className="orange-gradient text-white hover:orange-gradient-hover px-8 py-3 text-lg rounded-xl">Book Consultation</Button>
-                <Button asChild variant="outline" className="border-white text-white hover:bg-white hover:text-orange-500 px-8 py-3 text-lg rounded-xl">
+                {isSignedIn ? (
+                  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                    <DialogTrigger asChild>
+                      <Button className="orange-gradient text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105 px-8 py-3 text-lg rounded-xl">
+                        Book Consultation
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px]">
+                      <DialogHeader>
+                        <DialogTitle>Book a Consultation</DialogTitle>
+                        <DialogDescription>
+                          Fill out the form below and we'll contact you shortly
+                        </DialogDescription>
+                      </DialogHeader>
+                      <ConsultationForm onSuccess={() => setIsDialogOpen(false)} />
+                    </DialogContent>
+                  </Dialog>
+                ) : (
+                  <SignInButton mode="modal">
+                    <Button 
+                      className="orange-gradient text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105 px-8 py-3 text-lg rounded-xl"
+                    >
+                      Book Consultation
+                    </Button>
+                  </SignInButton>
+                )}
+                <Button asChild variant="outline" className="border-white text-white hover:bg-white hover:text-orange-500 transition-transform duration-300 ease-in-out hover:scale-105 px-8 py-3 text-lg rounded-xl">
                   <Link to="/learn">Learn More</Link>
                 </Button>
               </div>
@@ -155,77 +239,76 @@ try {
           </div>
         </section>
 
-{/* Our Services Section */}
-<section className="py-20 bg-white">
-  <div className="container mx-auto px-4">
-    <motion.div 
-      initial={{ opacity: 0, y: 30 }} 
-      whileInView={{ opacity: 1, y: 0 }} 
-      transition={{ duration: 0.8 }} 
-      className="text-center mb-12"
-    >
-      <h2 className="text-4xl font-bold gradient-text mb-4">Our Services</h2>
-      <p className="text-xl text-gray-600">
-        Explore the powerful tools we use to bring harmony and balance into your life
-      </p>
-    </motion.div>
+        {/* Our Services Section */}
+        <section className="py-20 bg-white">
+          <div className="container mx-auto px-4">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }} 
+              whileInView={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 0.8 }} 
+              className="text-center mb-12"
+            >
+              <h2 className="text-4xl font-bold gradient-text mb-4">Our Services</h2>
+              <p className="text-xl text-gray-600">
+                Explore the powerful tools we use to bring harmony and balance into your life
+              </p>
+            </motion.div>
 
-    {/* Horizontal Scrollable Cards */}
-    <div className="overflow-x-auto scrollbar-hide pb-4">
-      <div className="flex space-x-6 w-max px-1">
-        {[
-          {
-            title: "Numerology",
-            desc: "Uncover your life's blueprint through numbers and enhance luck through Name Correction.",
-            img: "https://plus.unsplash.com/premium_photo-1717717670034-0d673f50f895?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bnVtZXJvbG9neXxlbnwwfHwwfHx8MA%3D%3D"
-          },
-          {
-            title: "Residential Vaastu",
-            desc: "Align your home’s energy to bring peace, prosperity, and good health to your family.",
-            img: "https://aurorealty.com/blog/wp-content/uploads/2019/10/vastu-shastra-for-home.jpg"
-          },
-          {
-            title: "Industrial Vaastu",
-            desc: "Optimize industrial spaces for increased productivity, safety, and positive outcomes.",
-            img: "https://www.mahavaastushastra.com/wp-content/uploads/2021/11/Industrial-Vaastu-factory.jpg"
-          },
-          {
-            title: "Commercial Vaastu",
-            desc: "Attract success in business by balancing energies in shops, offices, and workspaces.",
-            img: "https://www.vasthusubramanyam.com/wp-content/uploads/2019/09/commercial-e1568478793888.jpg"
-          },
-          {
-            title: "Pyramid Therapy",
-            desc: "Harness the ancient power of pyramids to neutralize negativity and amplify positivity.",
-            img: "https://dailygalaxy.com/wp-content/uploads/2025/04/The-Great-Pyramid-of-Giza-Has-MORE-Than-Four-Sides.jpg"
-          },
-          {
-            title: "Colour Therapy",
-            desc: "Use the vibration of colors to heal, balance emotions, and enhance well-being.",
-            img: "https://www.shutterstock.com/image-illustration/human-spirit-powerful-energy-connect-600nw-1416917957.jpg"
-          },
-        ].map((service, index) => (
-          <motion.div 
-            key={index}
-            initial={{ opacity: 0, y: 20 }} 
-            whileInView={{ opacity: 1, y: 0 }} 
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl shadow-lg min-w-[300px] max-w-[300px] flex-shrink-0 text-left"
-          >
-            <img
-              src={service.img}
-              alt={service.title}
-              className="w-full h-40 object-cover rounded-xl mb-4"
-            />
-            <h3 className="text-2xl font-semibold gradient-text mb-2">{service.title}</h3>
-            <p className="text-gray-700 text-sm leading-relaxed">{service.desc}</p>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </div>
-</section>
-
+            {/* Horizontal Scrollable Cards */}
+            <div className="overflow-x-auto scrollbar-hide pb-4">
+              <div className="flex space-x-6 w-max px-1">
+                {[
+                  {
+                    title: "Numerology",
+                    desc: "Uncover your life's blueprint through numbers and enhance luck through Name Correction.",
+                    img: "https://plus.unsplash.com/premium_photo-1717717670034-0d673f50f895?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8bnVtZXJvbG9neXxlbnwwfHwwfHx8MA%3D%3D"
+                  },
+                  {
+                    title: "Residential Vaastu",
+                    desc: "Align your home's energy to bring peace, prosperity, and good health to your family.",
+                    img: "https://aurorealty.com/blog/wp-content/uploads/2019/10/vastu-shastra-for-home.jpg"
+                  },
+                  {
+                    title: "Industrial Vaastu",
+                    desc: "Optimize industrial spaces for increased productivity, safety, and positive outcomes.",
+                    img: "https://www.mahavaastushastra.com/wp-content/uploads/2021/11/Industrial-Vaastu-factory.jpg"
+                  },
+                  {
+                    title: "Commercial Vaastu",
+                    desc: "Attract success in business by balancing energies in shops, offices, and workspaces.",
+                    img: "https://www.vasthusubramanyam.com/wp-content/uploads/2019/09/commercial-e1568478793888.jpg"
+                  },
+                  {
+                    title: "Pyramid Therapy",
+                    desc: "Harness the ancient power of pyramids to neutralize negativity and amplify positivity.",
+                    img: "https://dailygalaxy.com/wp-content/uploads/2025/04/The-Great-Pyramid-of-Giza-Has-MORE-Than-Four-Sides.jpg"
+                  },
+                  {
+                    title: "Colour Therapy",
+                    desc: "Use the vibration of colors to heal, balance emotions, and enhance well-being.",
+                    img: "https://www.shutterstock.com/image-illustration/human-spirit-powerful-energy-connect-600nw-1416917957.jpg"
+                  },
+                ].map((service, index) => (
+                  <motion.div 
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }} 
+                    whileInView={{ opacity: 1, y: 0 }} 
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl shadow-lg min-w-[300px] max-w-[300px] flex-shrink-0 text-left"
+                  >
+                    <img
+                      src={service.img}
+                      alt={service.title}
+                      className="w-full h-40 object-cover rounded-xl mb-4"
+                    />
+                    <h3 className="text-2xl font-semibold gradient-text mb-2">{service.title}</h3>
+                    <p className="text-gray-700 text-sm leading-relaxed">{service.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Experts Section */}
         <section className="py-20 bg-gradient-to-r from-orange-50 to-white">
@@ -236,56 +319,54 @@ try {
             </motion.div>
             <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
               {/* Yashraj Guruji */}
-<motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="bg-white rounded-2xl shadow-lg p-8 text-center card-shadow">
-  <img alt="Yashraj Guruji - Numerology Expert" className="w-32 h-32 rounded-full mx-auto mb-6 object-cover" src="/images/Profile2.jpg" />
-  <h3 className="text-2xl font-bold gradient-text mb-2">Yashraj Guruji</h3>
-  <p className="text-orange-500 font-medium mb-2">Senior Numerology Consultant</p>
-  <p className="text-gray-600 mb-4">With over 20 years of experience in numerology, Yashraj Guruji has helped thousands discover their life path through numbers.</p>
-  <div className="space-y-2 text-sm text-gray-600 text-left mb-4">
-    <p>• Expert in Life Path Analysis</p>
-    <p>• Residential Vaastu Specialist</p>
-    <p>• Business Numerology Consultant</p>
-  </div>
-  <div className="text-left text-sm text-gray-700 mb-4">
-    <p><strong>Mobile:</strong> +91-9650189822</p>
-    <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
-  </div>
-  <div className="flex justify-center gap-4 mt-4">
-    <a href="https://www.instagram.com/yashrajguruji/?igsh=b2U1aXpzcXh5amI%3D#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-      <Instagram className="text-pink-600 hover:text-pink-700 w-5 h-5" />
-    </a>
-    <a href="https://www.facebook.com/yash.kumargoel.5?rdid=VHXOM0u9TtMFE7qH&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F16GB7zP53k%2F#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-      <Facebook className="text-blue-600 hover:text-blue-700 w-5 h-5" />
-    </a>
-  </div>
-</motion.div>
-
+              <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="bg-white rounded-2xl shadow-lg p-8 text-center card-shadow">
+                <img alt="Yashraj Guruji - Numerology Expert" className="w-32 h-32 rounded-full mx-auto mb-6 object-cover" src="/images/Profile2.jpg" />
+                <h3 className="text-2xl font-bold gradient-text mb-2">Yashraj Guruji</h3>
+                <p className="text-orange-500 font-medium mb-2">Senior Numerology Consultant</p>
+                <p className="text-gray-600 mb-4">With over 20 years of experience in numerology, Yashraj Guruji has helped thousands discover their life path through numbers.</p>
+                <div className="space-y-2 text-sm text-gray-600 text-left mb-4">
+                  <p>• Expert in Life Path Analysis</p>
+                  <p>• Residential Vaastu Specialist</p>
+                  <p>• Business Numerology Consultant</p>
+                </div>
+                <div className="text-left text-sm text-gray-700 mb-4">
+                  <p><strong>Mobile:</strong> +91-9650189822</p>
+                  <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
+                </div>
+                <div className="flex justify-center gap-4 mt-4">
+                  <a href="https://www.instagram.com/yashrajguruji/?igsh=b2U1aXpzcXh5amI%3D#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <Instagram className="text-pink-600 hover:text-pink-700 w-5 h-5" />
+                  </a>
+                  <a href="https://www.facebook.com/yash.kumargoel.5?rdid=VHXOM0u9TtMFE7qH&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F16GB7zP53k%2F#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <Facebook className="text-blue-600 hover:text-blue-700 w-5 h-5" />
+                  </a>
+                </div>
+              </motion.div>
 
               {/* Rishabh Goel */}
               <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="bg-white rounded-2xl shadow-lg p-8 text-center card-shadow">
-  <img alt="Rishabh Goel - Vaastu Consultant" className="w-32 h-32 rounded-full mx-auto mb-6 object-cover" src="/images/Profile.jpg" />
-  <h3 className="text-2xl font-bold gradient-text mb-2">Rishabh Goel</h3>
-  <p className="text-orange-500 font-medium mb-2">Vaastu Consultant</p>
-  <p className="text-gray-600 mb-4">A renowned Vaastu expert with 7+ years of experience, Rishabh Goel harmonizes spaces for prosperity and peace.</p>
-  <div className="space-y-2 text-sm text-gray-600 text-left mb-4">
-    <p>• Residential Vaastu Specialist</p>
-    <p>• Commercial Space Consultant</p>
-    <p>• Numerology Consultant</p>
-  </div>
-  <div className="text-left text-sm text-gray-700 mb-4">
-    <p><strong>Mobile:</strong> +91-9650881509</p>
-    <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
-  </div>
-  <div className="flex justify-center gap-4 mt-4">
-    <a href="https://www.instagram.com/goel_bhaiji/?utm_source=qr&igsh=MTdmdTJseXdsbGV2cg%3D%3D#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-      <Instagram className="text-pink-600 hover:text-pink-700 w-5 h-5" />
-    </a>
-    <a href="https://www.facebook.com/VaastuGuruBhaaiji?rdid=SUgkZb3o6ORBzvv3&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BTUVN8G2S%2F#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-      <Facebook className="text-blue-600 hover:text-blue-700 w-5 h-5" />
-    </a>
-  </div>
-</motion.div>
-
+                <img alt="Rishabh Goel - Vaastu Consultant" className="w-32 h-32 rounded-full mx-auto mb-6 object-cover" src="/images/Profile.jpg" />
+                <h3 className="text-2xl font-bold gradient-text mb-2">Rishabh Goel</h3>
+                <p className="text-orange-500 font-medium mb-2">Vaastu Consultant</p>
+                <p className="text-gray-600 mb-4">A renowned Vaastu expert with 7+ years of experience, Rishabh Goel harmonizes spaces for prosperity and peace.</p>
+                <div className="space-y-2 text-sm text-gray-600 text-left mb-4">
+                  <p>• Residential Vaastu Specialist</p>
+                  <p>• Commercial Space Consultant</p>
+                  <p>• Numerology Consultant</p>
+                </div>
+                <div className="text-left text-sm text-gray-700 mb-4">
+                  <p><strong>Mobile:</strong> +91-9650881509</p>
+                  <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
+                </div>
+                <div className="flex justify-center gap-4 mt-4">
+                  <a href="https://www.instagram.com/goel_bhaiji/?utm_source=qr&igsh=MTdmdTJseXdsbGV2cg%3D%3D#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <Instagram className="text-pink-600 hover:text-pink-700 w-5 h-5" />
+                  </a>
+                  <a href="https://www.facebook.com/VaastuGuruBhaaiji?rdid=SUgkZb3o6ORBzvv3&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BTUVN8G2S%2F#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+                    <Facebook className="text-blue-600 hover:text-blue-700 w-5 h-5" />
+                  </a>
+                </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -306,18 +387,21 @@ try {
                     <p className="text-gray-700 mb-4 italic">"{review.comment}"</p>
                     <div className="flex justify-between items-center text-sm text-gray-500">
                       <span className="font-medium">{review.name}</span>
-<span>{(review.date?.toDate?.() || new Date(review.date)).toLocaleDateString()}</span>
-
+                      <span>
+                        {review.createdAt && !isNaN(new Date(review.createdAt).getTime()) 
+                          ? new Date(review.createdAt).toLocaleDateString() 
+                          : 'No date'}
+                      </span>
                     </div>
-                    {user && review.name === (user.displayName || user.email) && (
-  <button
-    onClick={() => handleDeleteReview(review.id)}
-    className="absolute top-2 right-2 text-red-600 hover:text-red-800"
-    aria-label="Delete review"
-  >
-    <Trash2 className="h-5 w-5" />
-  </button>
-)}
+                    {(isSignedIn && user?.id === review.userId) && (
+      <button
+        onClick={() => handleDeleteReview(review.id)}
+        className="absolute top-3 right-3 text-red-500 hover:text-red-700 transition"
+        title="Delete Review"
+      >
+        <Trash2 size={18} />
+      </button>
+    )}
 
                   </motion.div>
                 ))}
@@ -327,10 +411,14 @@ try {
             {/* Submit Review */}
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-2xl mx-auto bg-gradient-to-br from-orange-50 to-white p-8 rounded-2xl shadow-lg mt-16">
               <h3 className="text-2xl font-bold gradient-text mb-6 text-center">Share Your Experience</h3>
-              {!user && (
+              {!isSignedIn && (
                 <div className="text-center mb-6 p-4 bg-orange-100 rounded-xl">
                   <p className="text-orange-700 mb-4">Please login to submit a review</p>
-                  <Button onClick={() => setIsAuthModalOpen(true)} className="orange-gradient text-white hover:orange-gradient-hover rounded-xl">Login / Sign Up</Button>
+                  <SignInButton mode="modal">
+                    <Button className="orange-gradient text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105 rounded-xl">
+                      Login / Sign Up
+                    </Button>
+                  </SignInButton>
                 </div>
               )}
               <form onSubmit={handleSubmitReview} className="space-y-6">
@@ -340,15 +428,28 @@ try {
                 </div>
                 <div>
                   <Label htmlFor="comment" className="text-sm font-medium text-gray-700 mb-2 block">Your Review</Label>
-                  <textarea id="comment" value={newReview.comment} onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })} placeholder="Share your experience with our services..." className="w-full p-3 border border-gray-300 rounded-xl focus:border-orange-500 focus:ring-orange-500 min-h-[120px] resize-none" disabled={!user} />
+                  <textarea 
+                    id="comment" 
+                    value={newReview.comment} 
+                    onChange={(e) => setNewReview({ ...newReview, comment: e.target.value })} 
+                    placeholder="Share your experience with our services..." 
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:border-orange-500 focus:ring-orange-500 min-h-[120px] resize-none" 
+                    disabled={!isSignedIn} 
+                    required
+                  />
                 </div>
-                <Button type="submit" disabled={!user} className="w-full orange-gradient text-white hover:orange-gradient-hover rounded-xl">Submit Review</Button>
+                <Button 
+                  type="submit" 
+                  disabled={!isSignedIn} 
+                  className="w-full orange-gradient text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105 rounded-xl"
+                >
+                  Submit Review
+                </Button>
               </form>
             </motion.div>
           </div>
         </section>
       </div>
-      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </>
   );
 };

@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { useAuth } from '@/contexts/AuthContext';
-import AuthModal from '@/components/AuthModal';
+import { useUser } from '@clerk/clerk-react';
 import CalculatorForm from '@/components/calculator/CalculatorForm';
 import CalculatorResult from '@/components/calculator/CalculatorResult';
 
@@ -12,19 +11,17 @@ const Calculator = () => {
     birthDate: '',
   });
   const [results, setResults] = useState(null);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (!user) {
-      setIsAuthModalOpen(true);
-    }
-  }, [user]);
+  const { isLoaded, isSignedIn, user } = useUser();
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleReset = () => {
     setResults(null);
     setFormData({ name: '', birthDate: '' });
   };
+
+  if (!isLoaded) {
+    return null; // or loading spinner
+  }
 
   return (
     <>
@@ -52,7 +49,7 @@ const Calculator = () => {
           {!results ? (
             <CalculatorForm
               user={user}
-              setIsAuthModalOpen={setIsAuthModalOpen}
+              isSignedIn={isSignedIn}
               formData={formData}
               setFormData={setFormData}
               setResults={setResults}
@@ -66,11 +63,6 @@ const Calculator = () => {
           )}
         </div>
       </div>
-
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-      />
     </>
   );
 };

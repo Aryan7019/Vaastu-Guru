@@ -1,29 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import CalculatorResultCard from '@/components/calculator/CalculatorResultCard';
 import { TrendingUp, Star, User } from 'lucide-react';
 import { getNumberMeaning } from '@/utils/numerology';
-import { sendConsultationRequest } from '@/services/emailService';
-import { toast } from '@/components/ui/use-toast';
+import { ConsultationForm } from "@/components/ConsultationForm";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const CalculatorResult = ({ results, formData, onReset }) => {
-  const handleBookConsultation = useCallback(async () => {
-    const success = await sendConsultationRequest();
-
-    if (success) {
-      toast({
-        title: 'Consultation Requested',
-        description: "We've received your request. Our team will contact you soon!",
-      });
-    } else {
-      toast({
-        title: 'Request Failed',
-        description: 'Something went wrong while sending your request.',
-        variant: 'destructive',
-      });
-    }
-  }, [formData]);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   return (
     <motion.div
@@ -89,16 +74,34 @@ const CalculatorResult = ({ results, formData, onReset }) => {
           <Button
             onClick={onReset}
             variant="outline"
-            className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white"
+            className="border-orange-500 text-orange-500 transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-orange-500 hover:text-white"
           >
             Calculate Again
           </Button>
-          <Button
-            onClick={handleBookConsultation}
-            className="orange-gradient text-white hover:orange-gradient-hover"
-          >
-            Book Consultation
-          </Button>
+          
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button
+                className="orange-gradient text-white transition-transform duration-300 ease-in-out hover:scale-105 hover:orange-gradient-hover"
+              >
+                Book Consultation
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-orange-600">
+                  Book Consultation
+                </DialogTitle>
+                <DialogDescription className="text-orange-500">
+                  We'll contact you shortly to discuss your numerology profile
+                </DialogDescription>
+              </DialogHeader>
+              <ConsultationForm 
+                onSuccess={() => setIsDialogOpen(false)}
+                defaultName={formData.name} // Pre-fill the name from calculator
+              />
+            </DialogContent>
+          </Dialog>
         </div>
       </motion.div>
     </motion.div>

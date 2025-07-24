@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Compass, X } from 'lucide-react';
+import { Compass } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import AuthModal from '@/components/AuthModal';
-import { useAuth } from '@/contexts/AuthContext';
+import { useUser, useClerk, SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/clerk-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const location = useLocation();
-  const { user, logout } = useAuth();
+  const { user } = useUser();
+  const { signOut } = useClerk();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -29,9 +28,10 @@ const Header = () => {
           <div className="flex items-center justify-between">
             <Link to="/" className="flex items-center space-x-3">
               <img  
-                alt="Bhaggya Darshhan Logo" 
+                alt="Logo" 
                 className="h-16 w-auto"
-               src="https://storage.googleapis.com/hostinger-horizons-assets-prod/a763965f-1fd9-476b-af4e-14e94d6d5e1c/125dd8c36c4554e08dcf54cf2b4c5bbe.png" />
+                src="/images/bhaggya darshhan.png" 
+              />
               <div className="hidden sm:block">
                 <h1 className="text-2xl font-bold gradient-text">Vaastu Guru</h1>
               </div>
@@ -54,25 +54,27 @@ const Header = () => {
             </nav>
 
             <div className="hidden md:flex items-center space-x-4">
-              {user ? (
+              <SignedIn>
                 <div className="flex items-center space-x-4">
-                  <span className="text-gray-700">Welcome{user.displayName ? `, ${user.displayName}` : ''}</span>
+                  <span className="text-gray-700">Welcome{user?.fullName ? `, ${user.fullName}` : ''}</span>
+                  <UserButton afterSignOutUrl="/" />
                   <Button
-                    onClick={logout}
+                    onClick={() => signOut()}
                     variant="outline"
-                    className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white rounded-xl"
+                    className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white rounded-xl transition-transform duration-300 ease-in-out hover:scale-105"
                   >
                     Logout
                   </Button>
                 </div>
-              ) : (
-                <Button
-                  onClick={() => setIsAuthModalOpen(true)}
-                  className="orange-gradient text-white hover:orange-gradient-hover rounded-xl"
-                >
-                  Login / Sign Up
-                </Button>
-              )}
+              </SignedIn>
+
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <Button className="orange-gradient text-white hover:orange-gradient-hover rounded-xl transition-transform duration-300 ease-in-out hover:scale-105">
+                    Login / Sign Up
+                  </Button>
+                </SignInButton>
+              </SignedOut>
             </div>
 
             <button
@@ -113,14 +115,14 @@ const Header = () => {
                     {item.name}
                   </Link>
                 ))}
-                
+
                 <div className="pt-4 border-t border-gray-200">
-                  {user ? (
+                  <SignedIn>
                     <div className="space-y-2">
-                      <p className="text-gray-700">Welcome, {user.name}</p>
+                      <p className="text-gray-700">Welcome{user?.fullName ? `, ${user.fullName}` : ''}</p>
                       <Button
                         onClick={() => {
-                          logout();
+                          signOut();
                           setIsMenuOpen(false);
                         }}
                         variant="outline"
@@ -129,28 +131,24 @@ const Header = () => {
                         Logout
                       </Button>
                     </div>
-                  ) : (
-                    <Button
-                      onClick={() => {
-                        setIsAuthModalOpen(true);
-                        setIsMenuOpen(false);
-                      }}
-                      className="w-full orange-gradient text-white hover:orange-gradient-hover rounded-xl"
-                    >
-                      Login / Sign Up
-                    </Button>
-                  )}
+                  </SignedIn>
+
+                  <SignedOut>
+                    <SignInButton mode="modal">
+                      <Button
+                        onClick={() => setIsMenuOpen(false)}
+                        className="w-full orange-gradient text-white hover:orange-gradient-hover rounded-xl"
+                      >
+                        Login / Sign Up
+                      </Button>
+                    </SignInButton>
+                  </SignedOut>
                 </div>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
       </header>
-
-      <AuthModal 
-        isOpen={isAuthModalOpen} 
-        onClose={() => setIsAuthModalOpen(false)} 
-      />
     </>
   );
 };

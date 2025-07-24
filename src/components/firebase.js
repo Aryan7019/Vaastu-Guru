@@ -5,13 +5,13 @@ import { getFirestore } from "firebase/firestore"; // ✅ Add Firestore
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDYuiAj1AbWB04F0iU1HaFmZP6VIZyIv6U",
-  authDomain: "bhaggya-darshhan.firebaseapp.com",
-  projectId: "bhaggya-darshhan",
-  storageBucket: "bhaggya-darshhan.firebasestorage.app",
-  messagingSenderId: "233513586592",
-  appId: "1:233513586592:web:9792f06f7203b13e2ddec5",
-  measurementId: "G-1JRYDMJSWK"
+  apiKey: "AIzaSyBEkHEv31lTHHEMAyD2EJCMvZNXrtLd4Pw",
+  authDomain: "vaastu-guru.firebaseapp.com",
+  projectId: "vaastu-guru",
+  storageBucket: "vaastu-guru.firebasestorage.app",
+  messagingSenderId: "1014806685724",
+  appId: "1:1014806685724:web:500d11f3252c1a080cd7d9",
+  measurementId: "G-ZYCD6R3GJE"
 };
 
 // Initialize Firebase
