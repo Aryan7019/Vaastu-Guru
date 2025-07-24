@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Home from '@/pages/Home';
 import StudySection from '@/pages/StudySection';
 import Calculator from '@/pages/Calculator';
+import TherapySection from '@/pages/TherapySection';
 import FloatingNumbers from '@/components/FloatingNumbers';
 import ChatBot from '@/components/ChatBot';
 
@@ -24,6 +25,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/learn" element={<StudySection />} />
               <Route path="/calculator" element={<Calculator />} />
+              <Route path="/therapy" element={<TherapySection />} />
             </Routes>
           </main>
 
