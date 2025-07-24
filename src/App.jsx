@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/Header';
@@ -11,28 +11,14 @@ import ChatBot from '@/components/ChatBot';
 
 const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
-const ClerkProviderWithRouter = ({ children }) => {
-  const navigate = useNavigate();
-  
-  return (
-    <ClerkProvider
-      publishableKey={clerkKey}
-      navigate={(to) => navigate(to)}
-    >
-      {children}
-    </ClerkProvider>
-  );
-};
-
 function App() {
   return (
-    <Router>
-      {/* Move ClerkProviderWithRouter to wrap EVERYTHING */}
-      <ClerkProviderWithRouter>
+    <ClerkProvider publishableKey={clerkKey}>
+      <Router>
         <div className="min-h-screen relative">
           <FloatingNumbers />
-          <Header /> {/* Now properly within ClerkProvider */}
-          
+          <Header />
+
           <main className="relative z-1">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -44,8 +30,8 @@ function App() {
           <ChatBot />
           <Toaster />
         </div>
-      </ClerkProviderWithRouter>
-    </Router>
+      </Router>
+    </ClerkProvider>
   );
 }
 
