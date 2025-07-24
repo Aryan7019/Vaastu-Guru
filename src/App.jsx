@@ -7,6 +7,7 @@ import Home from '@/pages/Home';
 import StudySection from '@/pages/StudySection';
 import Calculator from '@/pages/Calculator';
 import TherapySection from '@/pages/TherapySection';
+import Services from './pages/services';
 import FloatingNumbers from '@/components/FloatingNumbers';
 import ChatBot from '@/components/ChatBot';
 
@@ -26,6 +27,7 @@ function App() {
               <Route path="/learn" element={<StudySection />} />
               <Route path="/calculator" element={<Calculator />} />
               <Route path="/therapy" element={<TherapySection />} />
+              <Route path="/services" element={<Services />} />
             </Routes>
           </main>
 
