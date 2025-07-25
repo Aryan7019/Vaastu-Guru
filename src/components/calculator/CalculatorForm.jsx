@@ -80,13 +80,13 @@ const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData })
 
       {!isSignedIn && (
         <div className="text-center mb-8 p-6 bg-orange-50 rounded-xl border border-orange-200">
-          <p className="text-orange-700 mb-4 font-medium">🔒 Sign in to calculate and save your results</p>
+          <p className="text-orange-700 mb-4 font-medium">🔒 Sign in to calculate your results</p>
           <p className="text-gray-600 mb-4">Create your account to get personalized numerology insights</p>
-          <SignInButton mode="modal" redirectUrl = "/calculator">
-            <Button className="orange-gradient text-white transition-transform duration-300 ease-in-out hover:scale-105 hover:orange-gradient-hover rounded-xl">
-              Sign In / Sign Up
-            </Button>
-          </SignInButton>
+         <SignInButton mode="modal">
+                             <Button className="orange-gradient text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105 rounded-xl">
+                               Login / Sign Up
+                             </Button>
+                           </SignInButton>
         </div>
       )}
 
