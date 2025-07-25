@@ -343,66 +343,119 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Experts Section */}
-        <section className="py-20 bg-gradient-to-r from-orange-50 to-white">
-          <div className="container mx-auto px-4">
-            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-16">
-              <h2 className="text-4xl font-bold gradient-text mb-4">Meet Our Expert Consultants</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">Our experienced consultants combine ancient wisdom with modern insights to guide you</p>
-            </motion.div>
-            <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
-              {/* Yashraj Guruji */}
-              <motion.div initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="bg-white rounded-2xl shadow-lg p-8 text-center card-shadow">
-                <img alt="Yashraj Guruji - Numerology Expert" className="w-32 h-32 rounded-full mx-auto mb-6 object-cover" src="/images/Profile2.jpg" />
-                <h3 className="text-2xl font-bold gradient-text mb-2">Yashraj Guruji</h3>
-                <p className="text-orange-500 font-medium mb-2">Senior Numerology Consultant</p>
-                <p className="text-gray-600 mb-4">With over 20 years of experience in numerology, Yashraj Guruji has helped thousands discover their life path through numbers.</p>
-                <div className="space-y-2 text-sm text-gray-600 text-left mb-4">
-                  <p>• Expert in Life Path Analysis</p>
-                  <p>• Residential Vaastu Specialist</p>
-                  <p>• Business Numerology Consultant</p>
-                </div>
-                <div className="text-left text-sm text-gray-700 mb-4">
-                  <p><strong>Mobile:</strong> +91-9650189822</p>
-                  <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
-                </div>
-                <div className="flex justify-center gap-4 mt-4">
-                  <a href="https://www.instagram.com/yashrajguruji/?igsh=b2U1aXpzcXh5amI%3D#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                    <Instagram className="text-pink-600 hover:text-pink-700 w-5 h-5" />
-                  </a>
-                  <a href="https://www.facebook.com/yash.kumargoel.5?rdid=VHXOM0u9TtMFE7qH&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F16GB7zP53k%2F#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                    <Facebook className="text-blue-600 hover:text-blue-700 w-5 h-5" />
-                  </a>
-                </div>
-              </motion.div>
+{/* Experts Section */}
+<section className="py-20 bg-gradient-to-r from-orange-50 to-white">
+  <div className="container mx-auto px-4">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="text-center mb-16"
+    >
+      <h2 className="text-4xl font-bold gradient-text mb-4">
+        Meet Our Expert Consultants
+      </h2>
+      <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        Our experienced consultants combine ancient wisdom with modern insights to guide you
+      </p>
+    </motion.div>
 
-              {/* Rishabh Goel */}
-              <motion.div initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="bg-white rounded-2xl shadow-lg p-8 text-center card-shadow">
-                <img alt="Rishabh Goel - Vaastu Consultant" className="w-32 h-32 rounded-full mx-auto mb-6 object-cover" src="/images/Profile.jpg" />
-                <h3 className="text-2xl font-bold gradient-text mb-2">Rishabh Goel</h3>
-                <p className="text-orange-500 font-medium mb-2">Vaastu Consultant</p>
-                <p className="text-gray-600 mb-4">A renowned Vaastu expert with 7+ years of experience, Rishabh Goel harmonizes spaces for prosperity and peace.</p>
-                <div className="space-y-2 text-sm text-gray-600 text-left mb-4">
-                  <p>• Residential Vaastu Specialist</p>
-                  <p>• Commercial Space Consultant</p>
-                  <p>• Numerology Consultant</p>
-                </div>
-                <div className="text-left text-sm text-gray-700 mb-4">
-                  <p><strong>Mobile:</strong> +91-9650881509</p>
-                  <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
-                </div>
-                <div className="flex justify-center gap-4 mt-4">
-                  <a href="https://www.instagram.com/goel_bhaiji/?utm_source=qr&igsh=MTdmdTJseXdsbGV2cg%3D%3D#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                    <Instagram className="text-pink-600 hover:text-pink-700 w-5 h-5" />
-                  </a>
-                  <a href="https://www.facebook.com/VaastuGuruBhaaiji?rdid=SUgkZb3o6ORBzvv3&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BTUVN8G2S%2F#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                    <Facebook className="text-blue-600 hover:text-blue-700 w-5 h-5" />
-                  </a>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
+    <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+      {/* Yashraj Guruji */}
+      <motion.div
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="bg-white rounded-2xl shadow-md p-8 text-center border border-gray-100 hover:shadow-xl transition duration-300"
+      >
+        <img
+          alt="Yashraj Guruji - Numerology Expert"
+          className="w-40 h-40 rounded-full mx-auto mb-6 object-cover border-4 border-orange-100"
+          src="/images/Profile2.jpg"
+        />
+        <h3 className="text-2xl font-bold text-gray-900 mb-1">Yashraj Guruji</h3>
+        <p className="text-pink-600 font-medium mb-4">Senior Numerology Consultant</p>
+        <p className="text-gray-600 text-sm mb-4">
+          With over 20 years of experience in numerology, Yashraj Guruji has helped thousands discover their life path through numbers.
+        </p>
+        <div className="text-sm text-left text-gray-700 mb-4 space-y-1">
+          <p>• Expert in Life Path Analysis</p>
+          <p>• Residential Vaastu Specialist</p>
+          <p>• Business Numerology Consultant</p>
+        </div>
+        <div className="text-sm text-left text-gray-700 mb-4 space-y-1">
+          <p><strong>Mobile:</strong> +91-9650189822</p>
+          <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
+        </div>
+        <div className="flex justify-center gap-6 mt-4">
+          <a
+            href="https://www.instagram.com/yashrajguruji/?igsh=b2U1aXpzcXh5amI%3D#"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <Instagram className="w-5 h-5 text-pink-600 hover:text-pink-700 transition" />
+          </a>
+          <a
+            href="https://www.facebook.com/yash.kumargoel.5?rdid=VHXOM0u9TtMFE7qH&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F16GB7zP53k%2F#"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+          >
+            <Facebook className="w-5 h-5 text-blue-600 hover:text-blue-700 transition" />
+          </a>
+        </div>
+      </motion.div>
+
+      {/* Rishabh Goel */}
+      <motion.div
+        initial={{ opacity: 0, x: 30 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.8 }}
+        className="bg-white rounded-2xl shadow-md p-8 text-center border border-gray-100 hover:shadow-xl transition duration-300"
+      >
+        <img
+          alt="Rishabh Goel - Vaastu Consultant"
+          className="w-40 h-40 rounded-full mx-auto mb-6 object-cover border-4 border-orange-100"
+          src="/images/Profile.jpg"
+        />
+        <h3 className="text-2xl font-bold text-gray-900 mb-1">Rishabh Goel</h3>
+        <p className="text-orange-500 font-medium mb-4">Vaastu Consultant</p>
+        <p className="text-gray-600 text-sm mb-4">
+          A renowned Vaastu expert with 7+ years of experience, Rishabh Goel harmonizes spaces for prosperity and peace.
+        </p>
+        <div className="text-sm text-left text-gray-700 mb-4 space-y-1">
+          <p>• Residential Vaastu Specialist</p>
+          <p>• Commercial Space Consultant</p>
+          <p>• Numerology Consultant</p>
+        </div>
+        <div className="text-sm text-left text-gray-700 mb-4 space-y-1">
+          <p><strong>Mobile:</strong> +91-9650881509</p>
+          <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
+        </div>
+        <div className="flex justify-center gap-6 mt-4">
+          <a
+            href="https://www.instagram.com/goel_bhaiji/?utm_source=qr&igsh=MTdmdTJseXdsbGV2cg%3D%3D#"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
+            <Instagram className="w-5 h-5 text-pink-600 hover:text-pink-700 transition" />
+          </a>
+          <a
+            href="https://www.facebook.com/VaastuGuruBhaaiji?rdid=SUgkZb3o6ORBzvv3&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1BTUVN8G2S%2F#"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Facebook"
+          >
+            <Facebook className="w-5 h-5 text-blue-600 hover:text-blue-700 transition" />
+          </a>
+        </div>
+      </motion.div>
+    </div>
+  </div>
+</section>
+
 
         {/* Reviews Section */}
         <section className="py-20 bg-white">
