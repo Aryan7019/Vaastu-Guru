@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
 import { calculateNumerology } from '@/utils/numerology';
-import { SignInButton } from '@clerk/clerk-react';
 
 const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -80,13 +79,8 @@ const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData })
 
       {!isSignedIn && (
         <div className="text-center mb-8 p-6 bg-orange-50 rounded-xl border border-orange-200">
-          <p className="text-orange-700 mb-4 font-medium">🔒 Sign in to calculate your results</p>
-          <p className="text-gray-600 mb-4">Create your account to get personalized numerology insights</p>
-         <SignInButton mode="modal">
-                             <Button className="orange-gradient text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105 rounded-xl">
-                               Login / Sign Up
-                             </Button>
-                           </SignInButton>
+          <p className="text-orange-700 mb-4 font-medium">🔒 Please sign in to calculate your results</p>
+          <p className="text-gray-600">Create your account to get personalized numerology insights</p>
         </div>
       )}
 
@@ -107,6 +101,7 @@ const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData })
                 placeholder="Enter your full name"
                 className="pl-10"
                 required
+                disabled={!isSignedIn}
               />
             </div>
           </div>
@@ -124,6 +119,7 @@ const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData })
                 onChange={handleChange}
                 className="pl-10"
                 required
+                disabled={!isSignedIn}
               />
             </div>
           </div>
@@ -131,7 +127,7 @@ const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData })
         
         <Button
           type="submit"
-          disabled={isLoading}
+          disabled={isLoading || !isSignedIn}
           className="w-full orange-gradient text-white transition-transform duration-300 ease-in-out hover:scale-105 hover:orange-gradient-hover py-3 text-lg rounded-xl"
         >
           {isLoading ? 'Calculating Your Numbers...' : 'Generate My Numerology Profile'}
