@@ -103,10 +103,10 @@ const TherapySection = () => {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="flex justify-center mb-12">
             <div className="bg-white rounded-2xl p-2 shadow-lg">
               <button onClick={() => setActiveTab('color')} className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 ${activeTab === 'color' ? 'orange-gradient text-white' : 'text-gray-600 hover:text-orange-500'}`}>
-                <Palette className="inline-block w-5 h-5 mr-2" />Color Therapy
+                <Palette className="inline-block w-5 h-5 mr-2" />Color
               </button>
               <button onClick={() => setActiveTab('pyramid')} className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 ${activeTab === 'pyramid' ? 'orange-gradient text-white' : 'text-gray-600 hover:text-orange-500'}`}>
-                <Triangle className="inline-block w-5 h-5 mr-2" />Pyramid Therapy
+                <Triangle className="inline-block w-5 h-5 mr-2" />Pyramid
               </button>
             </div>
           </motion.div>

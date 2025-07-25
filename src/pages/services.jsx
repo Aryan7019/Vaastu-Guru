@@ -64,9 +64,9 @@ const Services = () => {
         <meta name="description" content="Explore our range of numerology and vaastu services designed to bring balance, prosperity, and harmony to your life." />
       </Helmet>
 
-      <div className="min-h-screen">
-        {/* Hero Section - Reduced padding */}
-        <section className="relative py-12 px-4 text-center"> {/* Changed from py-20 to py-12 */}
+      <div className="min-h-screen py-20">
+        {/* Hero Section */}
+        <section className="relative px-4 text-center">
           <div className="container mx-auto max-w-6xl">
             <motion.div 
               initial={{ opacity: 0, y: 30 }} 
@@ -74,7 +74,7 @@ const Services = () => {
               transition={{ duration: 0.8 }} 
               className="space-y-4" 
             >
-              <h1 className="text-5xl md:text-7xl font-bold text-white text-shadow mb-2"> {/* Reduced mb from 4 to 2 */}
+              <h1 className="text-5xl md:text-7xl font-bold text-white text-shadow mb-2">
                 Our <span className="text-black">Services</span>
               </h1>
               <p className="text-xl text-white max-w-3xl mx-auto">
@@ -84,10 +84,10 @@ const Services = () => {
           </div>
         </section>
 
-   {/* Services Grid */}
-        <section className="py-12 px-4">
-          <div className="container text-center">
-            <div className="bg-white rounded-2xl shadow-md p-8 md:p-10 border border-gray-100">
+        {/* Services Grid */}
+        <section className="py-12">
+          <div className="container mx-auto px-4 text-center">
+            <div className="bg-white rounded-2xl shadow-md p-8 border border-gray-100">
               <motion.div 
                 initial={{ opacity: 0 }} 
                 whileInView={{ opacity: 1 }} 
@@ -126,10 +126,9 @@ const Services = () => {
           </div>
         </section>
 
-
         {/* Consultation CTA */}
-        <section className="py-16 px-4">
-          <div className="container text-center">
+        <section className="py-16">
+          <div className="container mx-auto px-4 text-center">
             <motion.div 
               initial={{ opacity: 0, y: 30 }} 
               whileInView={{ opacity: 1, y: 0 }} 

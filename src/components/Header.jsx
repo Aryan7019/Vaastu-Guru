@@ -28,6 +28,7 @@ const Header = () => {
       <header className="bg-white/80 backdrop-blur-lg shadow-lg sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
+            {/* Logo */}
             <Link to="/" className="flex items-center space-x-3">
               <img  
                 alt="Logo" 
@@ -39,6 +40,7 @@ const Header = () => {
               </div>
             </Link>
 
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-8">
               {navItems.map((item) => (
                 <Link
@@ -55,6 +57,7 @@ const Header = () => {
               ))}
             </nav>
 
+            {/* Desktop Auth */}
             <div className="hidden md:flex items-center space-x-4">
               <SignedIn>
                 <div className="flex items-center space-x-4">
@@ -79,20 +82,41 @@ const Header = () => {
               </SignedOut>
             </div>
 
-            <button
-              onClick={toggleMenu}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <motion.div
-                animate={{ rotate: isMenuOpen ? 90 : 0 }}
-                transition={{ duration: 0.3 }}
+            {/* Mobile Layout */}
+            <div className="md:hidden flex items-center gap-4">
+              {/* Auth buttons - single combined button like desktop */}
+              <SignedIn>
+                <UserButton afterSignOutUrl="/" />
+              </SignedIn>
+              
+              <SignedOut>
+                <SignInButton mode="modal">
+                  <Button 
+                    size="sm"
+                    className="orange-gradient text-white hover:orange-gradient-hover rounded-xl transition-transform duration-300 ease-in-out hover:scale-105"
+                  >
+                    Login / Sign Up
+                  </Button>
+                </SignInButton>
+              </SignedOut>
+
+              {/* Menu toggle button */}
+              <button
+                onClick={toggleMenu}
+                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                <Compass className="h-6 w-6 text-orange-500" />
-              </motion.div>
-            </button>
+                <motion.div
+                  animate={{ rotate: isMenuOpen ? 90 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Compass className="h-6 w-6 text-orange-500" />
+                </motion.div>
+              </button>
+            </div>
           </div>
         </div>
 
+        {/* Mobile Menu */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -117,35 +141,6 @@ const Header = () => {
                     {item.name}
                   </Link>
                 ))}
-
-                <div className="pt-4 border-t border-gray-200">
-                  <SignedIn>
-                    <div className="space-y-2">
-                      <p className="text-gray-700">Welcome{user?.fullName ? `, ${user.fullName}` : ''}</p>
-                      <Button
-                        onClick={() => {
-                          signOut();
-                          setIsMenuOpen(false);
-                        }}
-                        variant="outline"
-                        className="w-full border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white rounded-xl"
-                      >
-                        Logout
-                      </Button>
-                    </div>
-                  </SignedIn>
-
-                  <SignedOut>
-                    <SignInButton mode="modal">
-                      <Button
-                        onClick={() => setIsMenuOpen(false)}
-                        className="w-full orange-gradient text-white hover:orange-gradient-hover rounded-xl"
-                      >
-                        Login / Sign Up
-                      </Button>
-                    </SignInButton>
-                  </SignedOut>
-                </div>
               </div>
             </motion.div>
           )}
