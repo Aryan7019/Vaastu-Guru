@@ -11,7 +11,7 @@ import Services from './pages/services';
 import FloatingNumbers from '@/components/FloatingNumbers';
 import ChatBot from '@/components/ChatBot';
 
-const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
+const clerkKey = "pk_test_a25vd2luZy1sb2N1c3QtMjguY2xlcmsuYWNjb3VudHMuZGV2JA";
 
 function App() {
   return (
