@@ -14,6 +14,12 @@ const Header = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // Define redirect logic - redirect to home page after sign in/up
+  const getRedirectUrl = () => {
+    // Always redirect to home page after sign in/up
+    return '/';
+  };
+
   const navItems = [
     { name: 'Home', path: '/' },
     { name: 'About', path: '/learn' },
@@ -76,9 +82,8 @@ const Header = () => {
               <SignedOut>
                 <SignInButton 
                   mode="modal"
-                  redirectUrl={location.pathname}
-                  afterSignInUrl={location.pathname}
-                  afterSignUpUrl={location.pathname}
+                  afterSignInUrl={getRedirectUrl()}
+                  afterSignUpUrl={getRedirectUrl()}
                 >
                   <Button className="orange-gradient text-white hover:orange-gradient-hover rounded-xl transition-transform duration-300 ease-in-out hover:scale-105">
                     Login / Sign Up
@@ -102,9 +107,8 @@ const Header = () => {
               <SignedOut>
                 <SignInButton 
                   mode="modal"
-                  redirectUrl={location.pathname}
-                  afterSignInUrl={location.pathname}
-                  afterSignUpUrl={location.pathname}
+                  afterSignInUrl={getRedirectUrl()}
+                  afterSignUpUrl={getRedirectUrl()}
                 >
                   <Button 
                     size="sm"
