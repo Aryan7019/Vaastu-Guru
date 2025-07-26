@@ -11,7 +11,7 @@ import Services from './pages/services';
 import FloatingNumbers from '@/components/FloatingNumbers';
 import ChatBot from '@/components/ChatBot';
 
-const clerkKey = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
+const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY;
 
 function ClerkProviderWithRoutes() {
   const navigate = useNavigate();
