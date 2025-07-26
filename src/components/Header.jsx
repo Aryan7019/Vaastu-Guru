@@ -3,13 +3,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Compass } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useUser, useClerk, SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from '@clerk/clerk-react';
+import { useUser, SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { user } = useUser();
-  const { signOut } = useClerk();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -61,15 +60,16 @@ const Header = () => {
             <div className="hidden md:flex items-center space-x-4">
               <SignedIn>
                 <div className="flex items-center space-x-4">
-                  <span className="text-gray-700">Welcome{user?.fullName ? `, ${user.fullName}` : ''}</span>
-                  <UserButton afterSignOutUrl="/" />
-                  <Button
-                    onClick={() => signOut()}
-                    variant="outline"
-                    className="border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white rounded-xl transition-transform duration-300 ease-in-out hover:scale-105"
-                  >
-                    Logout
-                  </Button>
+                  <span className="text-gray-700">
+                    Welcome{user?.fullName ? `, ${user.fullName}` : ''}
+                  </span>
+                  <UserButton 
+                    appearance={{
+                      elements: {
+                        avatarBox: "h-10 w-10"
+                      }
+                    }}
+                  />
                 </div>
               </SignedIn>
 
@@ -84,9 +84,14 @@ const Header = () => {
 
             {/* Mobile Layout */}
             <div className="md:hidden flex items-center gap-4">
-              {/* Auth buttons - single combined button like desktop */}
               <SignedIn>
-                <UserButton afterSignOutUrl="/" />
+                <UserButton 
+                  appearance={{
+                    elements: {
+                      avatarBox: "h-8 w-8"
+                    }
+                  }}
+                />
               </SignedIn>
               
               <SignedOut>
