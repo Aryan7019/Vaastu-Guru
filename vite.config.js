@@ -1,77 +1,14 @@
-import path from 'node:path';
+import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { createLogger, defineConfig } from 'vite';
+import { createLogger } from 'vite';
 
-const isDev = process.env.NODE_ENV !== 'production';
-
-// Dynamic imports for development-only plugins
-let inlineEditPlugin, editModeDevPlugin;
-if (isDev) {
-  try {
-    inlineEditPlugin = (await import('./plugins/visual-editor/vite-plugin-react-inline-editor.js')).default;
-    editModeDevPlugin = (await import('./plugins/visual-editor/vite-plugin-edit-mode.js')).default;
-  } catch (error) {
-    console.warn('Could not load visual editor plugins:', error.message);
-  }
-}
-
-// Error handling scripts
+// Simplified error handlers (compatible with production)
 const errorHandlers = {
-  viteError: `
-    const handleViteOverlay = (node) => {
-      if (!node.shadowRoot) return;
-      const backdrop = node.shadowRoot.querySelector('.backdrop');
-      if (backdrop) {
-        const message = node.shadowRoot.querySelector('.message-body')?.textContent.trim() || '';
-        const file = node.shadowRoot.querySelector('.file')?.textContent.trim() || '';
-        window.parent.postMessage({
-          type: 'horizons-vite-error',
-          error: message + (file ? ' File:' + file : '')
-        }, '*');
-      }
-    };
-
-    new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node.nodeType === Node.ELEMENT_NODE && 
-              (node.tagName?.toLowerCase() === 'vite-error-overlay' || 
-               node.classList?.contains('backdrop'))) {
-            handleViteOverlay(node);
-          }
-        });
-      });
-    }).observe(document.documentElement, { childList: true, subtree: true });
-  `,
-
   runtimeError: `
     window.onerror = (message, source, lineno, colno, error) => {
-      window.parent.postMessage({
-        type: 'horizons-runtime-error',
-        error: JSON.stringify({
-          message,
-          source,
-          lineno,
-          colno,
-          stack: error?.stack,
-          name: error?.name
-        })
-      }, '*');
+      console.error('Runtime Error:', { message, source, lineno, colno, stack: error?.stack });
     };
   `,
-
-  consoleError: `
-    const originalError = console.error;
-    console.error = (...args) => {
-      originalError.apply(console, args);
-      const error = args.find(arg => arg instanceof Error);
-      window.parent.postMessage({
-        type: 'horizons-console-error',
-        error: error ? error.stack : args.join(' ')
-      }, '*');
-    };
-  `,
-
   fetchMonitor: `
     const originalFetch = window.fetch;
     window.fetch = async (...args) => {
@@ -90,7 +27,7 @@ const errorHandlers = {
   `
 };
 
-// Create custom logger to filter CSS errors
+// Production-safe logger
 const logger = createLogger();
 const originalError = logger.error;
 logger.error = (msg, options) => {
@@ -102,9 +39,6 @@ logger.error = (msg, options) => {
 export default defineConfig({
   customLogger: logger,
   plugins: [
-    ...(isDev && inlineEditPlugin && editModeDevPlugin 
-      ? [inlineEditPlugin(), editModeDevPlugin()] 
-      : []),
     react(),
     {
       name: 'error-handlers',
@@ -129,36 +63,42 @@ export default defineConfig({
     },
     host: true,
     port: 3000,
-    strictPort: true
+    strictPort: true,
+    hmr: {
+      clientPort: 443 // Required for Vercel previews
+    }
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-      '~': path.resolve(__dirname, './')
+      '@': '/src',
+      '~': '/'
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.mjs']
   },
   build: {
-    sourcemap: isDev,
+    outDir: 'dist',
+    emptyOutDir: true,
+    sourcemap: process.env.NODE_ENV !== 'production',
+    chunkSizeWarningLimit: 1600,
     rollupOptions: {
-      external: [
-        /^@babel\/.*/,
-        'react-dom/server'
-      ],
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', '@clerk/clerk-react']
-        }
+          vendor: ['react', 'react-dom', '@clerk/clerk-react'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu']
+        },
+        assetFileNames: 'assets/[name]-[hash][extname]',
+        chunkFileNames: 'assets/[name]-[hash].js'
       }
-    },
-    chunkSizeWarningLimit: 1600
+    }
   },
   optimizeDeps: {
     include: [
       'react',
       'react-dom',
       '@clerk/clerk-react'
-    ],
-    exclude: ['@babel/standalone']
+    ]
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
   }
 });

@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "postinstall": "chmod +x node_modules/.bin/vite"
+    "postinstall": "chmod +x node_modules/.bin/vite",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.35.4",
