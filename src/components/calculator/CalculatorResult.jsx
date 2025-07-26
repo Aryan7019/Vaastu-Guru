@@ -392,9 +392,6 @@ const calculateNameValue = (name) => {
 };
 
 const checkNameCompatibility = (nameValue, firstNum) => {
-  // First check if the name value is a master number (11, 22, 33) - these don't get reduced
-  const masterNumbers = [11, 22, 33];
-  const isMasterNumber = masterNumbers.includes(nameValue);
   
   // If not a master number, reduce to single digit
   const reducedNameValue = isMasterNumber ? nameValue : sumToSingleDigit(nameValue);
