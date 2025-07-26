@@ -130,7 +130,7 @@ const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData })
           disabled={isLoading || !isSignedIn}
           className="w-full orange-gradient text-white transition-transform duration-300 ease-in-out hover:scale-105 hover:orange-gradient-hover py-3 text-lg rounded-xl"
         >
-          {isLoading ? 'Calculating Your Numbers...' : 'Generate My Numerology Profile'}
+          {isLoading ? 'Calculating Your Numbers...' : 'Generate My Report'}
         </Button>
       </form>
     </motion.div>
