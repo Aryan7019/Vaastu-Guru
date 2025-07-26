@@ -392,9 +392,10 @@ const calculateNameValue = (name) => {
 };
 
 const checkNameCompatibility = (nameValue, firstNum) => {
+
   
   // If not a master number, reduce to single digit
-  const reducedNameValue = isMasterNumber ? nameValue : sumToSingleDigit(nameValue);
+  const reducedNameValue = sumToSingleDigit(nameValue);
   
   // Get compatibility rules for the reduced name value
   const compatibilityRule = NAME_COMPATIBILITY_RULES[reducedNameValue] || 
