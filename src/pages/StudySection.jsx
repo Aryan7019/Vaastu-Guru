@@ -65,7 +65,7 @@ const numerologyPrinciples = [
   },
   {
     number: 6,
-    meaning: "Luxury",
+    meaning: "Care",
     description:
       "Caring, family-focused, and drawn to beauty, comfort, and elegance.",
     color: "text-indigo-500"
