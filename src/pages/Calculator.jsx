@@ -12,7 +12,6 @@ const Calculator = () => {
   });
   const [results, setResults] = useState(null);
   const { isLoaded, isSignedIn, user } = useUser();
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleReset = () => {
     setResults(null);
