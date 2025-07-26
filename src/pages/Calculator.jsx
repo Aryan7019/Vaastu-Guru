@@ -45,7 +45,7 @@ const Calculator = () => {
               Numerology <span className="text-black">Calculator</span>
             </h1>
             <p className="text-xl text-white max-w-3xl mx-auto">
-              Discover your life path, destiny, and soul purpose through the ancient science of numbers
+              Unlock your life's blueprint with our numerology calculator: reveals personality traits, fortune potential, and name compatibility for harmonious energy flow.
             </p>
           </motion.div>
 

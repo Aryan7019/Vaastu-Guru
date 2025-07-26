@@ -392,19 +392,12 @@ const calculateNameValue = (name) => {
 };
 
 const checkNameCompatibility = (nameValue, firstNum) => {
-
-  
-  // If not a master number, reduce to single digit
   const reducedNameValue = sumToSingleDigit(nameValue);
-  
-  // Get compatibility rules for the reduced name value
   const compatibilityRule = NAME_COMPATIBILITY_RULES[reducedNameValue] || 
     { compatible: [], description: `No specific compatibility rules for ${reducedNameValue}` };
   
-  // Check if the firstNum is in the compatible numbers array
   const isCompatible = compatibilityRule.compatible.length === 0 ? 
-    false : 
-    compatibilityRule.compatible.includes(firstNum);
+    false : compatibilityRule.compatible.includes(firstNum);
   
   return {
     compatible: isCompatible,
@@ -420,11 +413,7 @@ const calculateNumbers = (birthDate) => {
 
   try {
     const [year, month, day] = birthDate.split('-').map(Number);
-    
-    // First number: sum of day digits to single digit
     let firstNum = sumToSingleDigit(day);
-    
-    // Second number: sum of all digits in YYYY-MM-DD to single digit
     const allDigits = birthDate.replace(/\D/g, '').split('').map(Number);
     let secondNum = sumToSingleDigit(allDigits.reduce((sum, d) => sum + d, 0));
 
@@ -440,29 +429,24 @@ const calculateNumbers = (birthDate) => {
 
 const getPersonalityDescription = (firstNum, secondNum) => {
   try {
-    // First try exact match
     const exactMatch = personalityCombinations.find(
       c => c.numbers[0] === firstNum && c.numbers[1] === secondNum
     );
     
     if (exactMatch) return exactMatch.description;
     
-    // Then try matching first number
     const firstNumMatch = personalityCombinations.find(
       c => c.numbers[0] === firstNum
     );
     
-    // Then try matching second number
     const secondNumMatch = personalityCombinations.find(
       c => c.numbers[1] === secondNum
     );
     
-    // Combine insights if partial matches found
     if (firstNumMatch && secondNumMatch) {
       return `${firstNumMatch.description.split('. ')[0]}. ${secondNumMatch.description.split('. ')[1]}. This unique combination blends these qualities in ways that make you truly distinctive.`;
     }
     
-    // Final fallback
     return "Your unique numerical combination reveals special qualities that make you wonderfully distinctive. This rare blend suggests you have an unconventional path with valuable lessons to both learn and teach.";
   } catch (error) {
     console.error('Description error:', error);
@@ -470,32 +454,43 @@ const getPersonalityDescription = (firstNum, secondNum) => {
   }
 };
 
-const CalculatorResult = ({ formData, onReset }) => {
+const formatDescription = (text) => {
+  if (!text) return null;
+
+  const sentences = text.split('. ').filter(s => s.trim().length > 0);
+  const positivePoints = [];
+  const negativePoints = [];
+  
+  sentences.forEach(sentence => {
+    const isNegative = /(challenge|avoid|beware|caution|tendency|risk|difficulty|may|however|while)/i.test(sentence);
+    if (isNegative && negativePoints.length < 2) {
+      negativePoints.push(sentence);
+    } else if (!isNegative && positivePoints.length < 2) {
+      positivePoints.push(sentence);
+    }
+  });
+
+  const points = [...positivePoints, ...negativePoints].slice(0, 4);
+
+  return (
+    <ul className="list-disc pl-5 space-y-2">
+      {points.map((point, index) => (
+        <li key={index} className="text-gray-700">
+          {point.replace(/^(however|while|though)\s+/i, '').replace(/\.$/, '')}
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isNameCorrectionDialogOpen, setIsNameCorrectionDialogOpen] = useState(false);
   
   const { firstNum, secondNum } = calculateNumbers(formData?.birthDate);
   const personalityDescription = getPersonalityDescription(firstNum, secondNum);
   const nameValue = calculateNameValue(formData?.name);
   const nameCompatibility = checkNameCompatibility(nameValue, firstNum);
-
-  const formatDescription = (text) => {
-    if (!text) return null;
-    
-    return text.split('. ').map((sentence, i, arr) => {
-      const isLast = i === arr.length - 1;
-      const hasWarning = /(challenge|avoid|beware|caution|tendency|risk|difficulty)/i.test(sentence);
-      
-      return (
-        <React.Fragment key={i}>
-          {hasWarning ? (
-            <span className="text-red-500">{sentence}{isLast ? '' : '. '}</span>
-          ) : (
-            <span>{sentence}{isLast ? '' : '. '}</span>
-          )}
-        </React.Fragment>
-      );
-    });
-  };
 
   if (!formData?.birthDate) {
     return (
@@ -525,39 +520,70 @@ const CalculatorResult = ({ formData, onReset }) => {
           Your Numerology Profile
         </h2>
         
-        <p className="text-gray-600 text-center mb-2">
-          For: <span className="font-medium text-orange-600">{formData?.name || 'Unknown'}</span>
-        </p>
-        <p className="text-gray-600 text-center mb-4">
-          Born: <span className="font-medium text-orange-600">
-            {new Date(formData.birthDate).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })}
-          </span>
-        </p>
+        <div className="text-center mb-4">
+          <p className="text-gray-600">
+            For: <span className="font-medium text-orange-600">{formData?.name || 'Unknown'}</span>
+          </p>
+          <p className="text-gray-600">
+            Born: <span className="font-medium text-orange-600">
+              {new Date(formData.birthDate).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </span>
+          </p>
+        </div>
 
-        {/* Simplified Name Compatibility Section - Moved above description */}
         {formData?.name && (
-          <div className={`flex items-center justify-center mb-4 ${
-            nameCompatibility.compatible ? 'text-green-600' : 'text-red-600'
-          }`}>
-            <span className="text-xl mr-2">
-              {nameCompatibility.compatible ? '✓' : '✗'}
-            </span>
-            <span className="font-medium">
-              {nameCompatibility.compatible 
-                ? "Your name is compatible with you" 
-                : "Your name is not compatible with you"}
-            </span>
-          </div>
-        )}
+  <div className={`flex items-center justify-center mb-2 ${
+    nameCompatibility.compatible ? 'text-green-600' : 'text-red-600'
+  }`}>
+    <span className="text-xl mr-2">
+      {nameCompatibility.compatible ? '✓' : '✗'}
+    </span>
+    <span className="font-medium">
+      {nameCompatibility.compatible 
+        ? "Your name value is compatible with you" 
+        : "Your name value is not compatible with you"}
+    </span>
+  </div>
+)}
+
+{formData?.name && !nameCompatibility.compatible && (
+  <div className="text-center mb-4">
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button 
+          variant="outline" 
+          className="bg-orange-500 hover:bg-orange-600 text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105"
+        >
+          Book Consultation for Name Correction
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="rounded-lg max-w-[90vw] sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-bold text-orange-600">
+            Name Correction Consultation
+          </DialogTitle>
+          <DialogDescription className="text-orange-500">
+            Our experts will analyze your name and suggest improvements for better compatibility
+          </DialogDescription>
+        </DialogHeader>
+        <ConsultationForm 
+          onSuccess={() => setIsDialogOpen(false)}
+          defaultName={formData?.name || ''}
+          defaultBirthDate={formData?.birthDate || ''}
+          isNameCorrection={true}
+        />
+      </DialogContent>
+    </Dialog>
+  </div>
+)}
         
         <div className="bg-orange-50 rounded-lg p-5 border border-orange-100">
-          <p className="text-gray-700 leading-relaxed">
-            {formatDescription(personalityDescription)}
-          </p>
+          <h3 className="font-semibold text-lg mb-3 text-orange-600">Key Traits:</h3>
+          {formatDescription(personalityDescription)}
         </div>
       </div>
 
@@ -568,7 +594,7 @@ const CalculatorResult = ({ formData, onReset }) => {
         className="bg-white rounded-xl shadow-md p-6"
       >
         <h3 className="text-xl font-semibold text-center text-orange-600 mb-3">
-          Get Deeper Insights
+          Want Deeper Insights?
         </h3>
         
         <div className="flex flex-wrap justify-center gap-3">
@@ -580,30 +606,53 @@ const CalculatorResult = ({ formData, onReset }) => {
             New Analysis
           </Button>
           
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white">
-                Full Report
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="rounded-lg max-w-[90vw] sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-bold text-orange-600">
-                  Complete Numerology Reading
-                </DialogTitle>
-                <DialogDescription className="text-orange-500">
-                  Includes detailed analysis of your core numbers and cycles
-                </DialogDescription>
-              </DialogHeader>
-              <ConsultationForm 
-                onSuccess={() => setIsDialogOpen(false)}
-                defaultName={formData?.name || ''}
-                defaultBirthDate={formData?.birthDate || ''}
-              />
-            </DialogContent>
-          </Dialog>
+          <Button 
+            className="bg-orange-500 hover:bg-orange-600 text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            Full Report
+          </Button>
         </div>
       </motion.div>
+
+      {/* Full Report Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="rounded-lg max-w-[90vw] sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-orange-600">
+              Complete Numerology Reading
+            </DialogTitle>
+            <DialogDescription className="text-orange-500">
+              Includes detailed analysis of your core numbers and cycles
+            </DialogDescription>
+          </DialogHeader>
+          <ConsultationForm 
+            onSuccess={() => setIsDialogOpen(false)}
+            defaultName={formData?.name || ''}
+            defaultBirthDate={formData?.birthDate || ''}
+          />
+        </DialogContent>
+      </Dialog>
+
+      {/* Name Correction Dialog */}
+      <Dialog open={isNameCorrectionDialogOpen} onOpenChange={setIsNameCorrectionDialogOpen}>
+        <DialogContent className="rounded-lg max-w-[90vw] sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold text-orange-600">
+              Name Correction Consultation
+            </DialogTitle>
+            <DialogDescription className="text-orange-500">
+              Our experts will analyze your name and suggest improvements for better compatibility
+            </DialogDescription>
+          </DialogHeader>
+          <ConsultationForm 
+            onSuccess={() => setIsNameCorrectionDialogOpen(false)}
+            defaultName={formData?.name || ''}
+            defaultBirthDate={formData?.birthDate || ''}
+            isNameCorrection={true}
+          />
+        </DialogContent>
+      </Dialog>
     </motion.div>
   );
 };
