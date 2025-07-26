@@ -372,6 +372,11 @@ const NAME_COMPATIBILITY_RULES = {
 };
 
 const sumToSingleDigit = (num) => {
+
+   if ([22, 16, 25].includes(num)) {
+    return num;
+  }
+
   while (num > 9) {
     num = num.toString().split('').reduce((sum, d) => sum + parseInt(d), 0);
   }
