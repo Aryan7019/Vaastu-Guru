@@ -1,8 +1,21 @@
-import { defineConfig } from 'vite';
+import path from 'node:path';
 import react from '@vitejs/plugin-react';
-import { createLogger } from 'vite';
+import { createLogger, defineConfig } from 'vite';
 
-// Error handling scripts (simplified from your original)
+const isDev = process.env.NODE_ENV !== 'production';
+
+// Dynamic imports for development-only plugins
+let inlineEditPlugin, editModeDevPlugin;
+if (isDev) {
+  try {
+    inlineEditPlugin = (await import('./plugins/visual-editor/vite-plugin-react-inline-editor.js')).default;
+    editModeDevPlugin = (await import('./plugins/visual-editor/vite-plugin-edit-mode.js')).default;
+  } catch (error) {
+    console.warn('Could not load visual editor plugins:', error.message);
+  }
+}
+
+// Error handling scripts
 const errorHandlers = {
   viteError: `
     const handleViteOverlay = (node) => {
@@ -11,9 +24,13 @@ const errorHandlers = {
       if (backdrop) {
         const message = node.shadowRoot.querySelector('.message-body')?.textContent.trim() || '';
         const file = node.shadowRoot.querySelector('.file')?.textContent.trim() || '';
-        console.error('Vite Error:', message + (file ? ' File:' + file : ''));
+        window.parent.postMessage({
+          type: 'horizons-vite-error',
+          error: message + (file ? ' File:' + file : '')
+        }, '*');
       }
     };
+
     new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         mutation.addedNodes.forEach((node) => {
@@ -29,12 +46,51 @@ const errorHandlers = {
 
   runtimeError: `
     window.onerror = (message, source, lineno, colno, error) => {
-      console.error('Runtime Error:', { message, source, lineno, colno, stack: error?.stack });
+      window.parent.postMessage({
+        type: 'horizons-runtime-error',
+        error: JSON.stringify({
+          message,
+          source,
+          lineno,
+          colno,
+          stack: error?.stack,
+          name: error?.name
+        })
+      }, '*');
+    };
+  `,
+
+  consoleError: `
+    const originalError = console.error;
+    console.error = (...args) => {
+      originalError.apply(console, args);
+      const error = args.find(arg => arg instanceof Error);
+      window.parent.postMessage({
+        type: 'horizons-console-error',
+        error: error ? error.stack : args.join(' ')
+      }, '*');
+    };
+  `,
+
+  fetchMonitor: `
+    const originalFetch = window.fetch;
+    window.fetch = async (...args) => {
+      try {
+        const response = await originalFetch(...args);
+        if (!response.ok) {
+          const error = await response.clone().text();
+          console.error(\`Fetch error: \${response.status} \${response.statusText}\`, error);
+        }
+        return response;
+      } catch (error) {
+        console.error('Fetch failed:', error);
+        throw error;
+      }
     };
   `
 };
 
-// Custom logger to filter CSS errors
+// Create custom logger to filter CSS errors
 const logger = createLogger();
 const originalError = logger.error;
 logger.error = (msg, options) => {
@@ -46,6 +102,9 @@ logger.error = (msg, options) => {
 export default defineConfig({
   customLogger: logger,
   plugins: [
+    ...(isDev && inlineEditPlugin && editModeDevPlugin 
+      ? [inlineEditPlugin(), editModeDevPlugin()] 
+      : []),
     react(),
     {
       name: 'error-handlers',
@@ -62,8 +121,6 @@ export default defineConfig({
       }
     }
   ],
-  
-  // Vercel-optimized server configuration
   server: {
     cors: true,
     headers: {
@@ -72,58 +129,36 @@ export default defineConfig({
     },
     host: true,
     port: 3000,
-    strictPort: true,
-    hmr: {
-      clientPort: 443 // Important for Vercel preview deployments
-    }
+    strictPort: true
   },
-
-  // Resolve configuration
   resolve: {
-    alias: [
-      { find: '@', replacement: '/src' },
-      { find: '~', replacement: '/' }
-    ],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '~': path.resolve(__dirname, './')
+    },
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json', '.mjs']
   },
-
-  // Production build settings
   build: {
-    outDir: 'dist',
-    emptyOutDir: true,
-    sourcemap: process.env.NODE_ENV !== 'production',
-    chunkSizeWarningLimit: 1600,
+    sourcemap: isDev,
     rollupOptions: {
+      external: [
+        /^@babel\/.*/,
+        'react-dom/server'
+      ],
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom', '@clerk/clerk-react'],
-          lodash: ['lodash'],
-          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu']
-        },
-        assetFileNames: 'assets/[name]-[hash][extname]',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name]-[hash].js'
+          vendor: ['react', 'react-dom', '@clerk/clerk-react']
+        }
       }
-    }
+    },
+    chunkSizeWarningLimit: 1600
   },
-
-  // Optimization settings
   optimizeDeps: {
     include: [
       'react',
       'react-dom',
-      '@clerk/clerk-react',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-dropdown-menu'
+      '@clerk/clerk-react'
     ],
     exclude: ['@babel/standalone']
-  },
-
-  // Vercel-specific optimizations
-  define: {
-    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-  },
-  esbuild: {
-    jsxInject: `import React from 'react'`
   }
 });
