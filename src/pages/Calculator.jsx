@@ -19,7 +19,11 @@ const Calculator = () => {
   };
 
   if (!isLoaded) {
-    return null; // or loading spinner
+    return (
+      <div className="min-h-screen py-20 flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
   }
 
   return (

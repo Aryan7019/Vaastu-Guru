@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Calculator, Home, Building, Palette, Triangle, PenTool } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useUser, SignInButton } from '@clerk/clerk-react';
 import { ConsultationForm } from "../components/ConsultationForm";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader, DialogDescription } from '../components/ui/dialog';
@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader, Dialog
 const Services = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { isSignedIn } = useUser();
+  const location = useLocation();
 
   const services = [
     {
@@ -158,7 +159,10 @@ const Services = () => {
                     </DialogContent>
                   </Dialog>
                 ) : (
-                  <SignInButton mode="modal">
+                  <SignInButton 
+                    mode="modal"
+                    redirectUrl={location.pathname}
+                  >
                     <Button className="hover:bg-white hover:text-orange-500 transition-transform duration-300 ease-in-out hover:scale-105 orange-gradient text-white hover:orange-gradient-hover px-8 py-3 text-lg rounded-xl">
                       Book Consultation
                     </Button>

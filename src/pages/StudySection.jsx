@@ -4,95 +4,71 @@ import { motion } from 'framer-motion';
 import { Book, Calculator, Home, Star, TrendingUp, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { useUser, SignInButton } from '@clerk/clerk-react'; // Updated imports
-import { sendConsultationRequest } from '@/services/emailService';
-import { toast } from '@/components/ui/use-toast';
+import { useUser, SignInButton } from '@clerk/clerk-react';
 import { ConsultationForm } from "../components/ConsultationForm";
-import { Dialog, DialogContent, DialogTrigger, DialogTitle , DialogHeader,DialogDescription } from '../components/ui/dialog';
+import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader, DialogDescription } from '../components/ui/dialog';
 
 const StudySection = () => {
   const [activeTab, setActiveTab] = useState('numerology');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { isSignedIn, user } = useUser(); // Using Clerk's user state
+  const { isSignedIn, user, isLoaded } = useUser();
 
-  const handleBookConsultation = () => {
-    if (!isSignedIn) {
-      // Clerk will handle the sign-in flow via the SignInButton
-      return;
+  const numerologyPrinciples = [
+    {
+      number: 1,
+      meaning: "Leadership",
+      description: "Independent, driven, and natural leaders with a pioneering spirit.",
+      color: "text-red-500"
+    },
+    {
+      number: 2,
+      meaning: "Harmony",
+      description: "Sensitive, diplomatic, and gifted at bringing people together.",
+      color: "text-orange-500"
+    },
+    {
+      number: 3,
+      meaning: "Knowledge",
+      description: "Curious minds who value learning, insight, and intellectual growth.",
+      color: "text-yellow-500"
+    },
+    {
+      number: 4,
+      meaning: "Stability",
+      description: "Practical, reliable, and hardworking with a love for order.",
+      color: "text-green-500"
+    },
+    {
+      number: 5,
+      meaning: "Freedom",
+      description: "Adventurous and versatile individuals who thrive on change and express themselves with clarity and confidence.",
+      color: "text-blue-500"
+    },
+    {
+      number: 6,
+      meaning: "Care",
+      description: "Caring, family-focused, and drawn to beauty, comfort, and elegance.",
+      color: "text-indigo-500"
+    },
+    {
+      number: 7,
+      meaning: "Spiritual",
+      description: "Introspective, analytical, and seekers of deeper meaning.",
+      color: "text-purple-500"
+    },
+    {
+      number: 8,
+      meaning: "Ambition",
+      description: "Confident, disciplined, and success-oriented with strong willpower.",
+      color: "text-pink-500"
+    },
+    {
+      number: 9,
+      meaning: "Compassion",
+      description: "Kind, idealistic, and devoted to service and global harmony.",
+      color: "text-teal-500"
     }
-    sendConsultationRequest(user);
-    toast({
-      title: "Consultation Request Sent!",
-      description: "Thank you for your interest. Our team will contact you shortly to schedule your consultation.",
-    });
-  };
-
-const numerologyPrinciples = [
-   {
-    number: 1,
-    meaning: "Leadership",
-    description:
-      "Independent, driven, and natural leaders with a pioneering spirit.",
-    color: "text-red-500"
-  },
-  {
-    number: 2,
-    meaning: "Harmony",
-    description:
-      "Sensitive, diplomatic, and gifted at bringing people together.",
-    color: "text-orange-500"
-  },
-  {
-    number: 3,
-    meaning: "Knowledge",
-    description:
-      "Curious minds who value learning, insight, and intellectual growth.",
-    color: "text-yellow-500"
-  },
-  {
-    number: 4,
-    meaning: "Stability",
-    description:
-      "Practical, reliable, and hardworking with a love for order.",
-    color: "text-green-500"
-  },
-  {
-    number: 5,
-    meaning: "Freedom",
-    description:
-      "Adventurous and versatile individuals who thrive on change and express themselves with clarity and confidence.",
-    color: "text-blue-500"
-  },
-  {
-    number: 6,
-    meaning: "Care",
-    description:
-      "Caring, family-focused, and drawn to beauty, comfort, and elegance.",
-    color: "text-indigo-500"
-  },
-  {
-    number: 7,
-    meaning: "Spiritual",
-    description:
-      "Introspective, analytical, and seekers of deeper meaning.",
-    color: "text-purple-500"
-  },
-  {
-    number: 8,
-    meaning: "Ambition",
-    description:
-      "Confident, disciplined, and success-oriented with strong willpower.",
-    color: "text-pink-500"
-  },
-  {
-    number: 9,
-    meaning: "Compassion",
-    description:
-      "Kind, idealistic, and devoted to service and global harmony.",
-    color: "text-teal-500"
-  }
-];
-
+  ];
 
   const vaastuPrinciples = [
     { direction: "North", element: "Water", significance: "Wealth and Career", tips: "Keep this area clean and clutter-free. Place water features here.", icon: "💧" },
@@ -104,6 +80,14 @@ const numerologyPrinciples = [
     { direction: "West", element: "Metal", significance: "Children and Creativity", tips: "Good for children's room. Display creative works here.", icon: "🎨" },
     { direction: "Northwest", element: "Metal + Air", significance: "Travel and Helpful People", tips: "Guest room or office space. Keep travel photos here.", icon: "✈️" }
   ];
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen py-20 flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </div>
+    );
+  }
 
   return (
     <>

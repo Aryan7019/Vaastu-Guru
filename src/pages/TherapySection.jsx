@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Star, Palette, Triangle, Calculator } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useUser, SignInButton } from '@clerk/clerk-react';
 import { sendConsultationRequest } from '@/services/emailService';
 import { toast } from '@/components/ui/use-toast';
@@ -14,6 +14,7 @@ const TherapySection = () => {
   const [activeTab, setActiveTab] = useState('color');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { isSignedIn, user } = useUser();
+  const location = useLocation();
 
   const handleBookConsultation = () => {
     if (!isSignedIn) return;
@@ -279,7 +280,10 @@ const TherapySection = () => {
                     </DialogContent>
                   </Dialog>
                 ) : (
-                  <SignInButton mode="modal">
+                  <SignInButton 
+                    mode="modal"
+                    redirectUrl={location.pathname}
+                  >
                     <Button 
                       variant="outline"
                       className="border-orange-500 text-orange-500 transition-transform duration-300 ease-in-out hover:scale-105 hover:bg-orange-500 hover:text-white rounded-xl"

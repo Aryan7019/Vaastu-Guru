@@ -74,7 +74,12 @@ const Header = () => {
               </SignedIn>
 
               <SignedOut>
-                <SignInButton mode="modal">
+                <SignInButton 
+                  mode="modal"
+                  redirectUrl={location.pathname}
+                  afterSignInUrl={location.pathname}
+                  afterSignUpUrl={location.pathname}
+                >
                   <Button className="orange-gradient text-white hover:orange-gradient-hover rounded-xl transition-transform duration-300 ease-in-out hover:scale-105">
                     Login / Sign Up
                   </Button>
@@ -95,7 +100,12 @@ const Header = () => {
               </SignedIn>
               
               <SignedOut>
-                <SignInButton mode="modal">
+                <SignInButton 
+                  mode="modal"
+                  redirectUrl={location.pathname}
+                  afterSignInUrl={location.pathname}
+                  afterSignUpUrl={location.pathname}
+                >
                   <Button 
                     size="sm"
                     className="orange-gradient text-white hover:orange-gradient-hover rounded-xl transition-transform duration-300 ease-in-out hover:scale-105"

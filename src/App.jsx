@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/Header';
@@ -13,50 +13,37 @@ import ChatBot from '@/components/ChatBot';
 
 const clerkKey = "pk_test_a25vd2luZy1sb2N1c3QtMjguY2xlcmsuYWNjb3VudHMuZGV2JA";
 
-// Create a wrapper component to access useNavigate inside ClerkProvider
-function ClerkProviderWithRouter({ children }) {
-  const navigate = useNavigate();
-  
+function App() {
   return (
     <ClerkProvider 
       publishableKey={clerkKey}
-      routerPush={(to) => navigate(to)}
-      routerReplace={(to) => navigate(to, { replace: true })}
+      appearance={{
+        baseTheme: undefined,
+        variables: {
+          colorPrimary: "#f97316" // Orange color to match your theme
+        }
+      }}
     >
-      {children}
+      <Router>
+        <div className="min-h-screen relative">
+          <FloatingNumbers />
+          <Header />
+          
+          <main className="relative z-1">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/learn" element={<StudySection />} />
+              <Route path="/calculator" element={<Calculator />} />
+              <Route path="/therapy" element={<TherapySection />} />
+              <Route path="/services" element={<Services />} />
+            </Routes>
+          </main>
+          
+          <ChatBot />
+          <Toaster />
+        </div>
+      </Router>
     </ClerkProvider>
-  );
-}
-
-function AppContent() {
-  return (
-    <div className="min-h-screen relative">
-      <FloatingNumbers />
-      <Header />
-      
-      <main className="relative z-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/learn" element={<StudySection />} />
-          <Route path="/calculator" element={<Calculator />} />
-          <Route path="/therapy" element={<TherapySection />} />
-          <Route path="/services" element={<Services />} />
-        </Routes>
-      </main>
-      
-      <ChatBot />
-      <Toaster />
-    </div>
-  );
-}
-
-function App() {
-  return (
-    <Router>
-      <ClerkProviderWithRouter>
-        <AppContent />
-      </ClerkProviderWithRouter>
-    </Router>
   );
 }
 
