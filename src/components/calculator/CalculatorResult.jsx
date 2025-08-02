@@ -861,6 +861,65 @@ const getPersonalityTraits = (firstNum, secondNum) => {
   }
 };
 
+const calculatePersonalYear = (birthDate) => {
+  if (!birthDate) return 0;
+  
+  const currentYear = new Date().getFullYear();
+  const [year, month, day] = birthDate.split('-').map(Number);
+  
+  // Calculate day + month + current year
+  let sum = day + month + currentYear;
+  
+  // Reduce to single digit
+  while (sum > 9) {
+    sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
+  }
+  
+  return sum;
+};
+
+const getYearFortuneData = (personalYear) => {
+   const fortuneData = {
+  1: {
+    percentage: 80,
+    description: "This is a fresh start year full of new opportunities. Take initiative on projects you've been putting off - this is the perfect time to begin. Your leadership skills will shine if you step forward confidently."
+  },
+  2: {
+    percentage: 40,
+    description: "A sensitive year where decisions feel difficult. You may second-guess yourself often. When confused, pause and reflect before choosing - don't force answers immediately. Relationships need extra patience this year."
+  },
+  3: {
+    percentage: 50,
+    description: "You'll face more obstacles than usual this year. When problems arise, tackle them one at a time instead of feeling overwhelmed. Creative solutions work best - think outside the box when stuck."
+  },
+  4: {
+    percentage: 70,
+    description: "Progress comes slowly but surely this year. Focus on doing small, consistent actions rather than expecting quick results. Building strong foundations now will help you in future years."
+  },
+  5: {
+    percentage: 95,
+    description: "This is your most fortunate year with excellent opportunities. Stay alert for lucky breaks and don't hesitate to take calculated risks. Positive changes happen easily - go with the flow but stay grounded."
+  },
+  6: {
+    percentage: 90,
+    description: "Your choices determine everything this year. Think carefully before deciding, as both good and bad options have stronger consequences. Choose wisely - your decisions create lasting effects."
+  },
+  7: {
+    percentage: 30,
+    description: "Be extra cautious this year as deception is more likely. Double-check all information and agreements. If something seems too good to be true, it probably is - listen to your gut feelings."
+  },
+  8: {
+    percentage: 45,
+    description: "A year requiring much effort for gradual results. Don't get discouraged by slow progress - keep working steadily. Your persistence will eventually be rewarded, even if it takes time."
+  },
+  9: {
+    percentage: 25,
+    description: "This challenging year tests your resilience. When facing difficulties, focus on basic needs first - don't overwhelm yourself. Remember tough times are temporary and make you stronger."
+  },
+}; 
+  return fortuneData[personalYear] || { percentage: 50, description: "Neutral year with mixed experiences" };
+};
+
 const formatTraits = (traits) => {
   if (!traits || !Array.isArray(traits)) return null;
 
@@ -898,6 +957,10 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
   const personalityTraits = getPersonalityTraits(firstNum, secondNum);
   const nameValue = calculateNameValue(formData?.name);
   const nameCompatibility = checkNameCompatibility(nameValue, firstNum);
+  
+  // Calculate personal year fortune
+  const personalYear = calculatePersonalYear(formData?.birthDate);
+  const yearFortune = getYearFortuneData(personalYear);
 
   if (!formData?.birthDate) {
     return (
@@ -961,8 +1024,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
           <div className="text-center mb-4">
             <Dialog>
               <DialogTrigger asChild>
-                <Button 
-                  variant="outline" 
+                <Button  
                   className="bg-orange-500 hover:bg-orange-600 text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105"
                 >
                   Book Consultation for Name Correction
@@ -992,6 +1054,35 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
           <h3 className="font-semibold text-lg mb-3 text-orange-600">Your Personality Traits:</h3>
           {formatTraits(personalityTraits)}
         </div>
+
+        {/* Fortune Meter Section */}
+        <div className="bg-blue-50 rounded-lg p-5 border border-blue-100 mt-4">
+          <h3 className="font-semibold text-lg mb-3 text-blue-600">
+            Your {new Date().getFullYear()} Fortune Meter
+          </h3>
+          
+          <div className="w-full bg-gray-200 rounded-full h-6 mb-2">
+            <div 
+              className="bg-gradient-to-r from-blue-400 to-blue-600 h-6 rounded-full flex items-center justify-end pr-2"
+              style={{ width: `${yearFortune.percentage}%` }}
+            >
+              <span className="text-xs font-bold text-white">
+                {yearFortune.percentage}%
+              </span>
+            </div>
+          </div>
+          
+          <p className="text-center text-blue-700 font-medium">
+            {yearFortune.description}
+          </p>
+        </div>
+        <div className="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded">
+    <p className="text-sm text-yellow-700">
+      <span className="font-semibold">Note:</span> This analysis considers basic factors only. 
+      For 100% accurate predictions, more detailed calculations are needed. 
+      Book an appointment with our experts for a complete numerology reading.
+    </p>
+  </div>
       </div>
 
       <motion.div
