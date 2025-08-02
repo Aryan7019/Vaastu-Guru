@@ -8,345 +8,750 @@ const personalityCombinations = [
   // 1.x Combinations
   {
     numbers: [1, 1],
-    description: "Your strong leadership drives bold new ideas with complete independence. While your natural power inspires others, being selfish may push teammates away. Use your commanding presence to work with others, balancing strong direction with including everyone in decisions to make the biggest impact."
+    traits: [
+      "You naturally take charge and lead others",
+      "People look up to you for guidance",
+      "You sometimes focus too much on your own needs",
+      "You can get upset when things don't go your way"
+    ]
   },
   {
     numbers: [1, 2],
-    description: "You mix firm leadership with amazing sensitivity and creative new ideas. Your emotional ups and downs can weaken your strong presence, creating unsteady team relationships. Use your pioneering spirit alongside your caring insights to create breakthrough solutions while giving steady, reliable guidance."
+    traits: [
+      "You're good at taking the lead in groups",
+      "You understand people's feelings easily",
+      "You sometimes put yourself first too much",
+      "Your mood changes can affect people around you"
+    ]
   },
   {
     numbers: [1, 3],
-    description: "Your confident leadership shines through creative knowledge sharing and new thinking. However, selfish attitudes mixed with intellectual showing-off may keep others away from your vision. Turn your natural authority and sharp mind into inspiring teaching that lifts everyone around you."
+    traits: [
+      "You're a natural leader in learning situations",
+      "You pick up new knowledge very quickly",
+      "You sometimes focus too much on your own way",
+      "You can act like you know more than others"
+    ]
   },
   {
     numbers: [1, 4],
-    description: "You lead with practical steadiness, building reliable systems through disciplined hard work. While your step-by-step approach gets results, selfish decisions and overconfident thinking can create rigid structures. Balance your natural authority with team input to create flexible, lasting solutions."
+    traits: [
+      "You lead with steady and reliable methods",
+      "You bring calmness to stressful situations",
+      "You sometimes insist on your own methods too much",
+      "You might trust your ways more than you should"
+    ]
   },
   {
     numbers: [1, 5],
-    description: "Your energetic leadership thrives on change, mixing authority with excellent communication skills. Selfish impulses and lazy communication may weaken your ability to influence others. Channel your pioneering energy and flexible nature into long-term projects that inspire lasting change."
+    traits: [
+      "You lead through good communication",
+      "You connect well with all kinds of people",
+      "You sometimes focus on your needs first",
+      "You avoid hard work when possible"
+    ]
   },
   {
     numbers: [1, 6],
-    description: "You lead with caring authority, creating nurturing environments through kind guidance. While naturally protective, selfish tendencies and love of luxury may hurt your supportive intentions. Balance your leadership strength with genuine service to build peaceful, lasting communities."
+    traits: [
+      "You lead with care for others",
+      "You naturally look after people's needs",
+      "You sometimes think of yourself first",
+      "You really like nice and expensive things"
+    ]
   },
   {
     numbers: [1, 7],
-    description: "Your thoughtful leadership combines spiritual depth with analytical decision-making. Selfish reasons can clash with your natural wisdom, creating inner confusion about your true direction. Combine your strong presence with deep insights to guide others with real, meaningful vision."
+    traits: [
+      "You lead with deep thinking",
+      "You look for meaning in everything",
+      "You sometimes focus on your own path too much",
+      "You get unsure about your choices"
+    ]
   },
   {
     numbers: [1, 8],
-    description: "You lead with disciplined authority, creating highly organized systems through determined focus. While impressively structured, selfish goals and stubborn rigidity may limit team potential. Channel your natural leadership and systematic approach into flexible frameworks that empower others."
+    traits: [
+      "You lead with strong organization",
+      "You keep things neat and in order",
+      "You sometimes insist on your own way",
+      "You don't like changing your methods"
+    ]
   },
   {
     numbers: [1, 9],
-    description: "Your humanitarian leadership combines caring authority with kind wisdom. Though naturally generous, selfish impulses can trigger frustrating anger when others don't meet your idealistic expectations. Transform your influential presence and caring nature into patient support for meaningful change."
+    traits: [
+      "You lead with kindness to all",
+      "You care about fairness for everyone",
+      "You sometimes think of yourself first",
+      "You get mad when things seem unfair"
+    ]
   },
 
   // 2.x Combinations
   {
     numbers: [2, 1],
-    description: "Your sensitive leadership blends gut feelings with pioneering determination. Emotional ups and downs can weaken your natural authority, creating unpredictable team relationships. Balance your caring understanding with steady direction to create new solutions that honor both feelings and results."
+    traits: [
+      "You sense people's feelings well",
+      "You can take charge when needed",
+      "Your moods change often",
+      "You sometimes focus on your needs first"
+    ]
   },
   {
     numbers: [2, 2],
-    description: "Your exceptional sensitivity creates deep gut connections with profound creative potential. However, intense mood swings may overwhelm your natural empathy, making relationships unpredictable. Build emotional stability to use your remarkable intuitive gifts for consistent, meaningful impact."
+    traits: [
+      "You're very good at understanding feelings",
+      "You know what people need without words",
+      "Your emotions go up and down a lot",
+      "Your mood can change very quickly"
+    ]
   },
   {
     numbers: [2, 3],
-    description: "You combine emotional sensitivity with intellectual knowledge, creating creative understanding through gut-feeling learning. Mood swings paired with intellectual showing-off can create confusing communication patterns. Channel your caring insights and sharp mind into humble teaching that connects hearts and minds."
+    traits: [
+      "You feel what others are feeling",
+      "You learn new things easily",
+      "Your emotions change often",
+      "You can act like you know more than others"
+    ]
   },
   {
     numbers: [2, 4],
-    description: "Your gut sensitivity builds stable systems through emotionally-aware organization. While naturally disciplined, mood swings and overconfident thinking may destabilize your otherwise reliable approach. Combine your caring understanding with practical stability for lasting, caring solutions."
+    traits: [
+      "You sense people's needs deeply",
+      "You bring calm to any situation",
+      "Your feelings change often",
+      "You might trust your ways too much"
+    ]
   },
   {
     numbers: [2, 5],
-    description: "Your sensitive communication blends emotional intuition with adaptable creativity. Mood swings combined with lazy communication can create inconsistent relationship patterns. Transform your natural empathy and flexible nature into sustained, real connections that inspire mutual growth."
+    traits: [
+      "You understand people's emotions",
+      "You talk well with everyone",
+      "Your moods go up and down",
+      "You avoid hard work sometimes"
+    ]
   },
   {
     numbers: [2, 6],
-    description: "You nurture others through sensitive caring, combining gut understanding with kind support. While naturally loving, mood swings and luxury tendencies may create emotionally unstable giving patterns. Channel your caring gifts and nurturing nature into consistent, sustainable support."
+    traits: [
+      "You feel others' needs strongly",
+      "You take good care of people",
+      "Your emotions change often",
+      "You really enjoy fancy things"
+    ]
   },
   {
     numbers: [2, 7],
-    description: "Your spiritual sensitivity combines gut wisdom with profound analytical depth. Emotional mood swings can conflict with your natural thinking clarity, creating confusing inner guidance. Combine your caring insights with spiritual understanding for real, grounded wisdom."
+    traits: [
+      "You sense deeper meanings easily",
+      "You think about life's big questions",
+      "Your feelings change a lot",
+      "You get confused about choices"
+    ]
   },
   {
     numbers: [2, 8],
-    description: "You organize with gut sensitivity, creating emotionally-aware systems through disciplined empathy. Mood swings paired with stubborn tendencies can create rigid emotional structures. Balance your natural understanding with systematic approaches that honor both feelings and efficiency."
+    traits: [
+      "You understand people's emotions",
+      "You keep things well organized",
+      "Your moods change often",
+      "You don't like changing your ways"
+    ]
   },
   {
     numbers: [2, 9],
-    description: "Your caring sensitivity extends humanitarian care through gut kindness. While naturally generous, mood swings and angry reactions to unfairness can overwhelm your caring intentions. Transform your caring gifts and creative spirit into patient, sustained support."
+    traits: [
+      "You feel others' pain deeply",
+      "You care about everyone equally",
+      "Your emotions go up and down",
+      "You get angry at unfair things"
+    ]
   },
 
   // 3.x Combinations
   {
     numbers: [3, 1],
-    description: "Your intellectual leadership combines creative knowledge with pioneering creativity. While naturally authoritative, showing-off paired with selfish tendencies may push away potential partners. Channel your sharp mind and natural leadership into humble teaching that inspires group growth."
+    traits: [
+      "You learn things very quickly",
+      "You can lead in learning situations",
+      "You might act like you know more",
+      "You sometimes focus on your needs first"
+    ]
   },
   {
     numbers: [3, 2],
-    description: "You blend intellectual creativity with sensitive intuition, creating emotionally-smart understanding. Knowledge-based showing-off can clash with natural empathy, creating confusing communication patterns. Combine your analytical gifts with emotional wisdom for real, accessible teaching."
+    traits: [
+      "You pick up knowledge easily",
+      "You understand feelings well",
+      "You can seem to know it all",
+      "Your moods change often"
+    ]
   },
   {
     numbers: [3, 3],
-    description: "Your exceptional knowledge creates creative solutions through intellectual creativity and sharp analysis. However, widespread showing-off may limit your teaching effectiveness and team potential. Transform your brilliant mind into humble wisdom-sharing that lifts others rather than intimidating them."
+    traits: [
+      "You're very smart and love learning",
+      "You grasp new ideas quickly",
+      "You might show off your smarts",
+      "You let people know how much you know"
+    ]
   },
   {
     numbers: [3, 4],
-    description: "You build stable knowledge systems through practical creativity and disciplined learning. While intellectually reliable, showing-off combined with overconfident thinking can create inflexible educational approaches. Balance your analytical gifts with humble curiosity for continuous growth."
+    traits: [
+      "You understand things fast",
+      "You bring steady learning methods",
+      "You can act like you know more",
+      "You trust your ways too much"
+    ]
   },
   {
     numbers: [3, 5],
-    description: "Your communicative knowledge spreads creative ideas through adaptable teaching and intellectual flexibility. Showing-off paired with lazy communication may limit your educational impact. Channel your brilliant mind and natural adaptability into sustained, engaging knowledge-sharing."
+    traits: [
+      "You learn through talking to people",
+      "You communicate ideas well",
+      "You might act like you know more",
+      "You avoid hard work sometimes"
+    ]
   },
   {
     numbers: [3, 6],
-    description: "You share knowledge through caring creativity, combining intellectual gifts with nurturing support. While naturally helpful, showing-off and luxury tendencies may create condescending help patterns. Transform your analytical abilities and caring nature into humble, accessible guidance."
+    traits: [
+      "You learn about caring for others",
+      "You understand people's needs",
+      "You can seem to know it all",
+      "You really like luxury items"
+    ]
   },
   {
     numbers: [3, 7],
-    description: "Your spiritual knowledge combines creative thinking with profound analytical depth. Intellectual showing-off can conflict with natural wisdom, creating confusing inner guidance about your own understanding. Combine your brilliant mind with thinking humility for real insight."
+    traits: [
+      "You learn deep spiritual ideas",
+      "You think about life's meaning",
+      "You might act like you know more",
+      "You get unsure about choices"
+    ]
   },
   {
     numbers: [3, 8],
-    description: "You organize knowledge through disciplined creativity, creating systematic learning approaches. Showing-off paired with stubborn rigidity can create inflexible educational systems. Balance your intellectual gifts with structured humility that welcomes different perspectives."
+    traits: [
+      "You learn organized methods well",
+      "You keep knowledge neatly arranged",
+      "You can seem to know it all",
+      "You don't like changing your ways"
+    ]
   },
   {
     numbers: [3, 9],
-    description: "Your humanitarian knowledge serves others through creative teaching and caring wisdom-sharing. While naturally generous with insights, showing-off and angry reactions to ignorance may limit your educational impact. Channel your brilliant mind and kind heart into patient support."
+    traits: [
+      "You learn about helping humanity",
+      "You care about everyone's good",
+      "You might act like you know more",
+      "You get mad at unfair treatment"
+    ]
   },
 
   // 4.x Combinations
   {
     numbers: [4, 1],
-    description: "Your stable leadership builds reliable systems through disciplined authority and practical determination. While naturally commanding, overconfidence paired with selfish decisions may create inflexible structures. Channel your organizational strength and leadership presence into team-based, adaptable frameworks."
+    traits: [
+      "You bring steadiness to leadership",
+      "You lead in reliable ways",
+      "You might trust your methods too much",
+      "You sometimes focus on your needs first"
+    ]
   },
   {
     numbers: [4, 2],
-    description: "You create emotionally-stable systems through gut organization and sensitive discipline. Overconfident thinking can clash with natural empathy, creating rigid emotional structures. Combine your practical reliability with gut understanding for flexible, caring solutions."
+    traits: [
+      "You provide stable emotional support",
+      "You understand feelings deeply",
+      "You might be too sure of your ways",
+      "Your moods change often"
+    ]
   },
   {
     numbers: [4, 3],
-    description: "Your practical knowledge builds creative systems through disciplined learning and stable creativity. Overconfidence combined with intellectual showing-off can create inflexible educational approaches. Balance your organizational gifts with humble curiosity for continuous improvement."
+    traits: [
+      "You learn in steady, reliable ways",
+      "You pick up knowledge well",
+      "You might trust your methods too much",
+      "You can act like you know more"
+    ]
   },
   {
     numbers: [4, 4],
-    description: "Your exceptional stability creates reliable systems through disciplined organization and unwavering determination. However, widespread overconfidence may limit flexibility and team input. Transform your natural reliability into flexible frameworks that welcome growth and change."
+    traits: [
+      "You're very steady in everything",
+      "People can always count on you",
+      "You might be too sure of yourself",
+      "You trust your ways more than needed"
+    ]
   },
   {
     numbers: [4, 5],
-    description: "You implement adaptable systems through stable communication and disciplined flexibility. Overconfidence paired with lazy communication can create rigid interaction patterns. Channel your organizational strength and natural adaptability into sustained, engaging teamwork."
+    traits: [
+      "You communicate in reliable ways",
+      "You talk with steady methods",
+      "You might trust your ways too much",
+      "You avoid hard work sometimes"
+    ]
   },
   {
     numbers: [4, 6],
-    description: "Your caring stability provides reliable support through disciplined nurturing and organized kindness. While naturally dependable, overconfidence and luxury tendencies may create rigid help patterns. Balance your practical care with flexible responsiveness to others' needs."
+    traits: [
+      "You care for others steadily",
+      "You provide reliable support",
+      "You might be too sure of your ways",
+      "You really enjoy nice things"
+    ]
   },
   {
     numbers: [4, 7],
-    description: "You build thinking systems through stable spirituality and disciplined wisdom. Overconfident thinking can conflict with natural depth, creating confusing inner guidance about your methodical approach. Combine practical organization with spiritual openness."
+    traits: [
+      "You seek truth in steady ways",
+      "You think deeply with reliability",
+      "You might trust your methods too much",
+      "You get confused about choices"
+    ]
   },
   {
     numbers: [4, 8],
-    description: "Your disciplined stability creates highly organized systems through methodical determination. While impressively structured, overconfidence paired with stubborn rigidity may limit team flexibility. Channel your systematic gifts into frameworks that empower others."
+    traits: [
+      "You organize things very reliably",
+      "You keep everything in perfect order",
+      "You might be too sure of your ways",
+      "You don't like changing methods"
+    ]
   },
   {
     numbers: [4, 9],
-    description: "Your humanitarian stability provides reliable caring service through disciplined kindness. While naturally dependable, overconfidence and angry reactions to inefficiency may hurt your supportive intentions. Transform your organizational gifts and caring nature into patient help."
+    traits: [
+      "You help humanity in steady ways",
+      "You care about all people equally",
+      "You might trust your methods too much",
+      "You get angry at unfairness"
+    ]
   },
 
   // 5.x Combinations
   {
     numbers: [5, 1],
-    description: "Your communicative leadership adapts quickly through flexible authority and creative determination. While naturally influential, laziness paired with selfish tendencies may weaken your team potential. Channel your dynamic energy and leadership presence into sustained, inclusive projects."
+    traits: [
+      "You talk well as a leader",
+      "You communicate directions clearly",
+      "You avoid hard work sometimes",
+      "You sometimes focus on your needs first"
+    ]
   },
   {
     numbers: [5, 2],
-    description: "You communicate with sensitive adaptability, combining gut flexibility with emotionally-aware creativity. Lazy communication can clash with natural empathy, creating inconsistent relationship patterns. Combine your adaptive gifts with emotional consistency for real, sustained connections."
+    traits: [
+      "You talk about feelings well",
+      "You understand emotional needs",
+      "You skip hard work when possible",
+      "Your moods change often"
+    ]
   },
   {
     numbers: [5, 3],
-    description: "Your creative communication spreads knowledge through adaptable teaching and flexible creativity. Laziness combined with intellectual showing-off can limit your educational engagement. Transform your natural adaptability and sharp mind into consistent, humble knowledge-sharing."
+    traits: [
+      "You explain ideas clearly",
+      "You share knowledge easily",
+      "You avoid difficult tasks",
+      "You can act like you know more"
+    ]
   },
   {
     numbers: [5, 4],
-    description: "You adapt stable systems through communicative discipline and flexible organization. Laziness paired with overconfident thinking can create inconsistent implementation patterns. Balance your natural adaptability with disciplined follow-through for reliable results."
+    traits: [
+      "You communicate reliably",
+      "You talk in steady ways",
+      "You skip hard work sometimes",
+      "You might trust your ways too much"
+    ]
   },
   {
     numbers: [5, 5],
-    description: "Your exceptional communication creates adaptable connections through flexible creativity and dynamic engagement. However, widespread laziness may limit your team effectiveness and sustained impact. Transform your natural versatility into focused, consistent relationship-building."
+    traits: [
+      "You're excellent at conversations",
+      "You connect with all kinds of people",
+      "You avoid difficult tasks",
+      "You don't like doing hard work"
+    ]
   },
   {
     numbers: [5, 6],
-    description: "Your caring communication nurtures others through adaptable support and flexible kindness. While naturally responsive, laziness and luxury tendencies may create inconsistent help patterns. Channel your communication gifts and caring nature into sustained, reliable support."
+    traits: [
+      "You talk about caring well",
+      "You communicate about people's needs",
+      "You skip hard work sometimes",
+      "You really enjoy luxury items"
+    ]
   },
   {
     numbers: [5, 7],
-    description: "You explore spiritual communication through adaptable wisdom and flexible thinking. Lazy communication can conflict with natural depth, creating confusing inner guidance about your exploratory approach. Combine dynamic learning with focused spiritual practice."
+    traits: [
+      "You discuss deep ideas well",
+      "You talk about life's meaning",
+      "You avoid difficult tasks",
+      "You get unsure about choices"
+    ]
   },
   {
     numbers: [5, 8],
-    description: "Your systematic communication implements adaptable organization through flexible discipline. Laziness paired with stubborn tendencies can create inconsistent structural approaches. Balance your natural adaptability with systematic consistency for effective results."
+    traits: [
+      "You explain organized plans well",
+      "You communicate clear systems",
+      "You skip hard work sometimes",
+      "You don't like changing methods"
+    ]
   },
   {
     numbers: [5, 9],
-    description: "Your humanitarian communication serves others through adaptable kindness and flexible caring. While naturally generous, laziness and angry reactions to inefficiency may limit your service effectiveness. Transform your communication gifts and caring nature into patient support."
+    traits: [
+      "You talk about helping others well",
+      "You communicate about fairness",
+      "You avoid difficult tasks",
+      "You get mad at unfair treatment"
+    ]
   },
 
   // 6.x Combinations
   {
     numbers: [6, 1],
-    description: "Your caring leadership creates nurturing authority through kind determination and protective guidance. While naturally supportive, luxury indulgences paired with selfish tendencies may hurt your service intentions. Channel your leadership strength and caring nature into humble community building."
+    traits: [
+      "You care for others as a leader",
+      "You look after people's needs well",
+      "You really enjoy nice things",
+      "You sometimes focus on your needs first"
+    ]
   },
   {
     numbers: [6, 2],
-    description: "You nurture with sensitive caring, combining gut kindness with emotionally-responsive support. Luxury tendencies can clash with natural empathy, creating inconsistent giving patterns. Combine your caring gifts with emotional stability for sustainable, real help."
+    traits: [
+      "You deeply care about feelings",
+      "You understand emotional needs",
+      "You love luxury items",
+      "Your moods change often"
+    ]
   },
   {
     numbers: [6, 3],
-    description: "Your knowledgeable caring supports others through creative kindness and creative nurturing. Luxury indulgences combined with intellectual showing-off can create condescending help patterns. Transform your caring nature and analytical gifts into humble, accessible support."
+    traits: [
+      "You care through sharing knowledge",
+      "You teach others what you know",
+      "You enjoy expensive things",
+      "You can act like you know more"
+    ]
   },
   {
     numbers: [6, 4],
-    description: "You provide stable caring through disciplined kindness and organized nurturing. Luxury tendencies paired with overconfident thinking can create rigid help patterns. Balance your natural care with practical flexibility that honors others' independence."
+    traits: [
+      "You provide reliable care",
+      "You support others steadily",
+      "You love nice possessions",
+      "You might trust your ways too much"
+    ]
   },
   {
     numbers: [6, 5],
-    description: "Your adaptable caring nurtures others through flexible kindness and communicative support. Luxury indulgences paired with lazy communication can create inconsistent relationship patterns. Channel your caring gifts and natural adaptability into sustained, engaged help."
+    traits: [
+      "You care through good communication",
+      "You talk about helping well",
+      "You enjoy luxury items",
+      "You avoid hard work sometimes"
+    ]
   },
   {
     numbers: [6, 6],
-    description: "Your exceptional caring creates nurturing environments through kind support and generous love. However, widespread luxury indulgences may hurt the realness of your help. Transform your natural generosity into sustainable, humble service that truly empowers others."
+    traits: [
+      "You're naturally very caring",
+      "You nurture people beautifully",
+      "You love comfort and luxury",
+      "You enjoy nice things more than most"
+    ]
   },
   {
     numbers: [6, 7],
-    description: "You provide thinking caring through spiritual kindness and wise nurturing. Luxury tendencies can conflict with natural wisdom, creating confusing inner guidance about your supportive approach. Combine caring presence with spiritual realness."
+    traits: [
+      "You care with spiritual depth",
+      "You think about helping deeply",
+      "You enjoy expensive things",
+      "You get unsure about choices"
+    ]
   },
   {
     numbers: [6, 8],
-    description: "Your systematic caring provides organized support through disciplined kindness. Luxury indulgences paired with stubborn rigidity can create inflexible help patterns. Balance your natural care with structured flexibility that respects others' needs."
+    traits: [
+      "You care in organized ways",
+      "You systemize helping others",
+      "You love luxury items",
+      "You don't like changing methods"
+    ]
   },
   {
     numbers: [6, 9],
-    description: "Your humanitarian caring extends kind service through nurturing caring. While naturally generous, luxury tendencies and angry reactions to suffering may limit your service effectiveness. Transform your caring gifts and humanitarian spirit into patient, sustainable help."
+    traits: [
+      "You care about all humanity",
+      "You want fairness for everyone",
+      "You enjoy nice things",
+      "You get angry at unfairness"
+    ]
   },
 
   // 7.x Combinations
   {
     numbers: [7, 1],
-    description: "Your spiritual leadership combines thinking authority with profound determination. While naturally wise, inner confusion paired with selfish tendencies may weaken your guidance effectiveness. Channel your spiritual depth and leadership presence into clear, real direction."
+    traits: [
+      "You think deeply as a leader",
+      "You lead with spiritual insight",
+      "You get confused about choices",
+      "You sometimes focus on your needs first"
+    ]
   },
   {
     numbers: [7, 2],
-    description: "You provide gut spirituality through sensitive thinking and emotionally-aware wisdom. Confusion about your own decisions can clash with natural empathy, creating uncertain guidance patterns. Combine your spiritual gifts with emotional clarity for real insight."
+    traits: [
+      "You sense spiritual meanings",
+      "You understand deep feelings",
+      "You feel unsure about decisions",
+      "Your moods change often"
+    ]
   },
   {
     numbers: [7, 3],
-    description: "Your analytical spirituality combines profound knowledge with thinking creativity. Inner confusion combined with intellectual showing-off can create contradictory wisdom-sharing. Transform your spiritual depth and analytical gifts into humble, clear guidance."
+    traits: [
+      "You seek knowledge deeply",
+      "You learn with spiritual insight",
+      "You get confused about choices",
+      "You can act like you know more"
+    ]
   },
   {
     numbers: [7, 4],
-    description: "You build thinking systems through spiritual discipline and organized wisdom. Confusion about your own decisions paired with overconfident thinking can create inconsistent guidance patterns. Balance your natural depth with practical clarity for reliable insight."
+    traits: [
+      "You think about truth steadily",
+      "You seek meaning reliably",
+      "You feel unsure about decisions",
+      "You might trust your ways too much"
+    ]
   },
   {
     numbers: [7, 5],
-    description: "Your adaptable spirituality explores wisdom through flexible thinking and communicative depth. Inner confusion paired with lazy communication can create inconsistent spiritual guidance. Channel your thinking gifts and natural adaptability into sustained spiritual practice."
+    traits: [
+      "You talk about deep ideas",
+      "You communicate spiritual thoughts",
+      "You get confused about choices",
+      "You avoid hard work sometimes"
+    ]
   },
   {
     numbers: [7, 6],
-    description: "You provide caring spirituality through kind thinking and nurturing wisdom. Confusion about your own decisions and luxury tendencies may create uncertain help patterns. Combine your spiritual depth with caring consistency for real support."
+    traits: [
+      "You care with spiritual depth",
+      "You nurture with deep meaning",
+      "You feel unsure about decisions",
+      "You really enjoy luxury items"
+    ]
   },
   {
     numbers: [7, 7],
-    description: "Your exceptional spirituality creates profound thinking through deep wisdom and analytical insight. However, widespread confusion about your own decisions may limit your guidance effectiveness. Transform your natural depth into clear, practical spiritual direction."
+    traits: [
+      "You're very spiritually deep",
+      "You always seek life's truths",
+      "You get confused about choices",
+      "You often don't know what to do"
+    ]
   },
   {
     numbers: [7, 8],
-    description: "Your systematic spirituality provides organized thinking through disciplined wisdom. Inner confusion paired with stubborn rigidity can create contradictory spiritual approaches. Balance your thinking gifts with structured clarity for consistent guidance."
+    traits: [
+      "You organize spiritual systems",
+      "You arrange deep knowledge neatly",
+      "You get confused about choices",
+      "You don't like changing methods"
+    ]
   },
   {
     numbers: [7, 9],
-    description: "Your humanitarian spirituality serves others through kind thinking and wise caring. While naturally profound, confusion about your own decisions and angry reactions to suffering may limit your spiritual service. Transform your thinking gifts into patient guidance."
+    traits: [
+      "You think about helping deeply",
+      "You seek meaning in service",
+      "You feel unsure about decisions",
+      "You get angry at unfairness"
+    ]
   },
 
   // 8.x Combinations
   {
     numbers: [8, 1],
-    description: "Your disciplined leadership creates systematic authority through organized determination. While naturally commanding, stubborn rigidity paired with selfish tendencies may limit team potential. Channel your systematic strength and leadership presence into flexible, inclusive frameworks."
+    traits: [
+      "You organize as a leader",
+      "You lead with clear systems",
+      "You don't like changing ways",
+      "You sometimes focus on your needs first"
+    ]
   },
   {
     numbers: [8, 2],
-    description: "You organize with sensitive discipline, combining gut systems with emotionally-aware structure. Stubborn approaches can clash with natural empathy, creating rigid emotional frameworks. Combine your systematic gifts with emotional flexibility for caring, effective organization."
+    traits: [
+      "You systemize emotional support",
+      "You organize care for feelings",
+      "You resist changing methods",
+      "Your moods change often"
+    ]
   },
   {
     numbers: [8, 3],
-    description: "Your systematic knowledge creates organized learning through disciplined creativity. Stubborn rigidity combined with intellectual showing-off can create inflexible educational approaches. Transform your systematic gifts and analytical abilities into humble, accessible knowledge-sharing."
+    traits: [
+      "You arrange knowledge neatly",
+      "You organize learning well",
+      "You don't like changing ways",
+      "You can act like you know more"
+    ]
   },
   {
     numbers: [8, 4],
-    description: "You build disciplined systems through organized stability and methodical determination. While impressively structured, stubborn rigidity paired with overconfident thinking may limit adaptability. Balance your systematic strength with flexible responsiveness to changing needs."
+    traits: [
+      "You create reliable systems",
+      "You organize steady methods",
+      "You resist changing ways",
+      "You might trust your ways too much"
+    ]
   },
   {
     numbers: [8, 5],
-    description: "Your adaptive systems implement organized flexibility through disciplined communication. Stubborn approaches paired with lazy communication can create rigid interaction patterns. Channel your systematic gifts and natural adaptability into sustained, engaging teamwork."
+    traits: [
+      "You systemize communication",
+      "You organize talking points well",
+      "You don't like changing methods",
+      "You avoid hard work sometimes"
+    ]
   },
   {
     numbers: [8, 6],
-    description: "You provide systematic caring through organized kindness and disciplined support. Stubborn rigidity and luxury tendencies may create inflexible help patterns. Balance your systematic approach with caring flexibility that honors others' unique needs."
+    traits: [
+      "You organize caring systems",
+      "You arrange help for others neatly",
+      "You resist changing ways",
+      "You really enjoy luxury items"
+    ]
   },
   {
     numbers: [8, 7],
-    description: "Your thinking systems combine organized spirituality with disciplined wisdom. Stubborn rigidity can conflict with natural depth, creating contradictory inner guidance. Combine systematic structure with spiritual openness for real, practical wisdom."
+    traits: [
+      "You arrange spiritual knowledge",
+      "You organize deep thinking",
+      "You don't like changing methods",
+      "You get confused about choices"
+    ]
   },
   {
     numbers: [8, 8],
-    description: "Your exceptional discipline creates highly organized systems through systematic determination. However, widespread stubborn rigidity may limit team input and adaptive potential. Transform your natural organization into flexible frameworks that empower others."
+    traits: [
+      "You're extremely well-organized",
+      "You keep everything in perfect order",
+      "You resist changing ways",
+      "You always want things your way"
+    ]
   },
   {
     numbers: [8, 9],
-    description: "Your humanitarian discipline provides organized caring service through systematic kindness. While naturally structured, stubborn approaches and angry reactions to inefficiency may hurt your help effectiveness. Transform your systematic gifts into patient, flexible service."
+    traits: [
+      "You systemize helping others",
+      "You organize care for humanity",
+      "You don't like changing methods",
+      "You get angry at unfairness"
+    ]
   },
 
   // 9.x Combinations
   {
     numbers: [9, 1],
-    description: "Your humanitarian leadership champions caring causes through kind authority and determined service. While naturally generous, angry reactions paired with selfish tendencies may weaken your support effectiveness. Channel your humanitarian spirit and leadership presence into patient, sustainable change."
+    traits: [
+      "You care for all as a leader",
+      "You lead with kindness to everyone",
+      "You get mad at unfair things",
+      "You sometimes focus on your needs first"
+    ]
   },
   {
     numbers: [9, 2],
-    description: "You serve with sensitive kindness, combining gut caring with emotionally-aware humanity. Angry reactions can clash with natural empathy, creating inconsistent service patterns. Combine your humanitarian gifts with emotional stability for sustained, real help."
+    traits: [
+      "You feel for all people deeply",
+      "You understand everyone's pain",
+      "You get angry at unfairness",
+      "Your moods change often"
+    ]
   },
   {
     numbers: [9, 3],
-    description: "Your knowledgeable kindness serves others through creative caring and creative humanity. Angry reactions combined with intellectual showing-off can create condescending service patterns. Transform your humanitarian spirit and analytical gifts into humble, accessible support."
+    traits: [
+      "You learn to help humanity",
+      "You gain knowledge to serve others",
+      "You get mad at unfair treatment",
+      "You can act like you know more"
+    ]
   },
   {
     numbers: [9, 4],
-    description: "You provide stable kindness through disciplined caring and organized humanity. Angry reactions paired with overconfident thinking can create rigid service patterns. Balance your humanitarian gifts with practical flexibility that honors others' dignity."
+    traits: [
+      "You steadily help all people",
+      "You reliably care for humanity",
+      "You get angry at unfairness",
+      "You might trust your ways too much"
+    ]
   },
   {
     numbers: [9, 5],
-    description: "Your adaptable kindness serves others through flexible caring and communicative humanity. Angry reactions paired with lazy communication can create inconsistent support patterns. Channel your humanitarian spirit and natural adaptability into sustained, engaged service."
+    traits: [
+      "You talk about helping all",
+      "You communicate about fairness",
+      "You get mad at unfair things",
+      "You avoid hard work sometimes"
+    ]
   },
   {
     numbers: [9, 6],
-    description: "You provide caring kindness through nurturing caring and supportive humanity. Angry reactions and luxury tendencies may create inconsistent help patterns. Combine your humanitarian gifts with caring consistency for real, sustainable support."
+    traits: [
+      "You deeply care for everyone",
+      "You nurture all people equally",
+      "You get angry at unfairness",
+      "You really enjoy luxury items"
+    ]
   },
   {
     numbers: [9, 7],
-    description: "Your spiritual kindness serves others through thinking caring and wise humanity. Angry reactions can conflict with natural wisdom, creating confusing inner guidance about your service approach. Transform your humanitarian depth into patient, clear support."
+    traits: [
+      "You think about helping deeply",
+      "You seek meaning in service",
+      "You get mad at unfair treatment",
+      "You get confused about choices"
+    ]
   },
   {
     numbers: [9, 8],
-    description: "Your systematic kindness provides organized humanitarian service through disciplined caring. Angry reactions paired with stubborn rigidity can create inflexible service approaches. Balance your humanitarian gifts with structured flexibility that respects others' independence."
+    traits: [
+      "You organize help for all",
+      "You systemize care for humanity",
+      "You get angry at unfairness",
+      "You don't like changing methods"
+    ]
   },
   {
     numbers: [9, 9],
-    description: "Your exceptional kindness creates universal humanitarian service through profound caring. However, widespread angry reactions to unfairness may limit your support effectiveness and personal wellbeing. Transform your natural generosity into patient, sustainable service that creates lasting change."
+    traits: [
+      "You deeply care about all people",
+      "You want to make the world better",
+      "You get very mad at unfairness",
+      "You hate seeing suffering"
+    ]
   }
-];
+];    
 
 const LETTER_VALUES = {
   'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 8,
@@ -372,7 +777,6 @@ const NAME_COMPATIBILITY_RULES = {
 };
 
 const sumToSingleDigit = (num) => {
-
    if ([22, 16, 25].includes(num)) {
     return num;
   }
@@ -432,59 +836,57 @@ const calculateNumbers = (birthDate) => {
   }
 };
 
-const getPersonalityDescription = (firstNum, secondNum) => {
+const getPersonalityTraits = (firstNum, secondNum) => {
   try {
     const exactMatch = personalityCombinations.find(
       c => c.numbers[0] === firstNum && c.numbers[1] === secondNum
     );
     
-    if (exactMatch) return exactMatch.description;
+    if (exactMatch) return exactMatch.traits;
     
-    const firstNumMatch = personalityCombinations.find(
-      c => c.numbers[0] === firstNum
-    );
-    
-    const secondNumMatch = personalityCombinations.find(
-      c => c.numbers[1] === secondNum
-    );
-    
-    if (firstNumMatch && secondNumMatch) {
-      return `${firstNumMatch.description.split('. ')[0]}. ${secondNumMatch.description.split('. ')[1]}. This unique combination blends these qualities in ways that make you truly distinctive.`;
-    }
-    
-    return "Your unique numerical combination reveals special qualities that make you wonderfully distinctive. This rare blend suggests you have an unconventional path with valuable lessons to both learn and teach.";
+    return [
+      "You have unique leadership qualities that inspire others",
+      "You possess special talents that make you stand out",
+      "Sometimes you need to work on balancing your strong personality",
+      "Your unique combination requires patience to fully develop"
+    ];
   } catch (error) {
-    console.error('Description error:', error);
-    return "We're unable to generate your personality profile at this time. Please try again later.";
+    console.error('Traits error:', error);
+    return [
+      "You have special qualities that make you unique",
+      "Your personality has wonderful potential for growth",
+      "Like everyone, you have areas that need gentle attention",
+      "Your journey of self-discovery is ongoing and valuable"
+    ];
   }
 };
 
-const formatDescription = (text) => {
-  if (!text) return null;
+const formatTraits = (traits) => {
+  if (!traits || !Array.isArray(traits)) return null;
 
-  const sentences = text.split('. ').filter(s => s.trim().length > 0);
-  const positivePoints = [];
-  const negativePoints = [];
-  
-  sentences.forEach(sentence => {
-    const isNegative = /(challenge|avoid|beware|caution|tendency|risk|difficulty|may|however|while)/i.test(sentence);
-    if (isNegative && negativePoints.length < 2) {
-      negativePoints.push(sentence);
-    } else if (!isNegative && positivePoints.length < 2) {
-      positivePoints.push(sentence);
-    }
-  });
-
-  const points = [...positivePoints, ...negativePoints].slice(0, 4);
+  const positiveTraits = traits.slice(0, 2);
+  const constructiveTraits = traits.slice(2, 4);
 
   return (
-    <ul className="list-disc pl-5 space-y-2">
-      {points.map((point, index) => (
-        <li key={index} className="text-gray-700">
-          {point.replace(/^(however|while|though)\s+/i, '').replace(/\.$/, '')}
-        </li>
-      ))}
-    </ul>
+    <div className="space-y-3">
+      <div className="bg-green-50 p-3 rounded-lg border-l-4 border-green-400">
+        <h4 className="font-semibold text-green-800 mb-2">✨ Your Strengths:</h4>
+        <ul className="list-disc pl-5 space-y-1">
+          {positiveTraits.map((trait, index) => (
+            <li key={index} className="text-green-700">{trait}</li>
+          ))}
+        </ul>
+      </div>
+      
+      <div className="bg-orange-50 p-3 rounded-lg border-l-4 border-orange-400">
+        <h4 className="font-semibold text-orange-800 mb-2">🌱 Areas for Growth:</h4>
+        <ul className="list-disc pl-5 space-y-1">
+          {constructiveTraits.map((trait, index) => (
+            <li key={index} className="text-orange-700">{trait}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
   );
 };
 
@@ -493,7 +895,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
   const [isNameCorrectionDialogOpen, setIsNameCorrectionDialogOpen] = useState(false);
   
   const { firstNum, secondNum } = calculateNumbers(formData?.birthDate);
-  const personalityDescription = getPersonalityDescription(firstNum, secondNum);
+  const personalityTraits = getPersonalityTraits(firstNum, secondNum);
   const nameValue = calculateNameValue(formData?.name);
   const nameCompatibility = checkNameCompatibility(nameValue, firstNum);
 
@@ -541,54 +943,54 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
         </div>
 
         {formData?.name && (
-  <div className={`flex items-center justify-center mb-2 ${
-    nameCompatibility.compatible ? 'text-green-600' : 'text-red-600'
-  }`}>
-    <span className="text-xl mr-2">
-      {nameCompatibility.compatible ? '✓' : '✗'}
-    </span>
-    <span className="font-medium">
-      {nameCompatibility.compatible 
-        ? "Your name value is compatible with you" 
-        : "Your name value is not compatible with you"}
-    </span>
-  </div>
-)}
+          <div className={`flex items-center justify-center mb-2 ${
+            nameCompatibility.compatible ? 'text-green-600' : 'text-red-600'
+          }`}>
+            <span className="text-xl mr-2">
+              {nameCompatibility.compatible ? '✓' : '✗'}
+            </span>
+            <span className="font-medium">
+              {nameCompatibility.compatible 
+                ? "Your name value is compatible with you" 
+                : "Your name value is not compatible with you"}
+            </span>
+          </div>
+        )}
 
-{formData?.name && !nameCompatibility.compatible && (
-  <div className="text-center mb-4">
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button 
-          variant="outline" 
-          className="bg-orange-500 hover:bg-orange-600 text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105"
-        >
-          Book Consultation for Name Correction
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="rounded-lg max-w-[90vw] sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-orange-600">
-            Name Correction Consultation
-          </DialogTitle>
-          <DialogDescription className="text-orange-500">
-            Our experts will analyze your name and suggest improvements for better compatibility
-          </DialogDescription>
-        </DialogHeader>
-        <ConsultationForm 
-          onSuccess={() => setIsDialogOpen(false)}
-          defaultName={formData?.name || ''}
-          defaultBirthDate={formData?.birthDate || ''}
-          isNameCorrection={true}
-        />
-      </DialogContent>
-    </Dialog>
-  </div>
-)}
+        {formData?.name && !nameCompatibility.compatible && (
+          <div className="text-center mb-4">
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button 
+                  variant="outline" 
+                  className="bg-orange-500 hover:bg-orange-600 text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105"
+                >
+                  Book Consultation for Name Correction
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="rounded-lg max-w-[90vw] sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle className="text-xl font-bold text-orange-600">
+                    Name Correction Consultation
+                  </DialogTitle>
+                  <DialogDescription className="text-orange-500">
+                    Our experts will analyze your name and suggest improvements for better compatibility
+                  </DialogDescription>
+                </DialogHeader>
+                <ConsultationForm 
+                  onSuccess={() => setIsDialogOpen(false)}
+                  defaultName={formData?.name || ''}
+                  defaultBirthDate={formData?.birthDate || ''}
+                  isNameCorrection={true}
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
         
         <div className="bg-orange-50 rounded-lg p-5 border border-orange-100">
-          <h3 className="font-semibold text-lg mb-3 text-orange-600">Key Traits:</h3>
-          {formatDescription(personalityDescription)}
+          <h3 className="font-semibold text-lg mb-3 text-orange-600">Your Personality Traits:</h3>
+          {formatTraits(personalityTraits)}
         </div>
       </div>
 
