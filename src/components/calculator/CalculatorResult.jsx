@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ConsultationForm } from "@/components/ConsultationForm";
@@ -777,7 +777,7 @@ const NAME_COMPATIBILITY_RULES = {
 };
 
 const sumToSingleDigit = (num) => {
-   if ([22, 16, 25].includes(num)) {
+  if ([22, 16, 25].includes(num)) {
     return num;
   }
 
@@ -867,10 +867,8 @@ const calculatePersonalYear = (birthDate) => {
   const currentYear = new Date().getFullYear();
   const [year, month, day] = birthDate.split('-').map(Number);
   
-  // Calculate day + month + current year
   let sum = day + month + currentYear;
   
-  // Reduce to single digit
   while (sum > 9) {
     sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
   }
@@ -879,50 +877,126 @@ const calculatePersonalYear = (birthDate) => {
 };
 
 const getYearFortuneData = (personalYear) => {
-   const fortuneData = {
-  1: {
-    percentage: 80,
-    description: "This is a fresh start year full of new opportunities. Take initiative on projects you've been putting off - this is the perfect time to begin. Your leadership skills will shine if you step forward confidently."
-  },
-  2: {
-    percentage: 40,
-    description: "A sensitive year where decisions feel difficult. You may second-guess yourself often. When confused, pause and reflect before choosing - don't force answers immediately. Relationships need extra patience this year."
-  },
-  3: {
-    percentage: 50,
-    description: "You'll face more obstacles than usual this year. When problems arise, tackle them one at a time instead of feeling overwhelmed. Creative solutions work best - think outside the box when stuck."
-  },
-  4: {
-    percentage: 70,
-    description: "Progress comes slowly but surely this year. Focus on doing small, consistent actions rather than expecting quick results. Building strong foundations now will help you in future years."
-  },
-  5: {
-    percentage: 95,
-    description: "This is your most fortunate year with excellent opportunities. Stay alert for lucky breaks and don't hesitate to take calculated risks. Positive changes happen easily - go with the flow but stay grounded."
-  },
-  6: {
-    percentage: 90,
-    description: "Your choices determine everything this year. Think carefully before deciding, as both good and bad options have stronger consequences. Choose wisely - your decisions create lasting effects."
-  },
-  7: {
-    percentage: 30,
-    description: "Be extra cautious this year as deception is more likely. Double-check all information and agreements. If something seems too good to be true, it probably is - listen to your gut feelings."
-  },
-  8: {
-    percentage: 45,
-    description: "A year requiring much effort for gradual results. Don't get discouraged by slow progress - keep working steadily. Your persistence will eventually be rewarded, even if it takes time."
-  },
-  9: {
-    percentage: 25,
-    description: "This challenging year tests your resilience. When facing difficulties, focus on basic needs first - don't overwhelm yourself. Remember tough times are temporary and make you stronger."
-  },
-}; 
+  const fortuneData = {
+    1: {
+      percentage: 80,
+      description: "This is a fresh start year full of new opportunities. Take initiative on projects you've been putting off - this is the perfect time to begin. Your leadership skills will shine if you step forward confidently."
+    },
+    2: {
+      percentage: 40,
+      description: "A sensitive year where decisions feel difficult. You may second-guess yourself often. When confused, pause and reflect before choosing - don't force answers immediately. Relationships need extra patience this year."
+    },
+    3: {
+      percentage: 50,
+      description: "You'll face more obstacles than usual this year. When problems arise, tackle them one at a time instead of feeling overwhelmed. Creative solutions work best - think outside the box when stuck."
+    },
+    4: {
+      percentage: 70,
+      description: "Progress comes slowly but surely this year. Focus on doing small, consistent actions rather than expecting quick results. Building strong foundations now will help you in future years."
+    },
+    5: {
+      percentage: 95,
+      description: "This is your most fortunate year with excellent opportunities. Stay alert for lucky breaks and don't hesitate to take calculated risks. Positive changes happen easily - go with the flow but stay grounded."
+    },
+    6: {
+      percentage: 90,
+      description: "Your choices determine everything this year. Think carefully before deciding, as both good and bad options have stronger consequences. Choose wisely - your decisions create lasting effects."
+    },
+    7: {
+      percentage: 30,
+      description: "Be extra cautious this year as deception is more likely. Double-check all information and agreements. If something seems too good to be true, it probably is - listen to your gut feelings."
+    },
+    8: {
+      percentage: 45,
+      description: "A year requiring much effort for gradual results. Don't get discouraged by slow progress - keep working steadily. Your persistence will eventually be rewarded, even if it takes time."
+    },
+    9: {
+      percentage: 25,
+      description: "This challenging year tests your resilience. When facing difficulties, focus on basic needs first - don't overwhelm yourself. Remember tough times are temporary and make you stronger."
+    },
+  }; 
   return fortuneData[personalYear] || { percentage: 50, description: "Neutral year with mixed experiences" };
+};
+
+const CircularMeter = ({ percentage }) => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const animationDuration = 2000;
+    const startTime = Date.now();
+
+    const animate = () => {
+      const elapsed = Date.now() - startTime;
+      const progressFraction = Math.min(elapsed / animationDuration, 1);
+      setProgress(Math.floor(progressFraction * percentage));
+
+      if (progressFraction < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+
+    animate();
+  }, [percentage]);
+
+  const radius = 40;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - (progress / 100) * circumference;
+
+  return (
+    <div className="relative w-36 h-36 mx-auto mb-4">
+      <svg className="w-full h-full" viewBox="0 0 100 100">
+        {/* Background circle */}
+        <circle
+          cx="50"
+          cy="50"
+          r={radius}
+          fill="none"
+          stroke="#e2e8f0"
+          strokeWidth="20"
+        />
+
+        {/* Progress circle */}
+        <circle
+          cx="50"
+          cy="50"
+          r={radius}
+          fill="none"
+          stroke="url(#waterGradient)"
+          strokeWidth="15"
+          strokeLinecap="round"
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          transform="rotate(-90 50 50)"
+          style={{ transition: 'stroke-dashoffset 0.5s ease-out' }}
+        />
+
+        {/* Gradient Definition */}
+        <defs>
+          <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#3b82f6" />
+            <stop offset="100%" stopColor="#1d4ed8" />
+          </linearGradient>
+        </defs>
+
+        {/* Percentage Text */}
+        <text
+          x="50"
+          y="50"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          fontSize="18"
+          fontWeight="bold"
+          fill="#3b82f6"
+        >
+          {progress}%
+        </text>
+      </svg>
+    </div>
+  );
 };
 
 const formatTraits = (traits) => {
   if (!traits || !Array.isArray(traits)) return null;
-
   const positiveTraits = traits.slice(0, 2);
   const constructiveTraits = traits.slice(2, 4);
 
@@ -936,7 +1010,6 @@ const formatTraits = (traits) => {
           ))}
         </ul>
       </div>
-      
       <div className="bg-orange-50 p-3 rounded-lg border-l-4 border-orange-400">
         <h4 className="font-semibold text-orange-800 mb-2">🌱 Areas for Growth:</h4>
         <ul className="list-disc pl-5 space-y-1">
@@ -957,10 +1030,9 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
   const personalityTraits = getPersonalityTraits(firstNum, secondNum);
   const nameValue = calculateNameValue(formData?.name);
   const nameCompatibility = checkNameCompatibility(nameValue, firstNum);
-  
-  // Calculate personal year fortune
   const personalYear = calculatePersonalYear(formData?.birthDate);
   const yearFortune = getYearFortuneData(personalYear);
+  
 
   if (!formData?.birthDate) {
     return (
@@ -1055,42 +1127,27 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
           {formatTraits(personalityTraits)}
         </div>
 
-        {/* Fortune Meter Section */}
         <div className="bg-blue-50 rounded-lg p-5 border border-blue-100 mt-4">
-          <h3 className="font-semibold text-lg mb-3 text-blue-600">
+          <h3 className="font-semibold text-lg mb-3 text-blue-600 text-center">
             Your {new Date().getFullYear()} Fortune Meter
           </h3>
           
-          <div className="w-full bg-gray-200 rounded-full h-6 mb-2">
-            <div 
-              className="bg-gradient-to-r from-blue-400 to-blue-600 h-6 rounded-full flex items-center justify-end pr-2"
-              style={{ width: `${yearFortune.percentage}%` }}
-            >
-              <span className="text-xs font-bold text-white">
-                {yearFortune.percentage}%
-              </span>
-            </div>
-          </div>
+          <CircularMeter percentage={yearFortune.percentage} />
           
-          <p className="text-center text-blue-700 font-medium">
+          <p className="text-center text-blue-700 font-medium mt-4">
             {yearFortune.description}
           </p>
         </div>
+        
         <div className="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded">
-    <p className="text-sm text-yellow-700">
-      <span className="font-semibold">Note:</span> This analysis considers basic factors only. 
-      For 100% accurate predictions, more detailed calculations are needed. 
-      Book an appointment with our experts for a complete numerology reading.
-    </p>
-  </div>
+          <p className="text-sm text-yellow-700">
+            <span className="font-semibold">Note:</span> This analysis considers basic factors only. 
+            For complete accuracy, book an appointment with our experts.
+          </p>
+        </div>
       </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="bg-white rounded-xl shadow-md p-6"
-      >
+      <div className="bg-white rounded-xl shadow-md p-6">
         <h3 className="text-xl font-semibold text-center text-orange-600 mb-3">
           Want Deeper Insights?
         </h3>
@@ -1111,9 +1168,8 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
             Full Report
           </Button>
         </div>
-      </motion.div>
+      </div>
 
-      {/* Full Report Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="rounded-lg max-w-[90vw] sm:max-w-md">
           <DialogHeader>
@@ -1132,7 +1188,6 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
         </DialogContent>
       </Dialog>
 
-      {/* Name Correction Dialog */}
       <Dialog open={isNameCorrectionDialogOpen} onOpenChange={setIsNameCorrectionDialogOpen}>
         <DialogContent className="rounded-lg max-w-[90vw] sm:max-w-md">
           <DialogHeader>
