@@ -879,15 +879,15 @@ const calculatePersonalYear = (birthDate) => {
 const getYearFortuneData = (personalYear) => {
   const fortuneData = {
     1: {
-      percentage: 80,
+      percentage: 90,
       description: "This is a fresh start year full of new opportunities. Take initiative on projects you've been putting off - this is the perfect time to begin. Your leadership skills will shine if you step forward confidently."
     },
     2: {
-      percentage: 40,
+      percentage: 60,
       description: "A sensitive year where decisions feel difficult. You may second-guess yourself often. When confused, pause and reflect before choosing - don't force answers immediately. Relationships need extra patience this year."
     },
     3: {
-      percentage: 50,
+      percentage: 65,
       description: "You'll face more obstacles than usual this year. When problems arise, tackle them one at a time instead of feeling overwhelmed. Creative solutions work best - think outside the box when stuck."
     },
     4: {
@@ -899,19 +899,19 @@ const getYearFortuneData = (personalYear) => {
       description: "This is your most fortunate year with excellent opportunities. Stay alert for lucky breaks and don't hesitate to take calculated risks. Positive changes happen easily - go with the flow but stay grounded."
     },
     6: {
-      percentage: 90,
+      percentage: 85,
       description: "Your choices determine everything this year. Think carefully before deciding, as both good and bad options have stronger consequences. Choose wisely - your decisions create lasting effects."
     },
     7: {
-      percentage: 30,
+      percentage: 55,
       description: "Be extra cautious this year as deception is more likely. Double-check all information and agreements. If something seems too good to be true, it probably is - listen to your gut feelings."
     },
     8: {
-      percentage: 45,
+      percentage: 50,
       description: "A year requiring much effort for gradual results. Don't get discouraged by slow progress - keep working steadily. Your persistence will eventually be rewarded, even if it takes time."
     },
     9: {
-      percentage: 25,
+      percentage: 20,
       description: "This challenging year tests your resilience. When facing difficulties, focus on basic needs first - don't overwhelm yourself. Remember tough times are temporary and make you stronger."
     },
   }; 
