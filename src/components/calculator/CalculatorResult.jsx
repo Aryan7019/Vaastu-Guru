@@ -5,753 +5,753 @@ import { ConsultationForm } from "@/components/ConsultationForm";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 const personalityCombinations = [
-  // 1.x Combinations
+  // 1.x Combinations (Leader, Selfish/Angry)
   {
     numbers: [1, 1],
     traits: [
-      "You naturally take charge and lead others",
-      "People look up to you for guidance",
-      "You sometimes focus too much on your own needs",
-      "You can get upset when things don't go your way"
+      "You have strong, natural leadership abilities.",
+      "You are decisive and excel at taking charge.",
+      "You can have a tendency to be self-focused.",
+      "Feelings of anger can arise when plans are disrupted."
     ]
   },
   {
     numbers: [1, 2],
     traits: [
-      "You're good at taking the lead in groups",
-      "You understand people's feelings easily",
-      "You sometimes put yourself first too much",
-      "Your mood changes can affect people around you"
+      "You are a natural and inspiring leader.",
+      "You possess a deep sense of empathy for others.",
+      "There is a potential to be selfish with your focus.",
+      "You may be prone to sudden and frequent mood swings."
     ]
   },
   {
     numbers: [1, 3],
     traits: [
-      "You're a natural leader in learning situations",
-      "You pick up new knowledge very quickly",
-      "You sometimes focus too much on your own way",
-      "You can act like you know more than others"
+      "You have the ability to lead others with your ideas.",
+      "You possess a great deal of knowledge on many topics.",
+      "At times, you may act in a selfish or self-serving manner.",
+      "You might come across as smug or overly self-assured."
     ]
   },
   {
     numbers: [1, 4],
     traits: [
-      "You lead with steady and reliable methods",
-      "You bring calmness to stressful situations",
-      "You sometimes insist on your own methods too much",
-      "You might trust your ways more than you should"
+      "You are a very strong and capable leader.",
+      "You provide a sense of stability for those around you.",
+      "You can sometimes be selfish in pursuing your goals.",
+      "There is a tendency to be a little too overconfident."
     ]
   },
   {
     numbers: [1, 5],
     traits: [
-      "You lead through good communication",
-      "You connect well with all kinds of people",
-      "You sometimes focus on your needs first",
-      "You avoid hard work when possible"
+      "You lead people effectively through your words.",
+      "You are a very gifted and clear communicator.",
+      "You may struggle with selfish tendencies at times.",
+      "There might be a tendency to be lazy and avoid hard work."
     ]
   },
   {
     numbers: [1, 6],
     traits: [
-      "You lead with care for others",
-      "You naturally look after people's needs",
-      "You sometimes think of yourself first",
-      "You really like nice and expensive things"
+      "You are a natural leader in your community.",
+      "You are a very nurturing and caring individual.",
+      "There is a tendency to be focused on your personal needs.",
+      "You may have a strong attachment to luxury and comfort."
     ]
   },
   {
     numbers: [1, 7],
     traits: [
-      "You lead with deep thinking",
-      "You look for meaning in everything",
-      "You sometimes focus on your own path too much",
-      "You get unsure about your choices"
+      "You have the ability to lead on a spiritual level.",
+      "You have a deep and meaningful spiritual side.",
+      "It can be a challenge to avoid being self-centered.",
+      "You often feel confused when making important decisions."
     ]
   },
   {
     numbers: [1, 8],
     traits: [
-      "You lead with strong organization",
-      "You keep things neat and in order",
-      "You sometimes insist on your own way",
-      "You don't like changing your methods"
+      "You are a very powerful and effective leader.",
+      "You have a strong sense of personal discipline.",
+      "You may sometimes focus heavily on your own ambitions.",
+      "There is a potential to be dogmatic or rigid in your views."
     ]
   },
   {
     numbers: [1, 9],
     traits: [
-      "You lead with kindness to all",
-      "You care about fairness for everyone",
-      "You sometimes think of yourself first",
-      "You get mad when things seem unfair"
+      "You are a leader who inspires others to do good.",
+      "You have a deep love and concern for all of humanity.",
+      "You might occasionally struggle with selfish impulses.",
+      "You have a tendency to experience sudden feelings of anger."
     ]
   },
 
-  // 2.x Combinations
+  // 2.x Combinations (Empath, Mood Swings)
   {
     numbers: [2, 1],
     traits: [
-      "You sense people's feelings well",
-      "You can take charge when needed",
-      "Your moods change often",
-      "You sometimes focus on your needs first"
+      "You have a natural ability to understand others.",
+      "You possess strong and confident leadership skills.",
+      "Your emotional state can be quite changeable.",
+      "There might be a tendency to focus on your own needs."
     ]
   },
   {
     numbers: [2, 2],
     traits: [
-      "You're very good at understanding feelings",
-      "You know what people need without words",
-      "Your emotions go up and down a lot",
-      "Your mood can change very quickly"
+      "You are a deeply empathetic and intuitive person.",
+      "You can sense the feelings of others very easily.",
+      "You are prone to frequent and sometimes intense mood swings.",
+      "Your emotional state can be highly sensitive and reactive."
     ]
   },
   {
     numbers: [2, 3],
     traits: [
-      "You feel what others are feeling",
-      "You learn new things easily",
-      "Your emotions change often",
-      "You can act like you know more than others"
+      "You have a strong empathy for what others are thinking.",
+      "You have a great capacity for acquiring knowledge.",
+      "You may experience sudden and unpredictable mood swings.",
+      "There is a potential to appear smug because of your knowledge."
     ]
   },
   {
     numbers: [2, 4],
     traits: [
-      "You sense people's needs deeply",
-      "You bring calm to any situation",
-      "Your feelings change often",
-      "You might trust your ways too much"
+      "You understand people's need for emotional security.",
+      "You have a very steady and stable presence.",
+      "Your feelings can sometimes be very up and down.",
+      "You might be a little too overconfident in your opinions."
     ]
   },
   {
     numbers: [2, 5],
     traits: [
-      "You understand people's emotions",
-      "You talk well with everyone",
-      "Your moods go up and down",
-      "You avoid hard work sometimes"
+      "You are very empathetic in your conversations.",
+      "You are a naturally skilled and fluid communicator.",
+      "Your moods can shift without much warning.",
+      "You may have a tendency to be lazy and avoid hard work."
     ]
   },
   {
     numbers: [2, 6],
     traits: [
-      "You feel others' needs strongly",
-      "You take good care of people",
-      "Your emotions change often",
-      "You really enjoy fancy things"
+      "You have a deep, empathetic connection with people.",
+      "You are a very nurturing and supportive person.",
+      "It is common for you to experience emotional highs and lows.",
+      "There can be a strong desire for luxurious living."
     ]
   },
   {
     numbers: [2, 7],
     traits: [
-      "You sense deeper meanings easily",
-      "You think about life's big questions",
-      "Your feelings change a lot",
-      "You get confused about choices"
+      "You can empathize with others on a spiritual level.",
+      "You have a very active and profound spiritual life.",
+      "Your moods can be very changeable and hard to predict.",
+      "You might often feel confused or uncertain about your path."
     ]
   },
   {
     numbers: [2, 8],
     traits: [
-      "You understand people's emotions",
-      "You keep things well organized",
-      "Your moods change often",
-      "You don't like changing your ways"
+      "You are able to feel and understand what drives people.",
+      "You are a very disciplined and focused individual.",
+      "You may find that your emotions fluctuate a great deal.",
+      "There is a tendency to be rigid or dogmatic in your beliefs."
     ]
   },
   {
     numbers: [2, 9],
     traits: [
-      "You feel others' pain deeply",
-      "You care about everyone equally",
-      "Your emotions go up and down",
-      "You get angry at unfair things"
+      "You have a deep empathy for the struggles of humanity.",
+      "You care a great deal about the welfare of others.",
+      "Your emotional state can be turbulent and change often.",
+      "You are prone to feeling angry when confronted with unfairness."
     ]
   },
 
-  // 3.x Combinations
+  // 3.x Combinations (Knowledge, Smug)
   {
     numbers: [3, 1],
     traits: [
-      "You learn things very quickly",
-      "You can lead in learning situations",
-      "You might act like you know more",
-      "You sometimes focus on your needs first"
+      "You are very knowledgeable and well-informed.",
+      "You have strong and natural leadership qualities.",
+      "You may sometimes come across as being a know-it-all.",
+      "There can be a tendency to act in a selfish manner."
     ]
   },
   {
     numbers: [3, 2],
     traits: [
-      "You pick up knowledge easily",
-      "You understand feelings well",
-      "You can seem to know it all",
-      "Your moods change often"
+      "You have a great thirst for knowledge and learning.",
+      "You are a very empathetic and understanding person.",
+      "There is a potential to seem smug about what you know.",
+      "You might experience frequent and sudden mood swings."
     ]
   },
   {
     numbers: [3, 3],
     traits: [
-      "You're very smart and love learning",
-      "You grasp new ideas quickly",
-      "You might show off your smarts",
-      "You let people know how much you know"
+      "You possess a deep and extensive base of knowledge.",
+      "You are a quick learner who loves to acquire new facts.",
+      "You may have a tendency to act overly self-satisfied.",
+      "You can sometimes be perceived as smug by other people."
     ]
   },
   {
     numbers: [3, 4],
     traits: [
-      "You understand things fast",
-      "You bring steady learning methods",
-      "You can act like you know more",
-      "You trust your ways too much"
+      "You have a great deal of practical knowledge.",
+      "You possess a very stable and grounded nature.",
+      "You might sometimes give off an air of being smug.",
+      "There is a tendency to be overconfident in your abilities."
     ]
   },
   {
     numbers: [3, 5],
     traits: [
-      "You learn through talking to people",
-      "You communicate ideas well",
-      "You might act like you know more",
-      "You avoid hard work sometimes"
+      "You love to share your knowledge with other people.",
+      "You are a very skilled and engaging communicator.",
+      "You can sometimes appear smug in your conversations.",
+      "There might be a tendency to be lazy and avoid effort."
     ]
   },
   {
     numbers: [3, 6],
     traits: [
-      "You learn about caring for others",
-      "You understand people's needs",
-      "You can seem to know it all",
-      "You really like luxury items"
+      "You have a lot of knowledge about how to care for others.",
+      "You are a very nurturing and supportive individual.",
+      "You can sometimes seem smug about your level of expertise.",
+      "You may have a strong desire for luxury and material goods."
     ]
   },
   {
     numbers: [3, 7],
     traits: [
-      "You learn deep spiritual ideas",
-      "You think about life's meaning",
-      "You might act like you know more",
-      "You get unsure about choices"
+      "You seek knowledge of a deep and spiritual nature.",
+      "You have a strong connection to your spiritual side.",
+      "You might accidentally come across as smug to others.",
+      "You may often feel confused when faced with big decisions."
     ]
   },
   {
     numbers: [3, 8],
     traits: [
-      "You learn organized methods well",
-      "You keep knowledge neatly arranged",
-      "You can seem to know it all",
-      "You don't like changing your ways"
+      "You have a very structured and disciplined mind.",
+      "You acquire knowledge in a very organized way.",
+      "There is a potential to be smug about your intelligence.",
+      "You may be very dogmatic and rigid in your thinking."
     ]
   },
   {
     numbers: [3, 9],
     traits: [
-      "You learn about helping humanity",
-      "You care about everyone's good",
-      "You might act like you know more",
-      "You get mad at unfair treatment"
+      "You use your knowledge to think about helping the world.",
+      "You have a very strong humanitarian spirit.",
+      "You can sometimes be perceived as smug when sharing ideas.",
+      "You can get very angry when you see people treated unfairly."
     ]
   },
 
-  // 4.x Combinations
+  // 4.x Combinations (Stability, Overconfident)
   {
     numbers: [4, 1],
     traits: [
-      "You bring steadiness to leadership",
-      "You lead in reliable ways",
-      "You might trust your methods too much",
-      "You sometimes focus on your needs first"
+      "You have a very stable and grounded presence.",
+      "You are a natural and effective leader.",
+      "You may sometimes be a little too overconfident.",
+      "There is a tendency to be selfish with your time and energy."
     ]
   },
   {
     numbers: [4, 2],
     traits: [
-      "You provide stable emotional support",
-      "You understand feelings deeply",
-      "You might be too sure of your ways",
-      "Your moods change often"
+      "You provide a sense of stability to those around you.",
+      "You are a very empathetic and caring person.",
+      "Your confidence can sometimes border on overconfidence.",
+      "You may experience sudden and unpredictable mood swings."
     ]
   },
   {
     numbers: [4, 3],
     traits: [
-      "You learn in steady, reliable ways",
-      "You pick up knowledge well",
-      "You might trust your methods too much",
-      "You can act like you know more"
+      "You have a very stable approach to learning.",
+      "You possess a great deal of practical knowledge.",
+      "There is a tendency to be overconfident in what you know.",
+      "You may sometimes come across as being smug or superior."
     ]
   },
   {
     numbers: [4, 4],
     traits: [
-      "You're very steady in everything",
-      "People can always count on you",
-      "You might be too sure of yourself",
-      "You trust your ways more than needed"
+      "You are an incredibly stable and reliable person.",
+      "You provide a rock-solid foundation for others.",
+      "You can be too confident and sure of your own way.",
+      "There is a resistance to being flexible or trying new things."
     ]
   },
   {
     numbers: [4, 5],
     traits: [
-      "You communicate in reliable ways",
-      "You talk with steady methods",
-      "You might trust your ways too much",
-      "You avoid hard work sometimes"
+      "You are a very steady and dependable individual.",
+      "You are a very clear and effective communicator.",
+      "There is a potential to be overconfident in your ideas.",
+      "You might have a tendency to be lazy and avoid challenges."
     ]
   },
   {
     numbers: [4, 6],
     traits: [
-      "You care for others steadily",
-      "You provide reliable support",
-      "You might be too sure of your ways",
-      "You really enjoy nice things"
+      "You bring a sense of stability to your relationships.",
+      "You are a very nurturing and supportive person.",
+      "You can be overconfident in your ability to help others.",
+      "You might have a strong desire for material comforts."
     ]
   },
   {
     numbers: [4, 7],
     traits: [
-      "You seek truth in steady ways",
-      "You think deeply with reliability",
-      "You might trust your methods too much",
-      "You get confused about choices"
+      "You have a very grounded and stable worldview.",
+      "You possess a deep and active spiritual side.",
+      "You can be overconfident in your personal beliefs.",
+      "You may often feel confused about which path to take in life."
     ]
   },
   {
     numbers: [4, 8],
     traits: [
-      "You organize things very reliably",
-      "You keep everything in perfect order",
-      "You might be too sure of your ways",
-      "You don't like changing methods"
+      "You are a pillar of stability and strength.",
+      "You are a very disciplined and focused person.",
+      "There is a strong tendency to be overconfident in your plans.",
+      "You might be very dogmatic and unwilling to change your mind."
     ]
   },
   {
     numbers: [4, 9],
     traits: [
-      "You help humanity in steady ways",
-      "You care about all people equally",
-      "You might trust your methods too much",
-      "You get angry at unfairness"
+      "You provide a stable foundation for humanitarian work.",
+      "You have a deep desire to help people in practical ways.",
+      "You may be overconfident in your solutions for problems.",
+      "You are prone to feeling powerful anger towards injustice."
     ]
   },
 
-  // 5.x Combinations
+  // 5.x Combinations (Communication, Lazy)
   {
     numbers: [5, 1],
     traits: [
-      "You talk well as a leader",
-      "You communicate directions clearly",
-      "You avoid hard work sometimes",
-      "You sometimes focus on your needs first"
+      "You are a very skilled and persuasive communicator.",
+      "You have strong and natural leadership abilities.",
+      "There might be a tendency to avoid difficult work.",
+      "You can sometimes be selfish with your attention and focus."
     ]
   },
   {
     numbers: [5, 2],
     traits: [
-      "You talk about feelings well",
-      "You understand emotional needs",
-      "You skip hard work when possible",
-      "Your moods change often"
+      "You excel at communicating with empathy and understanding.",
+      "You are very good at sensing the feelings of others.",
+      "You may have a habit of being lazy when faced with challenges.",
+      "You might experience frequent and unpredictable mood swings."
     ]
   },
   {
     numbers: [5, 3],
     traits: [
-      "You explain ideas clearly",
-      "You share knowledge easily",
-      "You avoid difficult tasks",
-      "You can act like you know more"
+      "You are very good at communicating complex ideas.",
+      "You have a great deal of knowledge on many subjects.",
+      "There is a potential for you to be lazy in your studies.",
+      "You might come across as smug in your conversations."
     ]
   },
   {
     numbers: [5, 4],
     traits: [
-      "You communicate reliably",
-      "You talk in steady ways",
-      "You skip hard work sometimes",
-      "You might trust your ways too much"
+      "You communicate in a very clear and steady manner.",
+      "You have a very stable and grounded personality.",
+      "You may have a tendency to be lazy and avoid physical effort.",
+      "You can sometimes be perceived as overconfident when you speak."
     ]
   },
   {
     numbers: [5, 5],
     traits: [
-      "You're excellent at conversations",
-      "You connect with all kinds of people",
-      "You avoid difficult tasks",
-      "You don't like doing hard work"
+      "You are an exceptionally talented communicator.",
+      "You love to socialize and connect with other people.",
+      "You have a strong tendency to be lazy and procrastinate.",
+      "You may have a deep dislike for engaging in hard work."
     ]
   },
   {
     numbers: [5, 6],
     traits: [
-      "You talk about caring well",
-      "You communicate about people's needs",
-      "You skip hard work sometimes",
-      "You really enjoy luxury items"
+      "You are gifted at communicating in a caring way.",
+      "You are a very nurturing and supportive individual.",
+      "There can be a tendency to be lazy and seek comfort.",
+      "You might have a strong attachment to luxury goods."
     ]
   },
   {
     numbers: [5, 7],
     traits: [
-      "You discuss deep ideas well",
-      "You talk about life's meaning",
-      "You avoid difficult tasks",
-      "You get unsure about choices"
+      "You enjoy communicating about deep and spiritual topics.",
+      "You have a very active and meaningful spiritual life.",
+      "You may be lazy when it comes to practical, everyday tasks.",
+      "You often feel confused and uncertain about your direction."
     ]
   },
   {
     numbers: [5, 8],
     traits: [
-      "You explain organized plans well",
-      "You communicate clear systems",
-      "You skip hard work sometimes",
-      "You don't like changing methods"
+      "You are a very clear and disciplined communicator.",
+      "You are very organized and focused in your approach to life.",
+      "There is a strong tendency to be lazy and avoid manual labor.",
+      "You can be very dogmatic in how you express your opinions."
     ]
   },
   {
     numbers: [5, 9],
     traits: [
-      "You talk about helping others well",
-      "You communicate about fairness",
-      "You avoid difficult tasks",
-      "You get mad at unfair treatment"
+      "You use your communication skills to help humanity.",
+      "You care deeply about fairness and justice in the world.",
+      "You might have a tendency to be lazy in taking action.",
+      "You are prone to anger when communicating about injustice."
     ]
   },
 
-  // 6.x Combinations
+  // 6.x Combinations (Nurturer, Luxury)
   {
     numbers: [6, 1],
     traits: [
-      "You care for others as a leader",
-      "You look after people's needs well",
-      "You really enjoy nice things",
-      "You sometimes focus on your needs first"
+      "You are a very nurturing and caring person.",
+      "You have strong and effective leadership skills.",
+      "You may have a strong desire for a luxurious lifestyle.",
+      "There is a tendency to be selfish in getting what you want."
     ]
   },
   {
     numbers: [6, 2],
     traits: [
-      "You deeply care about feelings",
-      "You understand emotional needs",
-      "You love luxury items",
-      "Your moods change often"
+      "You are a natural nurturer and a deeply empathetic soul.",
+      "You are very good at understanding the feelings of others.",
+      "You have a great love for luxury and comfortable surroundings.",
+      "You may be prone to frequent and sudden mood swings."
     ]
   },
   {
     numbers: [6, 3],
     traits: [
-      "You care through sharing knowledge",
-      "You teach others what you know",
-      "You enjoy expensive things",
-      "You can act like you know more"
+      "You love to nurture others by sharing your knowledge.",
+      "You have a great deal of wisdom to offer people.",
+      "There can be a strong focus on acquiring luxury items.",
+      "You might sometimes come across as being smug or superior."
     ]
   },
   {
     numbers: [6, 4],
     traits: [
-      "You provide reliable care",
-      "You support others steadily",
-      "You love nice possessions",
-      "You might trust your ways too much"
+      "You provide a very stable and nurturing environment.",
+      "You are a very grounded and reliable person.",
+      "You may have a weakness for luxury and expensive things.",
+      "You can sometimes be perceived as being overconfident."
     ]
   },
   {
     numbers: [6, 5],
     traits: [
-      "You care through good communication",
-      "You talk about helping well",
-      "You enjoy luxury items",
-      "You avoid hard work sometimes"
+      "You show your nurturing side through your communication.",
+      "You are a very clear and effective speaker.",
+      "There can be a strong desire for a life of luxury.",
+      "You might have a tendency to be lazy and avoid effort."
     ]
   },
   {
     numbers: [6, 6],
     traits: [
-      "You're naturally very caring",
-      "You nurture people beautifully",
-      "You love comfort and luxury",
-      "You enjoy nice things more than most"
+      "You are an exceptionally nurturing and caring person.",
+      "You find great joy in supporting and looking after others.",
+      "You may have a very strong attachment to luxury.",
+      "You might neglect practical needs in favor of comfort."
     ]
   },
   {
     numbers: [6, 7],
     traits: [
-      "You care with spiritual depth",
-      "You think about helping deeply",
-      "You enjoy expensive things",
-      "You get unsure about choices"
+      "You have a gift for nurturing people's spiritual growth.",
+      "You have a deep and profound spiritual connection.",
+      "You might have a very strong desire for luxury goods.",
+      "You may often feel confused about your life's purpose."
     ]
   },
   {
     numbers: [6, 8],
     traits: [
-      "You care in organized ways",
-      "You systemize helping others",
-      "You love luxury items",
-      "You don't like changing methods"
+      "You are very disciplined in your nurturing approach.",
+      "You are a very focused and organized individual.",
+      "There can be a powerful focus on achieving a luxurious life.",
+      "You may be very dogmatic in your views on how to care for others."
     ]
   },
   {
     numbers: [6, 9],
     traits: [
-      "You care about all humanity",
-      "You want fairness for everyone",
-      "You enjoy nice things",
-      "You get angry at unfairness"
+      "You feel a deep need to nurture and care for humanity.",
+      "You have a very strong sense of compassion for everyone.",
+      "You might find yourself very drawn to a luxurious lifestyle.",
+      "You are prone to anger when you see people being mistreated."
     ]
   },
 
-  // 7.x Combinations
+  // 7.x Combinations (Spiritual, Confused)
   {
     numbers: [7, 1],
     traits: [
-      "You think deeply as a leader",
-      "You lead with spiritual insight",
-      "You get confused about choices",
-      "You sometimes focus on your needs first"
+      "You have a deep and active spiritual side.",
+      "You are a natural and inspiring leader.",
+      "You often feel confused and uncertain about your decisions.",
+      "There can be a tendency to be selfish with your time."
     ]
   },
   {
     numbers: [7, 2],
     traits: [
-      "You sense spiritual meanings",
-      "You understand deep feelings",
-      "You feel unsure about decisions",
-      "Your moods change often"
+      "You are a very spiritual and empathetic person.",
+      "You are gifted at understanding the feelings of others.",
+      "You may often find yourself feeling confused and lost.",
+      "You might be prone to frequent and unpredictable mood swings."
     ]
   },
   {
     numbers: [7, 3],
     traits: [
-      "You seek knowledge deeply",
-      "You learn with spiritual insight",
-      "You get confused about choices",
-      "You can act like you know more"
+      "You have a strong connection to spiritual knowledge.",
+      "You have a great love for learning and acquiring wisdom.",
+      "It is common for you to feel confused about complex ideas.",
+      "You might accidentally come across as smug to other people."
     ]
   },
   {
     numbers: [7, 4],
     traits: [
-      "You think about truth steadily",
-      "You seek meaning reliably",
-      "You feel unsure about decisions",
-      "You might trust your ways too much"
+      "You have a very grounded and stable spiritual practice.",
+      "You are a very reliable and dependable person.",
+      "You often feel a sense of confusion about the future.",
+      "There is a tendency to be overconfident in your beliefs."
     ]
   },
   {
     numbers: [7, 5],
     traits: [
-      "You talk about deep ideas",
-      "You communicate spiritual thoughts",
-      "You get confused about choices",
-      "You avoid hard work sometimes"
+      "You enjoy talking about spiritual and meaningful topics.",
+      "You are a very clear and engaging communicator.",
+      "You may often feel confused and directionless in life.",
+      "There might be a tendency to be lazy and avoid responsibility."
     ]
   },
   {
     numbers: [7, 6],
     traits: [
-      "You care with spiritual depth",
-      "You nurture with deep meaning",
-      "You feel unsure about decisions",
-      "You really enjoy luxury items"
+      "You have a very deep and nurturing spiritual side.",
+      "You are a very caring and supportive person.",
+      "It is a big challenge for you to overcome feelings of confusion.",
+      "You may have a strong desire for a luxurious lifestyle."
     ]
   },
   {
     numbers: [7, 7],
     traits: [
-      "You're very spiritually deep",
-      "You always seek life's truths",
-      "You get confused about choices",
-      "You often don't know what to do"
+      "You are a deeply spiritual person who seeks the truth.",
+      "You have a strong connection to the mystical side of life.",
+      "You may live in a frequent state of confusion and uncertainty.",
+      "It is very hard for you to make a firm and final decision."
     ]
   },
   {
     numbers: [7, 8],
     traits: [
-      "You organize spiritual systems",
-      "You arrange deep knowledge neatly",
-      "You get confused about choices",
-      "You don't like changing methods"
+      "You have a very disciplined approach to your spiritual life.",
+      "You are a very focused and organized individual.",
+      "You often feel confused despite your organized mind.",
+      "There is a potential to be dogmatic about your spiritual views."
     ]
   },
   {
     numbers: [7, 9],
     traits: [
-      "You think about helping deeply",
-      "You seek meaning in service",
-      "You feel unsure about decisions",
-      "You get angry at unfairness"
+      "You have a spiritual connection to all of humanity.",
+      "You have a deep desire to help and serve other people.",
+      "You can feel very confused about how to best help the world.",
+      "You are prone to anger when you see injustice and suffering."
     ]
   },
 
-  // 8.x Combinations
+  // 8.x Combinations (Discipline, Dogmatic)
   {
     numbers: [8, 1],
     traits: [
-      "You organize as a leader",
-      "You lead with clear systems",
-      "You don't like changing ways",
-      "You sometimes focus on your needs first"
+      "You are a very disciplined and focused individual.",
+      "You are a strong and effective leader.",
+      "You might be very dogmatic and rigid in your opinions.",
+      "There can be a tendency to act in a selfish manner."
     ]
   },
   {
     numbers: [8, 2],
     traits: [
-      "You systemize emotional support",
-      "You organize care for feelings",
-      "You resist changing methods",
-      "Your moods change often"
+      "You have the discipline to understand deep emotions.",
+      "You are a very empathetic and caring person.",
+      "There is a strong tendency to be dogmatic in your beliefs.",
+      "You may be prone to frequent and unpredictable mood swings."
     ]
   },
   {
     numbers: [8, 3],
     traits: [
-      "You arrange knowledge neatly",
-      "You organize learning well",
-      "You don't like changing ways",
-      "You can act like you know more"
+      "You are very disciplined in your pursuit of knowledge.",
+      "You are a very intelligent and well-read person.",
+      "You can be very dogmatic about the facts you have learned.",
+      "You may sometimes come across as being smug or superior."
     ]
   },
   {
     numbers: [8, 4],
     traits: [
-      "You create reliable systems",
-      "You organize steady methods",
-      "You resist changing ways",
-      "You might trust your ways too much"
+      "You have a very disciplined and stable character.",
+      "You are a very reliable and grounded individual.",
+      "You can be extremely dogmatic and inflexible.",
+      "There is a tendency to be overconfident in your methods."
     ]
   },
   {
     numbers: [8, 5],
     traits: [
-      "You systemize communication",
-      "You organize talking points well",
-      "You don't like changing methods",
-      "You avoid hard work sometimes"
+      "You are a very disciplined and clear communicator.",
+      "You are very good at expressing your thoughts.",
+      "You may be very dogmatic when you are in a debate.",
+      "There might be a tendency to be lazy and avoid physical work."
     ]
   },
   {
     numbers: [8, 6],
     traits: [
-      "You organize caring systems",
-      "You arrange help for others neatly",
-      "You resist changing ways",
-      "You really enjoy luxury items"
+      "You are very disciplined in how you care for others.",
+      "You are a very nurturing and supportive person.",
+      "You can be dogmatic about the 'right' way to help people.",
+      "You may have a very strong desire for a luxurious lifestyle."
     ]
   },
   {
     numbers: [8, 7],
     traits: [
-      "You arrange spiritual knowledge",
-      "You organize deep thinking",
-      "You don't like changing methods",
-      "You get confused about choices"
+      "You have a very disciplined spiritual practice.",
+      "You are a deeply spiritual and thoughtful person.",
+      "You can be very dogmatic about your spiritual beliefs.",
+      "You may often feel confused despite your disciplined mind."
     ]
   },
   {
     numbers: [8, 8],
     traits: [
-      "You're extremely well-organized",
-      "You keep everything in perfect order",
-      "You resist changing ways",
-      "You always want things your way"
+      "You possess an exceptional amount of self-discipline.",
+      "You are a very focused and highly organized person.",
+      "You can be extremely dogmatic and rigid in your thinking.",
+      "There is a strong resistance to being flexible or changing your mind."
     ]
   },
   {
     numbers: [8, 9],
     traits: [
-      "You systemize helping others",
-      "You organize care for humanity",
-      "You don't like changing methods",
-      "You get angry at unfairness"
+      "You are very disciplined in your efforts to help others.",
+      "You have a deep desire to serve humanity.",
+      "You can be very dogmatic about your vision for a better world.",
+      "You feel very strong anger when you see systemic injustice."
     ]
   },
 
-  // 9.x Combinations
+  // 9.x Combinations (Humanity, Angry)
   {
     numbers: [9, 1],
     traits: [
-      "You care for all as a leader",
-      "You lead with kindness to everyone",
-      "You get mad at unfair things",
-      "You sometimes focus on your needs first"
+      "You have a deep love and concern for humanity.",
+      "You are a natural and inspiring leader.",
+      "You are prone to feelings of anger and frustration.",
+      "There can be a tendency to be selfish with your energy."
     ]
   },
   {
     numbers: [9, 2],
     traits: [
-      "You feel for all people deeply",
-      "You understand everyone's pain",
-      "You get angry at unfairness",
-      "Your moods change often"
+      "You have a humanitarian spirit and a deep sense of empathy.",
+      "You can easily understand the feelings of other people.",
+      "You can be quick to anger, especially about unfairness.",
+      "You may be prone to frequent and intense mood swings."
     ]
   },
   {
     numbers: [9, 3],
     traits: [
-      "You learn to help humanity",
-      "You gain knowledge to serve others",
-      "You get mad at unfair treatment",
-      "You can act like you know more"
+      "You are driven to use your knowledge to help humanity.",
+      "You are a very intelligent and well-informed person.",
+      "Feelings of anger can arise easily for you.",
+      "You might sometimes come across as being a smug know-it-all."
     ]
   },
   {
     numbers: [9, 4],
     traits: [
-      "You steadily help all people",
-      "You reliably care for humanity",
-      "You get angry at unfairness",
-      "You might trust your ways too much"
+      "You have a stable and practical approach to helping people.",
+      "You are a very reliable and grounded individual.",
+      "You have a tendency to become angry at instability.",
+      "You may be overconfident in your plans to help society."
     ]
   },
   {
     numbers: [9, 5],
     traits: [
-      "You talk about helping all",
-      "You communicate about fairness",
-      "You get mad at unfair things",
-      "You avoid hard work sometimes"
+      "You love to communicate about humanitarian causes.",
+      "You are a very clear and persuasive speaker.",
+      "You can become very angry and argumentative in discussions.",
+      "There might be a tendency to be lazy about taking action."
     ]
   },
   {
     numbers: [9, 6],
     traits: [
-      "You deeply care for everyone",
-      "You nurture all people equally",
-      "You get angry at unfairness",
-      "You really enjoy luxury items"
+      "You have a deep, nurturing love for all of humanity.",
+      "You are a very caring and supportive person.",
+      "You are prone to anger when you see a lack of care in the world.",
+      "You might have a strong desire for luxury and comfort."
     ]
   },
   {
     numbers: [9, 7],
     traits: [
-      "You think about helping deeply",
-      "You seek meaning in service",
-      "You get mad at unfair treatment",
-      "You get confused about choices"
+      "You have a spiritual connection to all of humanity.",
+      "You are a very deep and thoughtful individual.",
+      "You can feel a lot of anger about the state of the world.",
+      "You may often feel confused about the best way to help others."
     ]
   },
   {
     numbers: [9, 8],
     traits: [
-      "You organize help for all",
-      "You systemize care for humanity",
-      "You get angry at unfairness",
-      "You don't like changing methods"
+      "You want to help humanity in a disciplined way.",
+      "You are a very focused and organized person.",
+      "You are prone to anger at the lack of order and justice.",
+      "You can be very dogmatic in your approach to social change."
     ]
   },
   {
     numbers: [9, 9],
     traits: [
-      "You deeply care about all people",
-      "You want to make the world better",
-      "You get very mad at unfairness",
-      "You hate seeing suffering"
+      "You have an immense, all-encompassing love for humanity.",
+      "You are a true humanitarian with a powerful vision.",
+      "You can be overwhelmed by powerful feelings of anger.",
+      "Witnessing any kind of suffering deeply affects you."
     ]
   }
-];    
+];
 
 const LETTER_VALUES = {
   'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 8,
@@ -762,18 +762,18 @@ const LETTER_VALUES = {
 };
 
 const NAME_COMPATIBILITY_RULES = {
-  1: { compatible: [1,2,3,4,5,6,7,9], description: "1 works best with 8" },
+  1: { compatible: [1, 2, 3, 4, 5, 6, 7, 9], description: "1 works best with 8" },
   2: { compatible: [], description: "2 doesn't have compatible numbers" },
   3: { compatible: [], description: "3 doesn't have compatible numbers" },
   4: { compatible: [], description: "4 doesn't have compatible numbers" },
-  5: { compatible: [1,2,3,4,5,6,7,8,9], description: "5 works with all numbers" },
-  6: { compatible: [1,2,4,5,6,7,8], description: "6 works best with 3 and 9" },
+  5: { compatible: [1, 2, 3, 4, 5, 6, 7, 8, 9], description: "5 works with all numbers" },
+  6: { compatible: [1, 2, 4, 5, 6, 7, 8], description: "6 works best with 3 and 9" },
   7: { compatible: [], description: "7 doesn't have compatible numbers" },
   8: { compatible: [], description: "8 doesn't have compatible numbers" },
   9: { compatible: [], description: "9 doesn't have compatible numbers" },
-  16: { compatible: [1,2,3,4,5,6,7,8,9], description: "16 works with all numbers" },
-  22: { compatible: [1,3,5,6,7], description: "22 works best with 2, 4, 8, and 9" },
-  25: { compatible: [1,2,3,4,5,6,7,8,9], description: "25 works with all numbers" }
+  16: { compatible: [1, 2, 3, 4, 5, 6, 7, 8, 9], description: "16 works with all numbers" },
+  22: { compatible: [1, 3, 5, 6, 7], description: "22 works best with 2, 4, 8, and 9" },
+  25: { compatible: [1, 2, 3, 4, 5, 6, 7, 8, 9], description: "25 works with all numbers" }
 };
 
 const sumToSingleDigit = (num) => {
@@ -789,29 +789,29 @@ const sumToSingleDigit = (num) => {
 
 const calculateNameValue = (name) => {
   if (!name) return 0;
-  
+
   let sum = 0;
   for (const char of name.toUpperCase()) {
     if (LETTER_VALUES[char]) {
       sum += LETTER_VALUES[char];
     }
   }
-  
+
   return sum;
 };
 
 const checkNameCompatibility = (nameValue, firstNum) => {
   const reducedNameValue = sumToSingleDigit(nameValue);
-  const compatibilityRule = NAME_COMPATIBILITY_RULES[reducedNameValue] || 
-    { compatible: [], description: `No specific compatibility rules for ${reducedNameValue}` };
-  
-  const isCompatible = compatibilityRule.compatible.length === 0 ? 
+  const compatibilityRule = NAME_COMPATIBILITY_RULES[reducedNameValue] ||
+  { compatible: [], description: `No specific compatibility rules for ${reducedNameValue}` };
+
+  const isCompatible = compatibilityRule.compatible.length === 0 ?
     false : compatibilityRule.compatible.includes(firstNum);
-  
+
   return {
     compatible: isCompatible,
     nameValue: reducedNameValue,
-    description: isCompatible ? 
+    description: isCompatible ?
       `Your name number ${reducedNameValue} is compatible with your birth number ${firstNum}!` :
       `Your name number ${reducedNameValue} is not compatible with your birth number ${firstNum}. ${compatibilityRule.description}`
   };
@@ -826,7 +826,7 @@ const calculateNumbers = (birthDate) => {
     const allDigits = birthDate.replace(/\D/g, '').split('').map(Number);
     let secondNum = sumToSingleDigit(allDigits.reduce((sum, d) => sum + d, 0));
 
-    return { 
+    return {
       firstNum: Math.max(1, Math.min(9, firstNum)),
       secondNum: Math.max(1, Math.min(9, secondNum))
     };
@@ -841,9 +841,9 @@ const getPersonalityTraits = (firstNum, secondNum) => {
     const exactMatch = personalityCombinations.find(
       c => c.numbers[0] === firstNum && c.numbers[1] === secondNum
     );
-    
+
     if (exactMatch) return exactMatch.traits;
-    
+
     return [
       "You have unique leadership qualities that inspire others",
       "You possess special talents that make you stand out",
@@ -863,16 +863,16 @@ const getPersonalityTraits = (firstNum, secondNum) => {
 
 const calculatePersonalYear = (birthDate) => {
   if (!birthDate) return 0;
-  
+
   const currentYear = new Date().getFullYear();
   const [year, month, day] = birthDate.split('-').map(Number);
-  
+
   let sum = day + month + currentYear;
-  
+
   while (sum > 9) {
     sum = sum.toString().split('').reduce((acc, digit) => acc + parseInt(digit), 0);
   }
-  
+
   return sum;
 };
 
@@ -914,12 +914,38 @@ const getYearFortuneData = (personalYear) => {
       percentage: 20,
       description: "This challenging year tests your resilience. When facing difficulties, focus on basic needs first - don't overwhelm yourself. Remember tough times are temporary and make you stronger."
     },
-  }; 
+  };
   return fortuneData[personalYear] || { percentage: 50, description: "Neutral year with mixed experiences" };
 };
 
 const CircularMeter = ({ percentage }) => {
   const [progress, setProgress] = useState(0);
+
+  // Function to determine colors based on percentage
+  const getMeterColors = (p) => {
+    if (p <= 40) { // Low percentage - Red
+      return {
+        start: '#fca5a5', // red-300
+        end: '#ef4444',   // red-500
+        text: '#b91c1c',   // red-700
+      };
+    }
+    if (p <= 70) { // Medium percentage - Yellow
+      return {
+        start: '#fde047', // yellow-300
+        end: '#f59e0b',   // amber-500
+        text: '#b45309',   // amber-700
+      };
+    }
+    // Good percentage - Green
+    return {
+      start: '#86efac', // green-300
+      end: '#22c55e',   // green-500
+      text: '#15803d',   // green-700
+    };
+  };
+
+  const colors = getMeterColors(percentage);
 
   useEffect(() => {
     const animationDuration = 2000;
@@ -935,7 +961,7 @@ const CircularMeter = ({ percentage }) => {
       }
     };
 
-    animate();
+    requestAnimationFrame(animate);
   }, [percentage]);
 
   const radius = 40;
@@ -951,9 +977,17 @@ const CircularMeter = ({ percentage }) => {
           cy="50"
           r={radius}
           fill="none"
-          stroke="#e2e8f0"
+          stroke="#e2e8f0" // slate-200
           strokeWidth="20"
         />
+
+        {/* Gradient Definition */}
+        <defs>
+          <linearGradient id="progressGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor={colors.start} />
+            <stop offset="100%" stopColor={colors.end} />
+          </linearGradient>
+        </defs>
 
         {/* Progress circle */}
         <circle
@@ -961,7 +995,7 @@ const CircularMeter = ({ percentage }) => {
           cy="50"
           r={radius}
           fill="none"
-          stroke="url(#waterGradient)"
+          stroke="url(#progressGradient)"
           strokeWidth="15"
           strokeLinecap="round"
           strokeDasharray={circumference}
@@ -969,14 +1003,6 @@ const CircularMeter = ({ percentage }) => {
           transform="rotate(-90 50 50)"
           style={{ transition: 'stroke-dashoffset 0.5s ease-out' }}
         />
-
-        {/* Gradient Definition */}
-        <defs>
-          <linearGradient id="waterGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#3b82f6" />
-            <stop offset="100%" stopColor="#1d4ed8" />
-          </linearGradient>
-        </defs>
 
         {/* Percentage Text */}
         <text
@@ -986,7 +1012,7 @@ const CircularMeter = ({ percentage }) => {
           dominantBaseline="middle"
           fontSize="18"
           fontWeight="bold"
-          fill="#3b82f6"
+          fill={colors.text}
         >
           {progress}%
         </text>
@@ -995,15 +1021,16 @@ const CircularMeter = ({ percentage }) => {
   );
 };
 
+
 const formatTraits = (traits) => {
   if (!traits || !Array.isArray(traits)) return null;
   const positiveTraits = traits.slice(0, 2);
-  const constructiveTraits = traits.slice(2, 4);
+  const negativeTraits = traits.slice(2, 4);
 
   return (
     <div className="space-y-3">
       <div className="bg-green-50 p-3 rounded-lg border-l-4 border-green-400">
-        <h4 className="font-semibold text-green-800 mb-2">✨ Your Strengths:</h4>
+        <h4 className="font-semibold text-green-800 mb-2">✨ Positives:</h4>
         <ul className="list-disc pl-5 space-y-1">
           {positiveTraits.map((trait, index) => (
             <li key={index} className="text-green-700">{trait}</li>
@@ -1011,9 +1038,9 @@ const formatTraits = (traits) => {
         </ul>
       </div>
       <div className="bg-orange-50 p-3 rounded-lg border-l-4 border-orange-400">
-        <h4 className="font-semibold text-orange-800 mb-2">🌱 Areas for Growth:</h4>
+        <h4 className="font-semibold text-orange-800 mb-2">🌱 Negatives:</h4>
         <ul className="list-disc pl-5 space-y-1">
-          {constructiveTraits.map((trait, index) => (
+          {negativeTraits.map((trait, index) => (
             <li key={index} className="text-orange-700">{trait}</li>
           ))}
         </ul>
@@ -1025,14 +1052,14 @@ const formatTraits = (traits) => {
 const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isNameCorrectionDialogOpen, setIsNameCorrectionDialogOpen] = useState(false);
-  
+
   const { firstNum, secondNum } = calculateNumbers(formData?.birthDate);
   const personalityTraits = getPersonalityTraits(firstNum, secondNum);
   const nameValue = calculateNameValue(formData?.name);
   const nameCompatibility = checkNameCompatibility(nameValue, firstNum);
   const personalYear = calculatePersonalYear(formData?.birthDate);
   const yearFortune = getYearFortuneData(personalYear);
-  
+
 
   if (!formData?.birthDate) {
     return (
@@ -1040,7 +1067,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
         <h3 className="text-xl font-semibold text-red-500 mb-4">
           Birth Date Required
         </h3>
-        <Button 
+        <Button
           onClick={onReset}
           className="bg-orange-500 hover:bg-orange-600 text-white"
         >
@@ -1061,7 +1088,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
         <h2 className="text-2xl font-bold text-center text-orange-600 mb-3">
           Your Numerology Profile
         </h2>
-        
+
         <div className="text-center mb-4">
           <p className="text-gray-600">
             For: <span className="font-medium text-orange-600">{formData?.name || 'Unknown'}</span>
@@ -1080,13 +1107,13 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
         {formData?.name && (
           <div className={`flex items-center justify-center mb-2 ${
             nameCompatibility.compatible ? 'text-green-600' : 'text-red-600'
-          }`}>
+            }`}>
             <span className="text-xl mr-2">
               {nameCompatibility.compatible ? '✓' : '✗'}
             </span>
             <span className="font-medium">
-              {nameCompatibility.compatible 
-                ? "Your name value is compatible with you" 
+              {nameCompatibility.compatible
+                ? "Your name value is compatible with you"
                 : "Your name value is not compatible with you"}
             </span>
           </div>
@@ -1096,7 +1123,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
           <div className="text-center mb-4">
             <Dialog>
               <DialogTrigger asChild>
-                <Button  
+                <Button
                   className="bg-orange-500 hover:bg-orange-600 text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105"
                 >
                   Book Consultation for Name Correction
@@ -1111,7 +1138,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
                     Our experts will analyze your name and suggest improvements for better compatibility
                   </DialogDescription>
                 </DialogHeader>
-                <ConsultationForm 
+                <ConsultationForm
                   onSuccess={() => setIsDialogOpen(false)}
                   defaultName={formData?.name || ''}
                   defaultBirthDate={formData?.birthDate || ''}
@@ -1121,27 +1148,27 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
             </Dialog>
           </div>
         )}
-        
+
         <div className="bg-orange-50 rounded-lg p-5 border border-orange-100">
           <h3 className="font-semibold text-lg mb-3 text-orange-600">Your Personality Traits:</h3>
           {formatTraits(personalityTraits)}
         </div>
 
-        <div className="bg-blue-50 rounded-lg p-5 border border-blue-100 mt-4">
-          <h3 className="font-semibold text-lg mb-3 text-blue-600 text-center">
+        <div className="bg-slate-50 rounded-lg p-5 border border-slate-100 mt-4">
+          <h3 className="font-semibold text-lg mb-3 text-slate-600 text-center">
             Your {new Date().getFullYear()} Fortune Meter
           </h3>
-          
+
           <CircularMeter percentage={yearFortune.percentage} />
-          
-          <p className="text-center text-blue-700 font-medium mt-4">
+
+          <p className="text-center text-slate-700 font-medium mt-4">
             {yearFortune.description}
           </p>
         </div>
-        
+
         <div className="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded">
           <p className="text-sm text-yellow-700">
-            <span className="font-semibold">Note:</span> This analysis considers basic factors only. 
+            <span className="font-semibold">Note:</span> This analysis considers basic factors only.
             For complete accuracy, book an appointment with our experts.
           </p>
         </div>
@@ -1151,7 +1178,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
         <h3 className="text-xl font-semibold text-center text-orange-600 mb-3">
           Want Deeper Insights?
         </h3>
-        
+
         <div className="flex flex-wrap justify-center gap-3">
           <Button
             onClick={onReset}
@@ -1160,8 +1187,8 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
           >
             New Analysis
           </Button>
-          
-          <Button 
+
+          <Button
             className="bg-orange-500 hover:bg-orange-600 text-white hover:orange-gradient-hover transition-transform duration-300 ease-in-out hover:scale-105"
             onClick={() => setIsDialogOpen(true)}
           >
@@ -1180,7 +1207,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
               Includes detailed analysis of your core numbers and cycles
             </DialogDescription>
           </DialogHeader>
-          <ConsultationForm 
+          <ConsultationForm
             onSuccess={() => setIsDialogOpen(false)}
             defaultName={formData?.name || ''}
             defaultBirthDate={formData?.birthDate || ''}
@@ -1198,7 +1225,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
               Our experts will analyze your name and suggest improvements for better compatibility
             </DialogDescription>
           </DialogHeader>
-          <ConsultationForm 
+          <ConsultationForm
             onSuccess={() => setIsNameCorrectionDialogOpen(false)}
             defaultName={formData?.name || ''}
             defaultBirthDate={formData?.birthDate || ''}
