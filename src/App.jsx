@@ -22,7 +22,7 @@ function App() {
       appearance={{
         baseTheme: undefined,
         variables: {
-          colorPrimary: "#f97316" // Orange color to match your theme
+          colorPrimary: "#f97316" 
         }
       }}
     >
