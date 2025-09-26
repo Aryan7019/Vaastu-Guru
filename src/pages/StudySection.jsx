@@ -8,6 +8,12 @@ import { useUser, SignInButton } from '@clerk/clerk-react';
 import { ConsultationForm } from "../components/ConsultationForm";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader, DialogDescription } from '../components/ui/dialog';
 
+const LoadingSpinner = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-orange-500"></div>
+  </div>
+);
+
 const StudySection = () => {
   const [activeTab, setActiveTab] = useState('numerology');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -82,11 +88,7 @@ const StudySection = () => {
   ];
 
   if (!isLoaded) {
-    return (
-      <div className="min-h-screen py-20 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

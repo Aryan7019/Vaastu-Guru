@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot } from 'lucide-react';
@@ -79,7 +78,7 @@ const ChatBot = () => {
       {/* Chat Toggle Button */}
       <motion.button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 orange-gradient rounded-full shadow-lg flex items-center justify-center text-white hover:orange-gradient-hover transition-all duration-300"
+        className="fixed bottom-24 right-6 z-50 w-14 h-14 orange-gradient rounded-full shadow-lg flex items-center justify-center text-white hover:orange-gradient-hover transition-all duration-300"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
@@ -115,7 +114,7 @@ const ChatBot = () => {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-24 right-6 z-40 w-80 h-96 bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col"
+            className="fixed bottom-40 right-6 z-40 w-80 h-96 bg-white rounded-lg shadow-xl border border-gray-200 flex flex-col"
           >
             {/* Header */}
             <div className="orange-gradient text-white p-4 rounded-t-lg">

@@ -8,9 +8,15 @@ import { useUser, SignInButton } from '@clerk/clerk-react';
 import { ConsultationForm } from "../components/ConsultationForm";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader, DialogDescription } from '../components/ui/dialog';
 
+const LoadingSpinner = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-orange-500"></div>
+  </div>
+);
+
 const Services = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { isSignedIn } = useUser();
+  const { isSignedIn , isLoaded } = useUser();
   const location = useLocation();
 
   const services = [
@@ -57,6 +63,10 @@ const Services = () => {
       icon: <Triangle className="w-6 h-6" />
     }
   ];
+
+  if (!isLoaded) {
+    return <LoadingSpinner />;
+  }
 
   return (
     <>

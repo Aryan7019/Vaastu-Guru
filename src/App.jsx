@@ -10,8 +10,10 @@ import TherapySection from '@/pages/TherapySection';
 import Services from './pages/services';
 import FloatingNumbers from '@/components/FloatingNumbers';
 import ChatBot from '@/components/ChatBot';
+import CallConsultation from '@/components/CallConsultation'; 
 
-const clerkKey = "pk_test_a25vd2luZy1sb2N1c3QtMjguY2xlcmsuYWNjb3VudHMuZGV2JA";
+// Use environment variable with fallback
+const clerkKey = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_test_a25vd2luZy1sb2N1c3QtMjguY2xlcmsuYWNjb3VudHMuZGV2JA";
 
 function App() {
   return (
@@ -40,6 +42,7 @@ function App() {
           </main>
           
           <ChatBot />
+          <CallConsultation /> 
           <Toaster />
         </div>
       </Router>

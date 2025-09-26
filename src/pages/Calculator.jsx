@@ -5,6 +5,12 @@ import { useUser } from '@clerk/clerk-react';
 import CalculatorForm from '@/components/calculator/CalculatorForm';
 import CalculatorResult from '@/components/calculator/CalculatorResult';
 
+const LoadingSpinner = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-orange-500"></div>
+  </div>
+);
+
 const Calculator = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -19,11 +25,7 @@ const Calculator = () => {
   };
 
   if (!isLoaded) {
-    return (
-      <div className="min-h-screen py-20 flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

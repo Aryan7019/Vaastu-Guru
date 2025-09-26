@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
-import { Star, Quote, Calendar, Users, Award, TrendingUp, Trash2, Facebook, Instagram, Calculator } from 'lucide-react';
+import { Star, Quote, Calendar, Users, Award, TrendingUp, Trash2, Facebook, Instagram, Calculator, Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
@@ -12,6 +12,87 @@ import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, serverTime
 import { db } from "../components/firebase";
 import { ConsultationForm } from "../components/ConsultationForm";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from '../components/ui/dialog';
+
+
+const LoadingSpinner = () => (
+  <div className="min-h-screen flex items-center justify-center">
+    <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-orange-500"></div>
+  </div>
+);
+
+// New component for animated reviews
+const AnimatedReviews = ({ reviews, isSignedIn, user, handleDeleteReview }) => {
+  const containerRef = useRef(null);
+  const [duration, setDuration] = useState(30); // Base duration for animation
+
+  useEffect(() => {
+    // Adjust animation speed based on number of reviews
+    if (reviews.length > 5) {
+      setDuration(40 + (reviews.length * 2));
+    } else {
+      setDuration(30);
+    }
+  }, [reviews.length]);
+
+  return (
+    <div className="overflow-hidden py-4" ref={containerRef}>
+      <motion.div
+        className="flex"
+        animate={{
+          x: [0, -containerRef.current?.scrollWidth / 2 || -1000],
+        }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: duration,
+            ease: "linear",
+          },
+        }}
+      >
+        {/* Double the reviews to create seamless loop */}
+        {[...reviews, ...reviews].map((review, index) => (
+          <motion.div
+            key={`${review.id}-${index}`}
+            className="flex-shrink-0 mx-3 bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl shadow-lg min-w-[300px] max-w-[320px]"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <Quote className="h-8 w-8 text-orange-500 mb-4" />
+            <div className="mb-4">
+              <div className="flex space-x-1">
+                {[1, 2, 3, 4, 5].map((star) => (
+                  <Star
+                    key={star}
+                    className={`h-5 w-5 ${star <= review.rating ? 'text-yellow-400 fill-current' : 'text-gray-300'}`}
+                  />
+                ))}
+              </div>
+            </div>
+            <p className="text-gray-700 mb-4 italic">"{review.comment}"</p>
+            <div className="flex justify-between items-center text-sm text-gray-500">
+              <span className="font-medium">{review.name}</span>
+              <span>
+                {review.createdAt && !isNaN(new Date(review.createdAt).getTime()) 
+                  ? new Date(review.createdAt).toLocaleDateString() 
+                  : 'No date'}
+              </span>
+            </div>
+            {(isSignedIn && user?.id === review.userId) && (
+              <button
+                onClick={() => handleDeleteReview(review.id)}
+                className="absolute top-3 right-3 text-red-500 hover:text-red-700 transition"
+                title="Delete Review"
+              >
+                <Trash2 size={18} />
+              </button>
+            )}
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
+  );
+};
 
 const Home = () => {
   const [reviews, setReviews] = useState([]);
@@ -169,7 +250,7 @@ const Home = () => {
   );
 
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
@@ -220,63 +301,105 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Consultation Section */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <motion.div 
-                initial={{ opacity: 0, x: -30 }} 
-                whileInView={{ opacity: 1, x: 0 }} 
-                transition={{ duration: 0.8 }} 
-                className="space-y-6"
-              >
-                <h2 className="text-3xl md:text-4xl font-bold gradient-text">Book Expert Consultation</h2>
-                <p className="text-lg text-gray-600">
-                  Get personalized guidance from our experts in numerology and vaastu shastra. 
-                  Transform your life and spaces with ancient wisdom tailored to your needs.
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  {isSignedIn ? (
-                    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-                      <DialogTrigger asChild>
-                        <Button className="orange-gradient text-white hover:orange-gradient-hover px-8 py-3 text-lg rounded-xl hover:orange-gradient-hover transition-transform duration-300 ease-in-out">
-                          Book Consultation
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-[425px]">
-                        <DialogHeader>
-                          <DialogTitle>Book a Consultation</DialogTitle>
-                          <DialogDescription>
-                            Fill out the form below and we'll contact you shortly
-                          </DialogDescription>
-                        </DialogHeader>
-                        <ConsultationForm onSuccess={() => setIsDialogOpen(false)} />
-                      </DialogContent>
-                    </Dialog>
-                  ) : (
-                    <SignInButton mode="modal">
-                      <Button className="orange-gradient text-white hover:orange-gradient-hover px-8 py-3 text-lg rounded-xl hover:orange-gradient-hover transition-transform duration-300 ease-in-out">
-                        Book Consultation
-                      </Button>
-                    </SignInButton>
-                  )}
+{/* Consultation Section */}
+<section className="py-16 bg-white">
+  <div className="container mx-auto px-4">
+    <div className="grid md:grid-cols-2 gap-12 items-center">
+      <motion.div 
+        initial={{ opacity: 0, x: -30 }} 
+        whileInView={{ opacity: 1, x: 0 }} 
+        transition={{ duration: 0.8 }} 
+        className="space-y-6"
+      >
+        <h2 className="text-3xl md:text-4xl font-bold gradient-text">Book Expert Consultation</h2>
+        <p className="text-lg text-gray-600">
+          Get personalized guidance from our experts in numerology and vaastu shastra. 
+          Transform your life and spaces with ancient wisdom tailored to your needs.
+        </p>
+        
+        {/* Call Consultation Feature Info - Redesigned */}
+        <div className="bg-gradient-to-br from-orange-50 to-amber-50 p-5 rounded-2xl border-2 border-orange-100 shadow-sm">
+          <div className="flex items-start gap-3">
+            <div className="bg-orange-500 p-2 rounded-full flex-shrink-0">
+              <Phone className="h-5 w-5 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-orange-800 text-lg mb-1">Instant Call Consultation</h3>
+              <p className="text-sm text-orange-700 mb-3">
+                Connect directly with Rishabh Goel for immediate guidance
+              </p>
+              <div className="flex items-center justify-between bg-white p-3 rounded-xl border border-orange-200">
+                <div>
+                  <span className="text-xs text-gray-500 line-through block">Regular: ₹2099</span>
+                  <span className="text-xl font-bold text-orange-600">Only ₹499</span>
                 </div>
-              </motion.div>
-              <motion.div 
-                initial={{ opacity: 0, x: 30 }} 
-                whileInView={{ opacity: 1, x: 0 }} 
-                transition={{ duration: 0.8, delay: 0.2 }} 
-                className="flex justify-center"
-              >
-                <img 
-                  src="https://eugenixhairsciences.com/wp-content/uploads/2023/09/consultation.jpg" 
-                  alt="Consultation session" 
-                  className="rounded-xl shadow-lg w-full max-w-md"
-                />
-              </motion.div>
+                <div className="text-right">
+                  <span className="text-xs bg-gradient-to-r from-orange-500 to-amber-500 text-white px-2 py-1 rounded-full font-medium">
+                    77% OFF
+                  </span>
+                  <p className="text-xs text-green-600 mt-1 font-medium">Limited Time</p>
+                </div>
+              </div>
+              <ul className="text-xs text-orange-700 mt-3 space-y-1 pl-1">
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                  <span>Accepts one Date of Birth</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                  <span>Immediate connection after payment</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-orange-500 rounded-full"></div>
+                  <span>Personalized solutions for your needs</span>
+                </li>
+              </ul>
             </div>
           </div>
-        </section>
+        </div>
+
+        <div className="flex flex-wrap gap-4">
+          {isSignedIn ? (
+            <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="orange-gradient text-white hover:orange-gradient-hover px-8 py-3 text-lg rounded-xl hover:orange-gradient-hover transition-transform duration-300 ease-in-out">
+                  Book Consultation
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[425px]">
+                <DialogHeader>
+                  <DialogTitle>Book a Consultation</DialogTitle>
+                  <DialogDescription>
+                    Fill out the form below and we'll contact you shortly
+                  </DialogDescription>
+                </DialogHeader>
+                <ConsultationForm onSuccess={() => setIsDialogOpen(false)} />
+              </DialogContent>
+            </Dialog>
+          ) : (
+            <SignInButton mode="modal">
+              <Button className="orange-gradient text-white hover:orange-gradient-hover px-8 py-3 text-lg rounded-xl hover:orange-gradient-hover transition-transform duration-300 ease-in-out">
+                Book Consultation
+              </Button>
+            </SignInButton>
+          )}
+        </div>
+      </motion.div>
+      <motion.div 
+        initial={{ opacity: 0, x: 30 }} 
+        whileInView={{ opacity: 1, x: 0 }} 
+        transition={{ duration: 0.8, delay: 0.2 }} 
+        className="flex justify-center"
+      >
+        <img 
+          src="https://eugenixhairsciences.com/wp-content/uploads/2023/09/consultation.jpg" 
+          alt="Consultation session" 
+          className="rounded-xl shadow-lg w-full max-w-md"
+        />
+      </motion.div>
+    </div>
+  </div>
+</section>
 
         {/* Calculator Section */}
         <section className="py-16 bg-gradient-to-r from-orange-50 to-white">
@@ -384,7 +507,6 @@ const Home = () => {
           <p>• Business Numerology Consultant</p>
         </div>
         <div className="text-sm text-left text-gray-700 mb-4 space-y-1">
-          <p><strong>Mobile:</strong> +91-9650189822</p>
           <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
         </div>
         <div className="flex justify-center gap-6 mt-4">
@@ -430,7 +552,6 @@ const Home = () => {
           <p>• Numerology Consultant</p>
         </div>
         <div className="text-sm text-left text-gray-700 mb-4 space-y-1">
-          <p><strong>Mobile:</strong> +91-9650881509</p>
           <p><strong>Address:</strong> C1, Yamuna Vihar, Delhi-110053</p>
         </div>
         <div className="flex justify-center gap-6 mt-4">
@@ -464,34 +585,18 @@ const Home = () => {
               <h2 className="text-4xl font-bold gradient-text mb-4">What Our Clients Say</h2>
               <p className="text-xl text-gray-600">Real experiences from satisfied clients</p>
             </motion.div>
-            <div className="overflow-x-auto pb-4">
-              <div className="flex space-x-6 w-max">
-                {reviews.map((review, index) => (
-                  <motion.div key={review.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: index * 0.1 }} className="relative bg-gradient-to-br from-orange-50 to-white p-6 rounded-2xl shadow-lg min-w-[300px] max-w-[320px]">
-                    <Quote className="h-8 w-8 text-orange-500 mb-4" />
-                    <div className="mb-4">{renderStars(review.rating)}</div>
-                    <p className="text-gray-700 mb-4 italic">"{review.comment}"</p>
-                    <div className="flex justify-between items-center text-sm text-gray-500">
-                      <span className="font-medium">{review.name}</span>
-                      <span>
-                        {review.createdAt && !isNaN(new Date(review.createdAt).getTime()) 
-                          ? new Date(review.createdAt).toLocaleDateString() 
-                          : 'No date'}
-                      </span>
-                    </div>
-                    {(isSignedIn && user?.id === review.userId) && (
-                      <button
-                        onClick={() => handleDeleteReview(review.id)}
-                        className="absolute top-3 right-3 text-red-500 hover:text-red-700 transition"
-                        title="Delete Review"
-                      >
-                        <Trash2 size={18} />
-                      </button>
-                    )}
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+            
+            {/* Animated Reviews */}
+            {reviews.length > 0 ? (
+              <AnimatedReviews 
+                reviews={reviews} 
+                isSignedIn={isSignedIn} 
+                user={user} 
+                handleDeleteReview={handleDeleteReview} 
+              />
+            ) : (
+              <p className="text-center text-gray-500 py-8">No reviews yet. Be the first to leave one!</p>
+            )}
 
             {/* Submit Review */}
             <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-2xl mx-auto bg-gradient-to-br from-orange-50 to-white p-8 rounded-2xl shadow-lg mt-16">
