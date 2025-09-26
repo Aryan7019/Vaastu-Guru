@@ -6,59 +6,13 @@
 		<meta name="generator" content="Bhaggya Darshhan" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Vaastu Guru</title>
-		<script type="module" crossorigin src="/assets/index-63cae416.js"></script>
-		<link rel="modulepreload" crossorigin href="/assets/vendor-73f86e3a.js">
-		<link rel="stylesheet" href="/assets/index-e700ac2f.css">
-		<script type="module">
-    const handleViteOverlay = (node) => {
-      if (!node.shadowRoot) return;
-      const backdrop = node.shadowRoot.querySelector('.backdrop');
-      if (backdrop) {
-        const message = node.shadowRoot.querySelector('.message-body')?.textContent.trim() || '';
-        const file = node.shadowRoot.querySelector('.file')?.textContent.trim() || '';
-        window.parent.postMessage({
-          type: 'horizons-vite-error',
-          error: message + (file ? ' File:' + file : '')
-        }, '*');
-      }
-    };
-
-    new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (node.nodeType === Node.ELEMENT_NODE && 
-              (node.tagName?.toLowerCase() === 'vite-error-overlay' || 
-               node.classList?.contains('backdrop'))) {
-            handleViteOverlay(node);
-          }
-        });
-      });
-    }).observe(document.documentElement, { childList: true, subtree: true });
-  </script>
+		<script type="module" crossorigin src="/assets/index-785496c0.js"></script>
+		<link rel="modulepreload" crossorigin href="/assets/vendor-3cad852a.js">
+		<link rel="modulepreload" crossorigin href="/assets/ui-1f6cd5ae.js">
+		<link rel="stylesheet" href="/assets/index-a120f428.css">
 		<script type="module">
     window.onerror = (message, source, lineno, colno, error) => {
-      window.parent.postMessage({
-        type: 'horizons-runtime-error',
-        error: JSON.stringify({
-          message,
-          source,
-          lineno,
-          colno,
-          stack: error?.stack,
-          name: error?.name
-        })
-      }, '*');
-    };
-  </script>
-		<script type="module">
-    const originalError = console.error;
-    console.error = (...args) => {
-      originalError.apply(console, args);
-      const error = args.find(arg => arg instanceof Error);
-      window.parent.postMessage({
-        type: 'horizons-console-error',
-        error: error ? error.stack : args.join(' ')
-      }, '*');
+      console.error('Runtime Error:', { message, source, lineno, colno, stack: error?.stack });
     };
   </script>
 		<script type="module">
