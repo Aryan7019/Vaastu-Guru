@@ -265,7 +265,7 @@ const Home = () => {
           <div className="container mx-auto max-w-6xl">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="space-y-8">
               <h1 className="text-5xl md:text-7xl font-bold text-white text-shadow">Welcome to <span className="text-black">NumaVaastu</span></h1>
-              <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto">Unlock the secrets of your destiny through ancient numerology and vaastu wisdom</p>
+              <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto">Combining Numerology and Vaastu Shastra for Your Complete Life Transformation.</p>
               <div className="flex flex-wrap justify-center gap-4 mt-8">
                 {isSignedIn ? (
                   <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
@@ -497,7 +497,7 @@ const Home = () => {
           src="/images/Profile2.jpg"
         />
         <h3 className="text-2xl font-bold text-gray-900 mb-1">Yashraj Guruji</h3>
-        <p className="text-pink-600 font-medium mb-4">Senior Numerology Consultant</p>
+        <p className="text-pink-600 font-medium mb-4">Senior Numerology & Vaastu Consultant</p>
         <p className="text-gray-600 text-sm mb-4">
           With over 20 years of experience in numerology, Yashraj Guruji has helped thousands discover their life path through numbers.
         </p>
@@ -542,7 +542,7 @@ const Home = () => {
           src="/images/Profile.jpg"
         />
         <h3 className="text-2xl font-bold text-gray-900 mb-1">Rishabh Goel</h3>
-        <p className="text-orange-500 font-medium mb-4">Vaastu Consultant</p>
+        <p className="text-orange-500 font-medium mb-4">Numerology & Vaastu Consultant</p>
         <p className="text-gray-600 text-sm mb-4">
           A renowned Vaastu expert with 7+ years of experience, Rishabh Goel harmonizes spaces for prosperity and peace.
         </p>
