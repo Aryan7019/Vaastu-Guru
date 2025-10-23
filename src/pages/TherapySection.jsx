@@ -100,7 +100,7 @@ const TherapySection = () => {
   return (
     <>
       <Helmet>
-        <title>Therapies - Color & Pyramid | Bhaggya Darshhan</title>
+        <title>Therapies - Color & Pyramid | NumaVaastu</title>
         <meta name="description" content="Explore Color Therapy and Pyramid Therapy to balance your energies and enhance well-being through ancient practices." />
       </Helmet>
 

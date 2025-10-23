@@ -9,7 +9,7 @@ export const sendConsultationRequest = async ({ name, phone }) => {
   try {
     const templateParams = {
       to_email: 'Rishabhg101@gmail.com',
-      from_name: 'Vaastu Guru',
+      from_name: 'NumaVaastu',
       name,
       phone,
       time: new Date().toLocaleString(),

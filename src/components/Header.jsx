@@ -41,7 +41,7 @@ const Header = () => {
                 src="/images/bhaggya darshhan.png" 
               />
               <div className="hidden sm:block">
-                <h1 className="text-2xl font-bold gradient-text">Vaastu Guru</h1>
+                <h1 className="text-2xl font-bold gradient-text">NumaVaastu</h1>
               </div>
             </Link>
 

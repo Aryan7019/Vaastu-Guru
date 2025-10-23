@@ -256,7 +256,7 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Vaastu Guru - Expert Numerology & Vaastu Consultancy</title>
+        <title>NumaVaastu - Expert Numerology & Vaastu Consultancy</title>
         <meta name="description" content="Get expert numerology and vaastu consultations from Yashraj Guruji and Rishabh Goel. Transform your life with ancient wisdom and modern insights." />
       </Helmet>
       <div className="min-h-screen">
@@ -264,7 +264,7 @@ const Home = () => {
         <section className="relative py-20 px-4 text-center">
           <div className="container mx-auto max-w-6xl">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="space-y-8">
-              <h1 className="text-5xl md:text-7xl font-bold text-white text-shadow">Welcome to <span className="text-black">Vaastu Guru</span></h1>
+              <h1 className="text-5xl md:text-7xl font-bold text-white text-shadow">Welcome to <span className="text-black">NumaVaastu</span></h1>
               <p className="text-xl md:text-2xl text-white max-w-3xl mx-auto">Unlock the secrets of your destiny through ancient numerology and vaastu wisdom</p>
               <div className="flex flex-wrap justify-center gap-4 mt-8">
                 {isSignedIn ? (

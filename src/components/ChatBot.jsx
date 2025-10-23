@@ -9,7 +9,7 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hello! I'm your AI assistant for Vaastu Guru. I can help you with questions about numerology, vaastu, and our services. How can I assist you today?",
+      text: "Hello! I'm your AI assistant for NumaVaastu. I can help you with questions about numerology, vaastu, and our services. How can I assist you today?",
       isBot: true
     }
   ]);

@@ -71,7 +71,7 @@ const Services = () => {
   return (
     <>
       <Helmet>
-        <title>Our Services | Vaastu Guru - Numerology & Vaastu Consultancy</title>
+        <title>Our Services | NumaVaastu - Numerology & Vaastu Consultancy</title>
         <meta name="description" content="Explore our range of numerology and vaastu services designed to bring balance, prosperity, and harmony to your life." />
       </Helmet>
 
