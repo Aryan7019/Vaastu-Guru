@@ -1,7 +1,32 @@
+import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
 
-const Footer = () => {
+// Static data moved outside component
+const QUICK_LINKS = [
+  { name: 'Home', path: '/' },
+  { name: 'About Us', path: '/learn' },
+  { name: 'Services', path: '/services' },
+  { name: 'Calculator', path: '/calculator' },
+  { name: 'Therapy', path: '/therapy' }
+];
+
+const SERVICE_LINKS = [
+  { name: 'Numerology', path: '/services' },
+  { name: 'Vaastu Consultation', path: '/services' },
+  { name: 'Name Correction', path: '/services' },
+  { name: 'Color Therapy', path: '/therapy' },
+  { name: 'Pyramid Therapy', path: '/therapy' }
+];
+
+const SOCIAL_LINKS = [
+  { icon: Facebook, href: 'https://www.facebook.com/yashrajguruji', label: 'Facebook' },
+  { icon: Instagram, href: 'https://www.instagram.com/yashrajguruji', label: 'Instagram' },
+  { icon: Twitter, href: '#', label: 'Twitter' },
+  { icon: Youtube, href: '#', label: 'Youtube' }
+];
+
+const Footer = memo(() => {
   return (
     <footer className="bg-[#2a2118] text-gray-300 relative z-20">
       {/* Main Footer */}
@@ -22,34 +47,18 @@ const Footer = () => {
             </p>
             {/* Social Icons */}
             <div className="flex gap-2 sm:gap-3 pt-2">
-              <a 
-                href="https://www.facebook.com/yashrajguruji" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-[#3d3028] hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300"
-              >
-                <Facebook className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </a>
-              <a 
-                href="https://www.instagram.com/yashrajguruji" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-[#3d3028] hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300"
-              >
-                <Instagram className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </a>
-              <a 
-                href="#" 
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-[#3d3028] hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300"
-              >
-                <Twitter className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </a>
-              <a 
-                href="#" 
-                className="w-8 h-8 sm:w-9 sm:h-9 bg-[#3d3028] hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300"
-              >
-                <Youtube className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </a>
+              {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
+                <a 
+                  key={label}
+                  href={href} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="w-8 h-8 sm:w-9 sm:h-9 bg-[#3d3028] hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300"
+                >
+                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                </a>
+              ))}
             </div>
           </div>
 
@@ -57,31 +66,13 @@ const Footer = () => {
           <div>
             <h3 className="text-orange-400 font-semibold text-base sm:text-lg mb-3 sm:mb-4">Quick Links</h3>
             <ul className="space-y-2 sm:space-y-3">
-              <li>
-                <Link to="/" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/learn" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/services" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  Services
-                </Link>
-              </li>
-              <li>
-                <Link to="/calculator" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  Calculator
-                </Link>
-              </li>
-              <li>
-                <Link to="/therapy" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  Therapy
-                </Link>
-              </li>
+              {QUICK_LINKS.map(({ name, path }) => (
+                <li key={name}>
+                  <Link to={path} className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
+                    {name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -89,31 +80,13 @@ const Footer = () => {
           <div>
             <h3 className="text-orange-400 font-semibold text-base sm:text-lg mb-3 sm:mb-4">Services</h3>
             <ul className="space-y-2 sm:space-y-3">
-              <li>
-                <Link to="/services" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  Numerology
-                </Link>
-              </li>
-              <li>
-                <Link to="/services" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  Vaastu Consultation
-                </Link>
-              </li>
-              <li>
-                <Link to="/services" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  Name Correction
-                </Link>
-              </li>
-              <li>
-                <Link to="/therapy" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  Color Therapy
-                </Link>
-              </li>
-              <li>
-                <Link to="/therapy" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  Pyramid Therapy
-                </Link>
-              </li>
+              {SERVICE_LINKS.map(({ name, path }) => (
+                <li key={name}>
+                  <Link to={path} className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
+                    {name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

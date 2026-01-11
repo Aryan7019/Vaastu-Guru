@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { Calculator, Home, Building, Palette, Triangle, PenTool } from 'lucide-react';
@@ -8,18 +8,14 @@ import { useUser, SignInButton } from '@clerk/clerk-react';
 import { ConsultationForm } from "../components/ConsultationForm";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader, DialogDescription } from '../components/ui/dialog';
 
-const LoadingSpinner = () => (
+const LoadingSpinner = memo(() => (
   <div className="min-h-screen flex items-center justify-center">
     <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-orange-500"></div>
   </div>
-);
+));
 
-const Services = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { isSignedIn , isLoaded } = useUser();
-  const location = useLocation();
-
-  const services = [
+// Static services data moved outside component
+const SERVICES = [
     {
       title: "Numerology",
       description: "Discover your life path number and understand your core personality traits, strengths, and challenges through the ancient science of numbers.",
@@ -62,7 +58,63 @@ const Services = () => {
       img: "https://dailygalaxy.com/wp-content/uploads/2025/04/The-Great-Pyramid-of-Giza-Has-MORE-Than-Four-Sides.jpg",
       icon: <Triangle className="w-5 h-5 sm:w-6 sm:h-6" />
     }
-  ];
+];
+
+// Memoized Service Card
+const ServiceCard = memo(({ service, index }) => (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+    className="group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
+  >
+    <div className="h-64 sm:h-72 md:h-80 overflow-hidden relative">
+      <img
+        src={service.img}
+        alt={service.title}
+        className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+        loading="lazy"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-orange-600/90 via-orange-500/60 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-400 ease-out"></div>
+      
+      <div className="absolute inset-0 p-4 sm:p-5 md:p-6 flex flex-col justify-end text-white">
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.6, delay: index * 0.1 + 0.2 }}
+          className="transform group-hover:-translate-y-2 transition-transform duration-400 ease-out"
+        >
+          <div className="flex items-center mb-3 sm:mb-4">
+            <div className="bg-white/20 backdrop-blur-md p-2 sm:p-3 rounded-full mr-3 sm:mr-4 group-hover:bg-white/30 transition-colors duration-300 ease-out">
+              {service.icon}
+            </div>
+            <h3 className="text-lg sm:text-xl md:text-2xl font-bold">{service.title}</h3>
+          </div>
+          <p className="text-white/90 leading-relaxed group-hover:text-white transition-colors duration-300 ease-out text-sm sm:text-base line-clamp-3">
+            {service.description}
+          </p>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            className="mt-3 sm:mt-4 opacity-0 group-hover:opacity-100 transition-all duration-300"
+          >
+            <div className="inline-flex items-center text-white font-semibold text-sm sm:text-base">
+              Learn More 
+              <svg className="ml-2 w-3 h-3 sm:w-4 sm:h-4 transform group-hover:translate-x-1 transition-transform duration-300 ease-out" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+    </div>
+  </motion.div>
+));
+
+const Services = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const { isSignedIn, isLoaded } = useUser();
+  const location = useLocation();
 
   if (!isLoaded) {
     return <LoadingSpinner />;
@@ -144,54 +196,8 @@ const Services = () => {
               transition={{ duration: 0.5 }} 
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8" 
             >
-              {services.map((service, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-                  className="group relative overflow-hidden rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 cursor-pointer"
-                >
-                  <div className="h-64 sm:h-72 md:h-80 overflow-hidden relative">
-                    <img
-                      src={service.img}
-                      alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-orange-600/90 via-orange-500/60 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-400 ease-out"></div>
-                    
-                    <div className="absolute inset-0 p-4 sm:p-5 md:p-6 flex flex-col justify-end text-white">
-                      <motion.div
-                        initial={{ y: 20, opacity: 0 }}
-                        whileInView={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.6, delay: index * 0.1 + 0.2 }}
-                        className="transform group-hover:-translate-y-2 transition-transform duration-400 ease-out"
-                      >
-                        <div className="flex items-center mb-3 sm:mb-4">
-                          <div className="bg-white/20 backdrop-blur-md p-2 sm:p-3 rounded-full mr-3 sm:mr-4 group-hover:bg-white/30 transition-colors duration-300 ease-out">
-                            {service.icon}
-                          </div>
-                          <h3 className="text-lg sm:text-xl md:text-2xl font-bold">{service.title}</h3>
-                        </div>
-                        <p className="text-white/90 leading-relaxed group-hover:text-white transition-colors duration-300 ease-out text-sm sm:text-base line-clamp-3">
-                          {service.description}
-                        </p>
-                        
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          className="mt-3 sm:mt-4 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                        >
-                          <div className="inline-flex items-center text-white font-semibold text-sm sm:text-base">
-                            Learn More 
-                            <svg className="ml-2 w-3 h-3 sm:w-4 sm:h-4 transform group-hover:translate-x-1 transition-transform duration-300 ease-out" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                            </svg>
-                          </div>
-                        </motion.div>
-                      </motion.div>
-                    </div>
-                  </div>
-                </motion.div>
+              {SERVICES.map((service, index) => (
+                <ServiceCard key={service.title} service={service} index={index} />
               ))}
             </motion.div>
           </div>

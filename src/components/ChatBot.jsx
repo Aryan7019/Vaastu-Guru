@@ -1,21 +1,16 @@
-import React, { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-const ChatBot = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      text: "Hello! I'm your AI assistant for NumaVaastu. I can help you with questions about numerology, vaastu, and our services. How can I assist you today?",
-      isBot: true
-    }
-  ]);
-  const [inputMessage, setInputMessage] = useState('');
+const INITIAL_MESSAGE = {
+  id: 1,
+  text: "Hello! I'm your AI assistant for NumaVaastu. I can help you with questions about numerology, vaastu, and our services. How can I assist you today?",
+  isBot: true
+};
 
-  const predefinedResponses = {
+const RESPONSES = {
     // Greetings
     greeting: "Hello! 👋 Welcome to NumaVaastu! I'm here to help you with numerology, vaastu, and our services. How can I assist you today?",
     howAreYou: "I'm doing great, thank you for asking! 😊 How can I help you today with numerology or vaastu?",
@@ -47,84 +42,91 @@ const ChatBot = () => {
     who: "NumaVaastu was founded by Yashraj Guruji and Rishabh Goel, experts in numerology and vaastu shastra with years of experience helping people achieve balance and success.",
     
     default: "I can help you with:\n• Numerology & Vaastu information\n• Our services & consultants\n• Calculator & reports\n• Booking consultations\n• Contact details\n\nJust ask me anything about these topics! 😊"
-  };
+};
 
-  const getResponse = (input) => {
-    const lowerInput = input.toLowerCase().trim();
-    
-    // Greetings
-    if (/^(hi|hello|hey|hii+|hola|namaste|good morning|good afternoon|good evening)/.test(lowerInput)) {
-      return predefinedResponses.greeting;
-    }
-    if (lowerInput.includes('how are you') || lowerInput.includes('how r u') || lowerInput.includes('whats up') || lowerInput.includes("what's up")) {
-      return predefinedResponses.howAreYou;
-    }
-    if (lowerInput.includes('thank') || lowerInput.includes('thanks') || lowerInput.includes('thx')) {
-      return predefinedResponses.thanks;
-    }
-    if (/^(bye|goodbye|see you|take care|cya)/.test(lowerInput) || lowerInput.includes('bye')) {
-      return predefinedResponses.bye;
-    }
-    
-    // Website specific
-    if (lowerInput.includes('what is') && (lowerInput.includes('numavaastu') || lowerInput.includes('this website') || lowerInput.includes('this site'))) {
-      return predefinedResponses.what;
-    }
-    if (lowerInput.includes('who') && (lowerInput.includes('founder') || lowerInput.includes('created') || lowerInput.includes('made') || lowerInput.includes('behind'))) {
-      return predefinedResponses.who;
-    }
-    
-    // Pages
-    if (lowerInput.includes('about') || lowerInput.includes('learn')) {
-      return predefinedResponses.about;
-    }
-    if (lowerInput.includes('therapy') || lowerInput.includes('color') || lowerInput.includes('pyramid')) {
-      return predefinedResponses.therapy;
-    }
-    if (lowerInput.includes('home') || lowerInput.includes('main page')) {
-      return predefinedResponses.home;
-    }
-    
-    // Services & Features
-    if (lowerInput.includes('numerology') || lowerInput.includes('number meaning') || lowerInput.includes('birth number')) {
-      return predefinedResponses.numerology;
-    }
-    if (lowerInput.includes('vaastu') || lowerInput.includes('vastu') || lowerInput.includes('direction')) {
-      return predefinedResponses.vaastu;
-    }
-    if (lowerInput.includes('consultant') || lowerInput.includes('expert') || lowerInput.includes('guruji') || lowerInput.includes('rishabh') || lowerInput.includes('yashraj')) {
-      return predefinedResponses.consultants;
-    }
-    if (lowerInput.includes('service') || lowerInput.includes('offer') || lowerInput.includes('provide') || lowerInput.includes('do you do')) {
-      return predefinedResponses.services;
-    }
-    if (lowerInput.includes('calculator') || lowerInput.includes('calculate') || lowerInput.includes('find my number')) {
-      return predefinedResponses.calculator;
-    }
-    if (lowerInput.includes('report') || lowerInput.includes('pdf') || lowerInput.includes('download')) {
-      return predefinedResponses.report;
-    }
-    
-    // Contact & Booking
-    if (lowerInput.includes('contact') || lowerInput.includes('reach') || lowerInput.includes('phone') || lowerInput.includes('call') || lowerInput.includes('mobile')) {
-      return predefinedResponses.contact;
-    }
-    if (lowerInput.includes('price') || lowerInput.includes('cost') || lowerInput.includes('fee') || lowerInput.includes('charge') || lowerInput.includes('how much')) {
-      return predefinedResponses.price;
-    }
-    if (lowerInput.includes('book') || lowerInput.includes('appointment') || lowerInput.includes('consultation') || lowerInput.includes('schedule')) {
-      return predefinedResponses.book;
-    }
-    
-    // Help
-    if (lowerInput.includes('help') || lowerInput.includes('what can you do') || lowerInput.includes('options')) {
-      return predefinedResponses.default;
-    }
-    
-    return predefinedResponses.default;
-  };
+const getResponse = (input) => {
+  const lowerInput = input.toLowerCase().trim();
+  
+  // Greetings
+  if (/^(hi|hello|hey|hii+|hola|namaste|good morning|good afternoon|good evening)/.test(lowerInput)) {
+    return RESPONSES.greeting;
+  }
+  if (lowerInput.includes('how are you') || lowerInput.includes('how r u') || lowerInput.includes('whats up') || lowerInput.includes("what's up")) {
+    return RESPONSES.howAreYou;
+  }
+  if (lowerInput.includes('thank') || lowerInput.includes('thanks') || lowerInput.includes('thx')) {
+    return RESPONSES.thanks;
+  }
+  if (/^(bye|goodbye|see you|take care|cya)/.test(lowerInput) || lowerInput.includes('bye')) {
+    return RESPONSES.bye;
+  }
+  
+  // Website specific
+  if (lowerInput.includes('what is') && (lowerInput.includes('numavaastu') || lowerInput.includes('this website') || lowerInput.includes('this site'))) {
+    return RESPONSES.what;
+  }
+  if (lowerInput.includes('who') && (lowerInput.includes('founder') || lowerInput.includes('created') || lowerInput.includes('made') || lowerInput.includes('behind'))) {
+    return RESPONSES.who;
+  }
+  
+  // Pages
+  if (lowerInput.includes('about') || lowerInput.includes('learn')) {
+    return RESPONSES.about;
+  }
+  if (lowerInput.includes('therapy') || lowerInput.includes('color') || lowerInput.includes('pyramid')) {
+    return RESPONSES.therapy;
+  }
+  if (lowerInput.includes('home') || lowerInput.includes('main page')) {
+    return RESPONSES.home;
+  }
+  
+  // Services & Features
+  if (lowerInput.includes('numerology') || lowerInput.includes('number meaning') || lowerInput.includes('birth number')) {
+    return RESPONSES.numerology;
+  }
+  if (lowerInput.includes('vaastu') || lowerInput.includes('vastu') || lowerInput.includes('direction')) {
+    return RESPONSES.vaastu;
+  }
+  if (lowerInput.includes('consultant') || lowerInput.includes('expert') || lowerInput.includes('guruji') || lowerInput.includes('rishabh') || lowerInput.includes('yashraj')) {
+    return RESPONSES.consultants;
+  }
+  if (lowerInput.includes('service') || lowerInput.includes('offer') || lowerInput.includes('provide') || lowerInput.includes('do you do')) {
+    return RESPONSES.services;
+  }
+  if (lowerInput.includes('calculator') || lowerInput.includes('calculate') || lowerInput.includes('find my number')) {
+    return RESPONSES.calculator;
+  }
+  if (lowerInput.includes('report') || lowerInput.includes('pdf') || lowerInput.includes('download')) {
+    return RESPONSES.report;
+  }
+  
+  // Contact & Booking
+  if (lowerInput.includes('contact') || lowerInput.includes('reach') || lowerInput.includes('phone') || lowerInput.includes('call') || lowerInput.includes('mobile')) {
+    return RESPONSES.contact;
+  }
+  if (lowerInput.includes('price') || lowerInput.includes('cost') || lowerInput.includes('fee') || lowerInput.includes('charge') || lowerInput.includes('how much')) {
+    return RESPONSES.price;
+  }
+  if (lowerInput.includes('book') || lowerInput.includes('appointment') || lowerInput.includes('consultation') || lowerInput.includes('schedule')) {
+    return RESPONSES.book;
+  }
+  
+  // Help
+  if (lowerInput.includes('help') || lowerInput.includes('what can you do') || lowerInput.includes('options')) {
+    return RESPONSES.default;
+  }
+  
+  return RESPONSES.default;
+};
 
-  const handleSendMessage = () => {
+const ChatBot = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([INITIAL_MESSAGE]);
+  const [inputMessage, setInputMessage] = useState('');
+
+  const toggleChat = useCallback(() => setIsOpen(prev => !prev), []);
+
+  const handleSendMessage = useCallback(() => {
     if (!inputMessage.trim()) return;
 
     const userMessage = {
@@ -134,34 +136,32 @@ const ChatBot = () => {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const response = getResponse(inputMessage);
+    setInputMessage('');
 
     // Generate bot response
     setTimeout(() => {
-      const response = getResponse(inputMessage);
-
-      const botMessage = {
+      setMessages(prev => [...prev, {
         id: Date.now() + 1,
         text: response,
         isBot: true
-      };
-
-      setMessages(prev => [...prev, botMessage]);
+      }]);
     }, 800);
+  }, [inputMessage]);
 
-    setInputMessage('');
-  };
-
-  const handleKeyPress = (e) => {
+  const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter') {
       handleSendMessage();
     }
-  };
+  }, [handleSendMessage]);
+
+  const handleInputChange = useCallback((e) => setInputMessage(e.target.value), []);
 
   return (
     <>
       {/* Chat Toggle Button */}
       <motion.button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleChat}
         className="fixed bottom-[72px] sm:bottom-[76px] right-4 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-xl flex items-center justify-center text-white hover:from-orange-600 hover:to-orange-700 transition-all duration-300"
         style={{ boxShadow: '0 4px 20px rgba(249, 115, 22, 0.5)' }}
       >
@@ -235,7 +235,7 @@ const ChatBot = () => {
               <div className="flex space-x-2">
                 <Input
                   value={inputMessage}
-                  onChange={(e) => setInputMessage(e.target.value)}
+                  onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
                   placeholder="Ask me anything..."
                   className="flex-1 text-sm text-gray-800 bg-gray-50 border-gray-200 focus:border-orange-500"

@@ -1,9 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Compass, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUser, SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react';
+
+// Static nav items moved outside component
+const NAV_ITEMS = [
+  { name: 'Home', path: '/' },
+  { name: 'About', path: '/learn' },
+  { name: 'Therapy', path: '/therapy' },
+  { name: 'Calculator', path: '/calculator' },
+  { name: 'Services', path: '/services' }
+];
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,21 +22,14 @@ const Header = () => {
 
   // Detect scroll to change header appearance
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial state
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navItems = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/learn' },
-    { name: 'Therapy', path: '/therapy' },
-    { name: 'Calculator', path: '/calculator' },
-    { name: 'Services', path: '/services' }
-  ];
+  const toggleMenu = useCallback(() => setIsMenuOpen(prev => !prev), []);
+  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
 
   return (
     <header 
@@ -55,7 +57,7 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2">
-            {navItems.map((item) => (
+            {NAV_ITEMS.map((item) => (
               <Link
                 key={item.name}
                 to={item.path}
@@ -111,7 +113,7 @@ const Header = () => {
                 ? 'text-orange-600 hover:bg-orange-50' 
                 : 'text-white hover:bg-white/10'
             }`}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            onClick={toggleMenu}
           >
             <motion.div
               animate={{ rotate: isMenuOpen ? 180 : 0 }}
@@ -138,11 +140,11 @@ const Header = () => {
             }`}
           >
             <div className="container mx-auto px-4 py-4 space-y-2">
-              {navItems.map((item) => (
+              {NAV_ITEMS.map((item) => (
                 <Link
                   key={item.name}
                   to={item.path}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={closeMenu}
                   className={`block px-4 py-3 rounded-xl text-base font-medium transition-all ${
                     location.pathname === item.path
                       ? scrolled 

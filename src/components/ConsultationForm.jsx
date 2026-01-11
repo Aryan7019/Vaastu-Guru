@@ -1,10 +1,14 @@
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
 import { sendConsultationRequest } from '@/services/emailService';
-import { motion } from 'framer-motion';
+
+// Static data moved outside component
+const CONSULTATION_TYPES = ['Numerology', 'Vaastu', 'Color Therapy', 'Pyramid Therapy'];
+const TIME_SLOTS = ['Morning (9 AM - 12 PM)', 'Afternoon (12 PM - 4 PM)', 'Evening (4 PM - 8 PM)'];
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const ConsultationForm = ({ onSuccess }) => {
   const [formData, setFormData] = useState({
@@ -18,29 +22,18 @@ export const ConsultationForm = ({ onSuccess }) => {
   });
   const [isLoading, setIsLoading] = useState(false);
 
-  const consultationTypes = [
-    'Numerology',
-    'Vaastu',
-    'Color Therapy',
-    'Pyramid Therapy'
-  ];
+  // Get today's date for min date
+  const today = useMemo(() => new Date().toISOString().split('T')[0], []);
 
-  const timeSlots = [
-    'Morning (9 AM - 12 PM)',
-    'Afternoon (12 PM - 4 PM)',
-    'Evening (4 PM - 8 PM)'
-  ];
-
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    if (name === 'phone') {
-      setFormData(prev => ({ ...prev, [name]: value.replace(/\D/g, '') }));
-    } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
-    }
-  };
+    setFormData(prev => ({
+      ...prev,
+      [name]: name === 'phone' ? value.replace(/\D/g, '') : value
+    }));
+  }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = useCallback(async (e) => {
     e.preventDefault();
     
     // Validate all fields
@@ -64,9 +57,7 @@ export const ConsultationForm = ({ onSuccess }) => {
       return;
     }
 
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
+    if (!EMAIL_REGEX.test(formData.email)) {
       toast({
         title: "Invalid Email",
         description: "Please enter a valid email address",
@@ -95,10 +86,7 @@ export const ConsultationForm = ({ onSuccess }) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  // Get today's date for min date
-  const today = new Date().toISOString().split('T')[0];
+  }, [formData, onSuccess]);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-h-[70vh] overflow-y-auto pr-2">
@@ -167,7 +155,7 @@ export const ConsultationForm = ({ onSuccess }) => {
           required
         >
           <option value="">Select consultation type</option>
-          {consultationTypes.map(type => (
+          {CONSULTATION_TYPES.map(type => (
             <option key={type} value={type}>{type}</option>
           ))}
         </select>
@@ -204,7 +192,7 @@ export const ConsultationForm = ({ onSuccess }) => {
           required
         >
           <option value="">Select time slot</option>
-          {timeSlots.map(slot => (
+          {TIME_SLOTS.map(slot => (
             <option key={slot} value={slot}>{slot}</option>
           ))}
         </select>
@@ -227,12 +215,7 @@ export const ConsultationForm = ({ onSuccess }) => {
       </div>
 
       {/* Submit Button */}
-      <motion.div
-        
-        
-        transition={{ duration: 0.2 }}
-        className="pt-2"
-      >
+      <div className="pt-2">
         <Button
           type="submit"
           className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium py-3 px-6 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg"
@@ -250,7 +233,7 @@ export const ConsultationForm = ({ onSuccess }) => {
             "Submit Request"
           )}
         </Button>
-      </motion.div>
+      </div>
     </form>
   );
 };
