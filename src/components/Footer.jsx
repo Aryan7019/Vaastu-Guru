@@ -137,6 +137,6 @@ const Footer = memo(() => {
       </div>
     </footer>
   );
-};
+});
 
 export default Footer;
