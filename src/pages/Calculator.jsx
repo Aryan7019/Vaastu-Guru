@@ -4,12 +4,7 @@ import { motion } from 'framer-motion';
 import { useUser } from '@clerk/clerk-react';
 import CalculatorForm from '@/components/calculator/CalculatorForm';
 import CalculatorResult from '@/components/calculator/CalculatorResult';
-
-const LoadingSpinner = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="animate-spin rounded-full h-16 w-16 sm:h-20 sm:w-20 border-b-4 border-orange-500"></div>
-  </div>
-);
+import LoadingSpinner from '@/components/LoadingSpinner';
 
 const Calculator = () => {
   const [formData, setFormData] = useState({

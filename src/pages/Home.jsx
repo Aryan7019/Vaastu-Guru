@@ -35,12 +35,8 @@ const AnimatedCounter = memo(({ end, suffix = "", duration = 2 }) => {
   return <span ref={ref}>{count}{suffix}</span>;
 });
 
-// Loading Spinner
-const LoadingSpinner = () => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="animate-spin rounded-full h-16 w-16 border-4 border-orange-200 border-t-orange-500" />
-  </div>
-);
+// Loading Spinner - use shared component
+import LoadingSpinner from '../components/LoadingSpinner';
 
 // Memoized Review Card
 const ReviewCard = memo(({ review, isSignedIn, userId, onDelete }) => (

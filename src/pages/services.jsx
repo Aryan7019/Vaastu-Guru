@@ -7,12 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useUser, SignInButton } from '@clerk/clerk-react';
 import { ConsultationForm } from "../components/ConsultationForm";
 import { Dialog, DialogContent, DialogTrigger, DialogTitle, DialogHeader, DialogDescription } from '../components/ui/dialog';
-
-const LoadingSpinner = memo(() => (
-  <div className="min-h-screen flex items-center justify-center">
-    <div className="animate-spin rounded-full h-20 w-20 border-b-4 border-orange-500"></div>
-  </div>
-));
+import LoadingSpinner from '../components/LoadingSpinner';
 
 // Static services data moved outside component
 const SERVICES = [
