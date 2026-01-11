@@ -48,7 +48,7 @@ const Header = () => {
               className="h-10 sm:h-12 md:h-14 w-auto"
               src="/images/bhaggya darshhan.png"
             />
-            <span className={`hidden sm:block text-lg sm:text-xl md:text-2xl font-bold transition-colors duration-300 ${
+            <span className={`text-base sm:text-xl md:text-2xl font-bold transition-colors duration-300 ${
               scrolled ? 'text-orange-600' : 'text-white'
             }`}>
               NumaVaastu

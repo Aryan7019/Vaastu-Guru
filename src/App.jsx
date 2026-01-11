@@ -30,7 +30,7 @@ function App() {
     >
       <Router>
         <ScrollToTop />
-        <div className="min-h-screen relative flex flex-col">
+        <div className="min-h-screen relative flex flex-col overflow-x-hidden">
           {/* Global floating background */}
           <FloatingBackground />
           
@@ -38,7 +38,7 @@ function App() {
           <Header />
           
           {/* Main content - above floating elements */}
-          <main className="relative pt-16 flex-grow" style={{ zIndex: 10 }}>
+          <main className="relative flex-grow overflow-x-hidden" style={{ zIndex: 10 }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/learn" element={<StudySection />} />

@@ -73,8 +73,8 @@ const ReviewCard = memo(({ review, isSignedIn, userId, onDelete }) => (
 const AnimatedReviews = memo(({ reviews, isSignedIn, user, handleDeleteReview }) => {
   if (reviews.length === 0) return null;
   return (
-    <div className="overflow-hidden py-8">
-      <motion.div className="flex gap-6 sm:gap-8" animate={{ x: [0, -1500] }} transition={{ x: { repeat: Infinity, repeatType: "loop", duration: 35, ease: "linear" } }}>
+    <div className="overflow-hidden py-8 w-full">
+      <motion.div className="flex gap-6 sm:gap-8 w-max" animate={{ x: [0, -1500] }} transition={{ x: { repeat: Infinity, repeatType: "loop", duration: 35, ease: "linear" } }}>
         {[...reviews, ...reviews].map((review, index) => (
           <ReviewCard key={`${review.id}-${index}`} review={review} isSignedIn={isSignedIn} userId={user?.id} onDelete={handleDeleteReview} />
         ))}
@@ -191,7 +191,7 @@ const Home = () => {
       </Helmet>
       <div className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative py-16 sm:py-20 md:py-24 px-4 text-center overflow-hidden min-h-screen flex items-center">
+        <section className="relative pt-16 sm:pt-20 pb-8 sm:pb-12 px-4 text-center overflow-hidden min-h-[70vh] sm:min-h-screen flex items-center">
           <div className="container mx-auto max-w-6xl relative z-10">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }} className="space-y-6 sm:space-y-8">
               <div className="inline-flex items-center px-4 sm:px-6 py-2 sm:py-3 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-white font-medium text-sm sm:text-base">

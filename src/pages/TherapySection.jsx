@@ -99,14 +99,14 @@ const TherapySection = () => {
         <meta name="description" content="Explore Color Therapy and Pyramid Therapy to balance your energies and enhance well-being through ancient practices." />
       </Helmet>
 
-      <div className="min-h-screen py-20">
+      <div className="min-h-screen pt-16 sm:pt-20 pb-8">
         <div className="container mx-auto px-4">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-16">
-            <h1 className="text-5xl md:text-7xl font-bold text-white text-shadow mb-4">Explore <span className="text-black">Healing Therapies</span></h1>
-            <p className="text-xl text-white max-w-3xl mx-auto">Discover ancient therapeutic practices to harmonize your energy and enhance well-being</p>
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-6 sm:mb-10">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-white text-shadow mb-2 sm:mb-4">Explore <span className="text-black">Healing Therapies</span></h1>
+            <p className="text-sm sm:text-lg text-white max-w-3xl mx-auto px-2">Discover ancient therapeutic practices to harmonize your energy</p>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="flex justify-center mb-12">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="flex justify-center mb-6 sm:mb-10">
             <div className="bg-white rounded-2xl p-2 shadow-lg">
               <button onClick={() => setActiveTab('color')} className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 ${activeTab === 'color' ? 'orange-gradient text-white' : 'text-gray-600 hover:text-orange-500'}`}>
                 <Palette className="inline-block w-5 h-5 mr-2" />Color

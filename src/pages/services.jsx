@@ -124,7 +124,7 @@ const Services = () => {
 
       <div className="min-h-screen">
         {/* Hero Section */}
-        <section className="relative px-4 text-center py-12 sm:py-16 min-h-[40vh] sm:min-h-[50vh] flex items-center overflow-hidden">
+        <section className="relative px-4 text-center pt-16 sm:pt-20 pb-6 sm:pb-10 flex items-center overflow-hidden">
           
           <div className="container mx-auto max-w-6xl relative z-10">
             <motion.div 

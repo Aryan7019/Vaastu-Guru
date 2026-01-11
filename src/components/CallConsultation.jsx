@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -43,14 +42,19 @@ const CallConsultation = () => {
 
   return (
     <>
-      <motion.button
+      <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-4 right-4 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-xl flex items-center justify-center text-white hover:from-orange-600 hover:to-orange-700 transition-all duration-300"
-        style={{ boxShadow: '0 4px 20px rgba(249, 115, 22, 0.5)' }}
+        className="z-50 w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-xl flex items-center justify-center text-white hover:from-orange-600 hover:to-orange-700 transition-colors duration-300"
+        style={{ 
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          boxShadow: '0 4px 20px rgba(249, 115, 22, 0.5)'
+        }}
         title="Call Consultant"
       >
-        <Phone className="h-5 w-5 sm:h-6 sm:w-6" />
-      </motion.button>
+        <Phone className="h-5 w-5" />
+      </button>
 
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
         <DialogContent className="max-w-[95vw] sm:max-w-md rounded-xl mx-2">

@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
 import { calculateNumerology } from '@/utils/numerology';
+import { SignInButton } from '@clerk/clerk-react';
 
 const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -79,8 +80,13 @@ const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData })
 
       {!isSignedIn && (
         <div className="text-center mb-8 p-6 bg-orange-50 rounded-xl border border-orange-200">
-          <p className="text-orange-700 mb-4 font-medium">🔒 Please sign in to calculate your results</p>
-          <p className="text-gray-600">Create your account to get personalized numerology insights</p>
+          <div className="text-3xl sm:text-4xl mb-3">🔐</div>
+          <p className="text-orange-700 mb-4 font-medium">Please sign in to calculate your results</p>
+          <SignInButton mode="modal">
+            <Button className="orange-gradient text-white hover:orange-gradient-hover font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-full">
+              Login / Sign Up
+            </Button>
+          </SignInButton>
         </div>
       )}
 

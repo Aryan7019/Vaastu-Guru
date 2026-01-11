@@ -93,20 +93,20 @@ const StudySection = () => {
         <meta name="description" content="Explore the ancient sciences of numerology and vaastu shastra. Learn principles, meanings, and practical applications for a harmonious life." />
       </Helmet>
 
-      <div className="min-h-screen py-20">
+      <div className="min-h-screen pt-16 sm:pt-20 pb-8">
         <div className="container mx-auto px-4">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-16">
-            <h1 className="text-5xl md:text-7xl font-bold text-white text-shadow mb-4">About <span className="text-black">Ancient Wisdom</span></h1>
-            <p className="text-xl text-white max-w-3xl mx-auto">Discover the profound sciences of numerology and vaastu shastra that have guided humanity for millennia</p>
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-6 sm:mb-10">
+            <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold text-white text-shadow mb-2 sm:mb-4">About <span className="text-black">Ancient Wisdom</span></h1>
+            <p className="text-sm sm:text-lg text-white max-w-3xl mx-auto px-2">Discover the profound sciences of numerology and vaastu shastra</p>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="flex justify-center mb-12">
-            <div className="bg-white rounded-2xl p-2 shadow-lg">
-              <button onClick={() => setActiveTab('numerology')} className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 ${activeTab === 'numerology' ? 'orange-gradient text-white' : 'text-gray-600 hover:text-orange-500'}`}>
-                <Calculator className="inline-block w-5 h-5 mr-2" />Numerology
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="flex justify-center mb-6 sm:mb-10">
+            <div className="bg-white rounded-2xl p-2 shadow-lg flex">
+              <button onClick={() => setActiveTab('numerology')} className={`px-4 sm:px-8 py-2 sm:py-3 rounded-xl font-medium transition-all duration-300 text-sm sm:text-base whitespace-nowrap ${activeTab === 'numerology' ? 'orange-gradient text-white' : 'text-gray-600 hover:text-orange-500'}`}>
+                <Calculator className="inline-block w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />Numerology
               </button>
-              <button onClick={() => setActiveTab('vaastu')} className={`px-8 py-3 rounded-xl font-medium transition-all duration-300 ${activeTab === 'vaastu' ? 'orange-gradient text-white' : 'text-gray-600 hover:text-orange-500'}`}>
-                <Home className="inline-block w-5 h-5 mr-2" />Vaastu Shastra
+              <button onClick={() => setActiveTab('vaastu')} className={`px-4 sm:px-8 py-2 sm:py-3 rounded-xl font-medium transition-all duration-300 text-sm sm:text-base whitespace-nowrap ${activeTab === 'vaastu' ? 'orange-gradient text-white' : 'text-gray-600 hover:text-orange-500'}`}>
+                <Home className="inline-block w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />Vaastu
               </button>
             </div>
           </motion.div>

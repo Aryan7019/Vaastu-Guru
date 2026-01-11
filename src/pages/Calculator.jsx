@@ -30,19 +30,19 @@ const Calculator = () => {
         <meta name="description" content="Calculate your life path, destiny, and soul urge numbers with our advanced numerology calculator. Get personalized insights based on your name and birth date." />
       </Helmet>
 
-      <div className="min-h-screen py-16 sm:py-20">
+      <div className="min-h-screen pt-16 sm:pt-20 pb-8">
         <div className="container mx-auto px-4 max-w-4xl">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-10 sm:mb-16"
+            className="text-center mb-4 sm:mb-8"
           >
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white text-shadow mb-3 sm:mb-4">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white text-shadow mb-2 sm:mb-4">
               Numerology <span className="text-black">Calculator</span>
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-white max-w-3xl mx-auto px-2">
-              Unlock your life's blueprint with our numerology calculator: reveals personality traits, fortune potential, and name compatibility for harmonious energy flow.
+            <p className="text-sm sm:text-lg md:text-xl text-white max-w-3xl mx-auto px-2">
+              Unlock your life's blueprint with our numerology calculator: reveals personality traits, fortune potential, and name compatibility.
             </p>
           </motion.div>
 

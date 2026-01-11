@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -160,35 +160,22 @@ const ChatBot = () => {
   return (
     <>
       {/* Chat Toggle Button */}
-      <motion.button
+      <button
         onClick={toggleChat}
-        className="fixed bottom-[72px] sm:bottom-[76px] right-4 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-xl flex items-center justify-center text-white hover:from-orange-600 hover:to-orange-700 transition-all duration-300"
-        style={{ boxShadow: '0 4px 20px rgba(249, 115, 22, 0.5)' }}
+        className="z-50 w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-xl flex items-center justify-center text-white hover:from-orange-600 hover:to-orange-700 transition-colors duration-300"
+        style={{ 
+          position: 'fixed',
+          bottom: '80px',
+          right: '20px',
+          boxShadow: '0 4px 20px rgba(249, 115, 22, 0.5)'
+        }}
       >
-        <AnimatePresence mode="wait">
-          {isOpen ? (
-            <motion.div
-              key="close"
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <X className="h-5 w-5 sm:h-6 sm:w-6" />
-            </motion.div>
-          ) : (
-            <motion.div
-              key="chat"
-              initial={{ rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={{ rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <MessageCircle className="h-5 w-5 sm:h-6 sm:w-6" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.button>
+        {isOpen ? (
+          <X className="h-5 w-5" />
+        ) : (
+          <MessageCircle className="h-5 w-5" />
+        )}
+      </button>
 
       {/* Chat Window */}
       <AnimatePresence>
@@ -197,7 +184,12 @@ const ChatBot = () => {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-[136px] sm:bottom-[144px] right-2 sm:right-4 z-40 w-[calc(100vw-16px)] sm:w-80 max-w-sm h-80 sm:h-96 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden"
+            className="z-40 w-80 max-w-[calc(100vw-32px)] h-96 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden"
+            style={{
+              position: 'fixed',
+              bottom: '140px',
+              right: '20px'
+            }}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-3 sm:p-4">
