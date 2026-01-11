@@ -57,10 +57,10 @@ const TherapySection = () => {
       hex: "#34d399"
     },
     {
-      color: "Yellow",
+      color: "Orange",
       meaning: "Joy & Intellect",
       description: "Stimulates mental clarity, positivity, and learning.",
-      hex: "#facc15"
+      hex: "#ff6b35"
     },
     {
       color: "Purple",

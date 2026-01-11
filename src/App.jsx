@@ -3,12 +3,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ClerkProvider } from '@clerk/clerk-react';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import ScrollToTop from '@/components/ScrollToTop';
 import Home from '@/pages/Home';
 import StudySection from '@/pages/StudySection';
 import Calculator from '@/pages/Calculator';
 import TherapySection from '@/pages/TherapySection';
 import Services from './pages/services';
-import FloatingNumbers from '@/components/FloatingNumbers';
+import FloatingBackground from '@/components/FloatingBackground';
 import ChatBot from '@/components/ChatBot';
 import CallConsultation from '@/components/CallConsultation'; 
 
@@ -27,11 +29,16 @@ function App() {
       }}
     >
       <Router>
-        <div className="min-h-screen relative">
-          <FloatingNumbers />
+        <ScrollToTop />
+        <div className="min-h-screen relative flex flex-col">
+          {/* Global floating background */}
+          <FloatingBackground />
+          
+          {/* Header */}
           <Header />
           
-          <main className="relative z-1">
+          {/* Main content - above floating elements */}
+          <main className="relative pt-16 flex-grow" style={{ zIndex: 10 }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/learn" element={<StudySection />} />
@@ -40,6 +47,9 @@ function App() {
               <Route path="/services" element={<Services />} />
             </Routes>
           </main>
+          
+          {/* Footer */}
+          <Footer />
           
           <ChatBot />
           <CallConsultation /> 

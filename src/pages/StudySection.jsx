@@ -36,7 +36,7 @@ const StudySection = () => {
       number: 3,
       meaning: "Knowledge",
       description: "Curious minds who value learning, insight, and intellectual growth.",
-      color: "text-yellow-500"
+      color: "text-orange-500"
     },
     {
       number: 4,

@@ -2,9 +2,10 @@ import * as React from 'react';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cn } from '@/lib/utils';
-import { motion } from 'framer-motion';
 
-const Dialog = DialogPrimitive.Root;
+const Dialog = ({ ...props }) => (
+  <DialogPrimitive.Root {...props} />
+);
 
 const DialogTrigger = DialogPrimitive.Trigger;
 
@@ -25,7 +26,7 @@ const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      'fixed inset-0 z-50 bg-black/80 backdrop-blur-sm transition-all duration-300',
+      'fixed inset-0 z-50 bg-black/20 backdrop-blur-[2px] transition-all duration-300',
       'data-[state=closed]:animate-out data-[state=closed]:fade-out data-[state=open]:fade-in',
       className
     )}
@@ -34,21 +35,32 @@ const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
-const DialogContent = React.forwardRef(({ className, children, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay />
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      className="flex items-center justify-center w-full h-full"
-    >
+const DialogContent = React.forwardRef(({ className, children, ...props }, ref) => {
+  // Store scroll position when dialog opens
+  const scrollPositionRef = React.useRef(0);
+  
+  React.useEffect(() => {
+    scrollPositionRef.current = window.scrollY;
+    
+    return () => {
+      // Restore scroll position when dialog closes
+      setTimeout(() => {
+        window.scrollTo(0, scrollPositionRef.current);
+      }, 0);
+    };
+  }, []);
+
+  return (
+    <DialogPortal>
+      <DialogOverlay />
       <DialogPrimitive.Content
         ref={ref}
+        onOpenAutoFocus={(e) => e.preventDefault()}
+        onCloseAutoFocus={(e) => e.preventDefault()}
         className={cn(
-          'relative z-50 w-full max-w-md gap-4 rounded-2xl border border-orange-200 bg-gradient-to-br from-orange-50 to-white p-6 shadow-xl',
+          'fixed left-[50%] top-[50%] z-50 w-full max-w-md translate-x-[-50%] translate-y-[-50%] gap-4 rounded-2xl border border-orange-200 bg-white p-6 shadow-xl',
           'animate-in data-[state=open]:fade-in-90 data-[state=open]:slide-in-from-bottom-10',
-          'sm:zoom-in-90 data-[state=open]:sm:slide-in-from-bottom-0',
+          'duration-300',
           className
         )}
         {...props}
@@ -59,9 +71,9 @@ const DialogContent = React.forwardRef(({ className, children, ...props }, ref) 
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>
       </DialogPrimitive.Content>
-    </motion.div>
-  </DialogPortal>
-));
+    </DialogPortal>
+  );
+});
 DialogContent.displayName = DialogPrimitive.Content.displayName;
 
 const DialogHeader = ({

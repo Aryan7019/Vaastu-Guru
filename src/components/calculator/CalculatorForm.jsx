@@ -44,9 +44,9 @@ const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData })
         userId: user.id
       };
       
-      const existingCalculations = JSON.parse(localStorage.getItem('bhaggya_calculations') || '[]');
+      const existingCalculations = JSON.parse(localStorage.getItem('numavaastu_calculations') || '[]');
       existingCalculations.push(calculationData);
-      localStorage.setItem('bhaggya_calculations', JSON.stringify(existingCalculations));
+      localStorage.setItem('numavaastu_calculations', JSON.stringify(existingCalculations));
       
       toast({
         title: "Success!",

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ConsultationForm } from "@/components/ConsultationForm";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import jsPDF from 'jspdf';
 
 const personalityCombinations = [
   // 1.x Combinations (Leader, Selfish/Angry)
@@ -930,11 +931,11 @@ const CircularMeter = ({ percentage }) => {
         text: '#b91c1c',   // red-700
       };
     }
-    if (p <= 70) { // Medium percentage - Yellow
+    if (p <= 70) { // Medium percentage - Orange
       return {
-        start: '#fde047', // yellow-300
-        end: '#f59e0b',   // amber-500
-        text: '#b45309',   // amber-700
+        start: '#fb923c', // orange-400
+        end: '#ff6b35',   // primary orange
+        text: '#c2410c',   // orange-700
       };
     }
     // Good percentage - Green
@@ -1166,8 +1167,8 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
           </p>
         </div>
 
-        <div className="mt-4 p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded">
-          <p className="text-sm text-yellow-700">
+        <div className="mt-4 p-3 bg-orange-50 border-l-4 border-orange-400 rounded">
+          <p className="text-sm text-orange-700">
             <span className="font-semibold">Note:</span> This analysis considers basic factors only.
             For complete accuracy, book an appointment with our experts.
           </p>
@@ -1186,6 +1187,164 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
             className="border-orange-500 text-orange-500 hover:bg-orange-50"
           >
             New Analysis
+          </Button>
+
+          <Button
+            className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white transition-transform duration-300 ease-in-out hover:scale-105"
+            onClick={() => {
+              const doc = new jsPDF();
+              const pageWidth = doc.internal.pageSize.getWidth();
+              const margin = 15;
+              const contentWidth = pageWidth - (margin * 2);
+              
+              // Colors
+              const orange = [249, 115, 22];
+              const darkOrange = [194, 65, 12];
+              const green = [34, 197, 94];
+              const red = [239, 68, 68];
+              const gray = [100, 116, 139];
+              
+              // Header Banner
+              doc.setFillColor(...orange);
+              doc.rect(0, 0, pageWidth, 35, 'F');
+              
+              doc.setTextColor(255, 255, 255);
+              doc.setFontSize(20);
+              doc.setFont('helvetica', 'bold');
+              doc.text('NumaVaastu', pageWidth / 2, 14, { align: 'center' });
+              
+              doc.setFontSize(8);
+              doc.setFont('helvetica', 'normal');
+              doc.text('Ancient Wisdom for Modern Transformation', pageWidth / 2, 21, { align: 'center' });
+              
+              doc.setFontSize(11);
+              doc.setFont('helvetica', 'bold');
+              doc.text('Numerology Report', pageWidth / 2, 30, { align: 'center' });
+              
+              // User Info Box
+              let y = 42;
+              doc.setFillColor(255, 247, 237);
+              doc.roundedRect(margin, y, contentWidth, 20, 3, 3, 'F');
+              
+              doc.setTextColor(...darkOrange);
+              doc.setFontSize(13);
+              doc.setFont('helvetica', 'bold');
+              const displayName = (formData?.name || 'Guest').length > 35 
+                ? (formData?.name || 'Guest').substring(0, 35) + '...' 
+                : (formData?.name || 'Guest');
+              doc.text(displayName, margin + 6, y + 9);
+              
+              doc.setTextColor(...gray);
+              doc.setFontSize(8);
+              doc.setFont('helvetica', 'normal');
+              const dobText = 'Date of Birth: ' + new Date(formData?.birthDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+              doc.text(dobText, margin + 6, y + 16);
+              
+              y += 26;
+              
+              // Name Compatibility
+              if (formData?.name) {
+                const isComp = nameCompatibility.compatible;
+                doc.setFillColor(...(isComp ? [220, 252, 231] : [254, 226, 226]));
+                doc.roundedRect(margin, y, contentWidth, 12, 2, 2, 'F');
+                
+                doc.setTextColor(...(isComp ? green : red));
+                doc.setFontSize(9);
+                doc.setFont('helvetica', 'bold');
+                const compText = isComp ? '✓ Your name is compatible with your birth energy' : '✗ Your name needs correction for better alignment';
+                doc.text(compText, pageWidth / 2, y + 8, { align: 'center' });
+                y += 18;
+              }
+              
+              // Personality Section
+              doc.setTextColor(...darkOrange);
+              doc.setFontSize(11);
+              doc.setFont('helvetica', 'bold');
+              doc.text('Personality Analysis', margin, y + 5);
+              doc.setDrawColor(...orange);
+              doc.setLineWidth(0.5);
+              doc.line(margin, y + 8, pageWidth - margin, y + 8);
+              y += 14;
+              
+              personalityTraits.forEach((trait, i) => {
+                const isPos = i < 2;
+                const traitLines = doc.splitTextToSize(trait, contentWidth - 12);
+                const boxHeight = Math.max(10, traitLines.length * 5 + 5);
+                
+                doc.setFillColor(...(isPos ? [240, 253, 244] : [254, 242, 242]));
+                doc.roundedRect(margin, y, contentWidth, boxHeight, 2, 2, 'F');
+                
+                doc.setDrawColor(...(isPos ? green : red));
+                doc.setLineWidth(2);
+                doc.line(margin, y, margin, y + boxHeight);
+                
+                doc.setTextColor(...(isPos ? [22, 101, 52] : [153, 27, 27]));
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'normal');
+                doc.text(traitLines, margin + 5, y + 6);
+                y += boxHeight + 3;
+              });
+              
+              y += 5;
+              
+              // Fortune Section
+              doc.setTextColor(...darkOrange);
+              doc.setFontSize(11);
+              doc.setFont('helvetica', 'bold');
+              doc.text(new Date().getFullYear() + ' Fortune Forecast', margin, y + 5);
+              doc.setDrawColor(...orange);
+              doc.line(margin, y + 8, pageWidth - margin, y + 8);
+              y += 14;
+              
+              doc.setFillColor(254, 243, 199);
+              doc.roundedRect(margin, y, contentWidth, 38, 3, 3, 'F');
+              
+              doc.setTextColor(...orange);
+              doc.setFontSize(28);
+              doc.setFont('helvetica', 'bold');
+              doc.text(yearFortune.percentage + '%', pageWidth / 2, y + 14, { align: 'center' });
+              
+              doc.setFontSize(7);
+              doc.setFont('helvetica', 'normal');
+              doc.text('Fortune Score', pageWidth / 2, y + 20, { align: 'center' });
+              
+              doc.setTextColor(146, 64, 14);
+              doc.setFontSize(7);
+              doc.setFont('helvetica', 'normal');
+              const descLines = doc.splitTextToSize(yearFortune.description, contentWidth - 16);
+              const truncatedDesc = descLines.slice(0, 3);
+              doc.text(truncatedDesc, pageWidth / 2, y + 27, { align: 'center', maxWidth: contentWidth - 16 });
+              
+              y += 45;
+              
+              // Note
+              doc.setFillColor(248, 250, 252);
+              doc.roundedRect(margin, y, contentWidth, 18, 2, 2, 'F');
+              doc.setTextColor(...gray);
+              doc.setFontSize(7);
+              doc.setFont('helvetica', 'normal');
+              doc.text('For detailed analysis with remedies and personalized guidance, book a consultation.', margin + 4, y + 6);
+              doc.text('Contact: +91 96508 81509 | vaastuguru12@gmail.com', margin + 4, y + 12);
+              
+              // Footer
+              doc.setFillColor(28, 25, 23);
+              doc.rect(0, 280, pageWidth, 17, 'F');
+              
+              doc.setTextColor(...orange);
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'bold');
+              doc.text('NumaVaastu', pageWidth / 2, 287, { align: 'center' });
+              
+              doc.setTextColor(168, 162, 158);
+              doc.setFontSize(6);
+              doc.setFont('helvetica', 'normal');
+              doc.text('Generated: ' + new Date().toLocaleDateString('en-IN') + ' | Ancient Wisdom for Modern Transformation', pageWidth / 2, 293, { align: 'center' });
+              
+              // Download
+              doc.save('NumaVaastu_Report_' + (formData?.name || 'Guest').replace(/\s+/g, '_') + '.pdf');
+            }}
+          >
+            📄 Generate Report
           </Button>
 
           <Button

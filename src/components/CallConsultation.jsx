@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Phone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -45,16 +45,15 @@ const CallConsultation = () => {
     <>
       <motion.button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-lg flex items-center justify-center text-white hover:from-orange-600 hover:to-orange-700 transition-all duration-300"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+        className="fixed bottom-4 right-4 z-50 w-12 h-12 sm:w-14 sm:h-14 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow-xl flex items-center justify-center text-white hover:from-orange-600 hover:to-orange-700 transition-all duration-300"
+        style={{ boxShadow: '0 4px 20px rgba(249, 115, 22, 0.5)' }}
         title="Call Consultant"
       >
-        <Phone className="h-6 w-6" />
+        <Phone className="h-5 w-5 sm:h-6 sm:w-6" />
       </motion.button>
 
       <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-        <DialogContent className="sm:max-w-md rounded-xl">
+        <DialogContent className="max-w-[95vw] sm:max-w-md rounded-xl mx-2">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-orange-600">
               <Phone className="h-5 w-5" />
