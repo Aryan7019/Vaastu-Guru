@@ -21,7 +21,7 @@ const RESPONSES = {
     numerology: "Numerology is the study of numbers and their mystical relationship with life events. Each number from 1-9 has unique vibrations and meanings. Your birth date and name can reveal insights about your personality, life path, and destiny.",
     vaastu: "Vaastu Shastra is an ancient Indian science of architecture and space arrangement. It focuses on harmonizing human dwellings with natural forces and cosmic energies to bring prosperity, health, and happiness.",
     consultants: "Our expert consultants are Yashraj Guruji and Rishabh Goel. Both have years of experience in numerology and vaastu consultation, helping thousands of clients achieve harmony in their lives.",
-    contact: "You can contact us at mobile number +919650881509 or click on the 'Book Consultation' button to schedule an appointment.",
+    contact: "You can contact us via email at vaastuguru12@gmail.com or click on the 'Book Consultation' button to schedule an appointment. If you want to call directly, use the call button on the website.",
     services: "We offer: \n• Personalized numerology readings\n• Vaastu consultations for homes & offices\n• Name correction suggestions\n• Color therapy guidance\n• Pyramid therapy\n• Life path guidance based on numbers",
     calculator: "Our numerology calculator analyzes your birth date and name to provide insights into your life path number, destiny number, and personality traits. Go to the Calculator page and sign in to access this feature!",
     
@@ -31,7 +31,7 @@ const RESPONSES = {
     home: "Our Home page showcases NumaVaastu's services, our expert consultants, and ways to connect with us. You can book consultations and explore our offerings there.",
     
     // Pricing & Booking
-    price: "For pricing details and consultation fees, please contact us at +919650881509 or book a consultation through our website. Our team will provide you with all the information.",
+    price: "For pricing details and consultation fees, please contact us at vaastuguru12@gmail.com or book a consultation through our website. Our team will provide you with all the information.",
     book: "To book a consultation, click the 'Book Consultation' button on any page. You'll need to sign in first, then fill out the form with your details. Our team will contact you shortly!",
     
     // Features

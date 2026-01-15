@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Facebook, Instagram } from 'lucide-react';
+import { Mail, MapPin, Facebook, Instagram } from 'lucide-react';
 
 // X (Twitter) icon component
 const XIcon = () => (
@@ -100,12 +100,6 @@ const Footer = memo(() => {
           <div className="col-span-2 sm:col-span-1">
             <h3 className="text-orange-400 font-semibold text-base sm:text-lg mb-3 sm:mb-4">Contact Us</h3>
             <ul className="space-y-3 sm:space-y-4">
-              <li className="flex items-center gap-2 sm:gap-3">
-                <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-400 flex-shrink-0" />
-                <a href="tel:+919650189822" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  +91 96501 89822
-                </a>
-              </li>
               <li className="flex items-center gap-2 sm:gap-3">
                 <Mail className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-400 flex-shrink-0" />
                 <a href="mailto:vaastuguru12@gmail.com" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm break-all">

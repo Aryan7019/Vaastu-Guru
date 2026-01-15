@@ -1383,7 +1383,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
               doc.setFontSize(7);
               doc.setFont('helvetica', 'normal');
               doc.text('For detailed analysis with remedies and personalized guidance, book a consultation.', margin + 4, y + 6);
-              doc.text('Contact: +91 96508 81509 | vaastuguru12@gmail.com', margin + 4, y + 12);
+              doc.text('Contact: vaastuguru12@gmail.com', margin + 4, y + 12);
               
               // Footer
               doc.setFillColor(28, 25, 23);
