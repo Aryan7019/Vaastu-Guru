@@ -15,7 +15,7 @@ const CallConsultation = () => {
 
   const CONSULTATION_FEE = 499;
   const ORIGINAL_FEE = 2099;
-  const CONSULTANT_NUMBER = "+919650881509";
+  const CONSULTANT_NUMBER = "+919650189822";
 
   const handleCallInitiation = () => {
     setIsCalling(true);

@@ -12,6 +12,13 @@ import { db } from "../components/firebase";
 import { ConsultationForm } from "../components/ConsultationForm";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from '../components/ui/dialog';
 
+// X (Twitter) icon component
+const XIcon = ({ className }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="currentColor">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
 // Memoized Animated Counter
 const AnimatedCounter = memo(({ end, suffix = "", duration = 2 }) => {
   const [count, setCount] = useState(0);
@@ -92,7 +99,7 @@ const STATS = [
 ];
 
 // Expert Card Component
-const ExpertCard = memo(({ name, title, description, image, skills, instagram, facebook, delay = 0 }) => (
+const ExpertCard = memo(({ name, title, description, image, skills, instagram, facebook, xLink, delay = 0 }) => (
   <motion.div
     initial={{ opacity: 0, x: delay ? 30 : -30 }}
     whileInView={{ opacity: 1, x: 0 }}
@@ -130,6 +137,11 @@ const ExpertCard = memo(({ name, title, description, image, skills, instagram, f
       <a href={facebook} target="_blank" rel="noopener noreferrer" className="bg-gradient-to-r from-blue-500 to-blue-600 p-2.5 sm:p-3 rounded-full text-white shadow-lg hover:shadow-blue-500/50 transition-all duration-300">
         <Facebook className="h-4 w-4 sm:h-5 sm:w-5" />
       </a>
+      {xLink && (
+        <a href={xLink} target="_blank" rel="noopener noreferrer" className="bg-black p-2.5 sm:p-3 rounded-full text-white shadow-lg hover:shadow-gray-500/50 transition-all duration-300">
+          <XIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+        </a>
+      )}
     </div>
   </motion.div>
 ));
@@ -348,7 +360,7 @@ const Home = () => {
             </motion.div>
             <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 max-w-6xl mx-auto">
               <ExpertCard name="Yashraj Guruji" title="Senior Numerology & Vaastu Consultant" description="With over 20 years of experience in numerology, Yashraj Guruji has helped thousands discover their life path through numbers." image="/images/Profile2.jpg" skills={["Expert in Life Path Analysis", "Residential Vaastu Specialist", "Business Numerology Consultant"]} instagram="https://www.instagram.com/yashrajguruji/" facebook="https://www.facebook.com/yashrajguruji" />
-              <ExpertCard name="Rishabh Goel" title="Numerology & Vaastu Consultant" description="A renowned Vaastu expert with 7+ years of experience, Rishabh Goel harmonizes spaces for prosperity and peace." image="/images/Profile.jpg" skills={["Residential Vaastu Specialist", "Commercial Space Consultant", "Numerology Consultant"]} instagram="https://www.instagram.com/goel_bhaiji/" facebook="https://www.facebook.com/VaastuGuruBhaaiji" delay={0.2} />
+              <ExpertCard name="Rishabh Goel" title="Numerology & Vaastu Consultant" description="A renowned Vaastu expert with 7+ years of experience, Rishabh Goel harmonizes spaces for prosperity and peace." image="/images/Profile.jpg" skills={["Residential Vaastu Specialist", "Commercial Space Consultant", "Numerology Consultant"]} instagram="https://www.instagram.com/goel_bhaiji/" facebook="https://www.facebook.com/VaastuGuruBhaaiji" xLink="https://x.com/vastugurubhaiji" delay={0.2} />
             </div>
           </div>
         </section>

@@ -1,6 +1,13 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Facebook, Instagram, Twitter, Youtube } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Instagram } from 'lucide-react';
+
+// X (Twitter) icon component
+const XIcon = () => (
+  <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="currentColor">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
 
 // Static data moved outside component
 const QUICK_LINKS = [
@@ -22,8 +29,7 @@ const SERVICE_LINKS = [
 const SOCIAL_LINKS = [
   { icon: Facebook, href: 'https://www.facebook.com/yashrajguruji', label: 'Facebook' },
   { icon: Instagram, href: 'https://www.instagram.com/yashrajguruji', label: 'Instagram' },
-  { icon: Twitter, href: '#', label: 'Twitter' },
-  { icon: Youtube, href: '#', label: 'Youtube' }
+  { icon: XIcon, href: 'https://x.com/vastugurubhaiji', label: 'X', isCustom: true }
 ];
 
 const Footer = memo(() => {
@@ -47,7 +53,7 @@ const Footer = memo(() => {
             </p>
             {/* Social Icons */}
             <div className="flex gap-2 sm:gap-3 pt-2">
-              {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
+              {SOCIAL_LINKS.map(({ icon: Icon, href, label, isCustom }) => (
                 <a 
                   key={label}
                   href={href} 
@@ -56,7 +62,7 @@ const Footer = memo(() => {
                   aria-label={label}
                   className="w-8 h-8 sm:w-9 sm:h-9 bg-[#3d3028] hover:bg-orange-500 rounded-full flex items-center justify-center transition-all duration-300"
                 >
-                  <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  {isCustom ? <Icon /> : <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />}
                 </a>
               ))}
             </div>
@@ -96,8 +102,8 @@ const Footer = memo(() => {
             <ul className="space-y-3 sm:space-y-4">
               <li className="flex items-center gap-2 sm:gap-3">
                 <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-orange-400 flex-shrink-0" />
-                <a href="tel:+919650881509" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
-                  +91 96508 81509
+                <a href="tel:+919650189822" className="text-gray-400 hover:text-orange-400 transition-colors duration-300 text-xs sm:text-sm">
+                  +91 96501 89822
                 </a>
               </li>
               <li className="flex items-center gap-2 sm:gap-3">
