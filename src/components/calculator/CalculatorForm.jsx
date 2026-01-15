@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from '@/components/ui/use-toast';
-import { calculateNumerology } from '@/utils/numerology';
+
 import { SignInButton } from '@clerk/clerk-react';
 
 const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData }) => {
@@ -35,12 +35,11 @@ const CalculatorForm = ({ user, isSignedIn, setFormData, setResults, formData })
     setIsLoading(true);
 
     setTimeout(() => {
-      const numerologyResult = calculateNumerology(formData.name, formData.birthDate);
-      setResults(numerologyResult);
+      // Simple calculation - just pass the form data
+      setResults({ name: formData.name, birthDate: formData.birthDate });
       
       const calculationData = {
         ...formData,
-        ...numerologyResult,
         timestamp: new Date().toISOString(),
         userId: user.id
       };

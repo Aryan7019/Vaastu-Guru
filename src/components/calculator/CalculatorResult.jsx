@@ -768,17 +768,18 @@ const NAME_COMPATIBILITY_RULES = {
   3: { compatible: [], description: "3 doesn't have compatible numbers" },
   4: { compatible: [], description: "4 doesn't have compatible numbers" },
   5: { compatible: [1, 2, 3, 4, 5, 6, 7, 8, 9], description: "5 works with all numbers" },
-  6: { compatible: [1, 2, 4, 5, 6, 7, 8], description: "6 works best with 3 and 9" },
+  6: { compatible: [1, 2, 4, 5, 6, 7, 8], description: "6 doesnot compatible with 3 and 9" },
   7: { compatible: [], description: "7 doesn't have compatible numbers" },
   8: { compatible: [], description: "8 doesn't have compatible numbers" },
   9: { compatible: [], description: "9 doesn't have compatible numbers" },
   16: { compatible: [1, 2, 3, 4, 5, 6, 7, 8, 9], description: "16 works with all numbers" },
-  22: { compatible: [1, 3, 5, 6, 7], description: "22 works best with 2, 4, 8, and 9" },
-  25: { compatible: [1, 2, 3, 4, 5, 6, 7, 8, 9], description: "25 works with all numbers" }
+  22: { compatible: [1, 3, 5, 6, 7], description: "22 works worst with 2, 4, 8, and 9" },
+  25: { compatible: [1, 2, 3, 4, 5, 6, 7, 8, 9], description: "25 works with all numbers" },
 };
 
 const sumToSingleDigit = (num) => {
-  if ([22, 16, 25].includes(num)) {
+  // Only keep 16, 22, and 25 as special cases
+  if ([16, 22, 25].includes(num)) {
     return num;
   }
 
@@ -789,7 +790,7 @@ const sumToSingleDigit = (num) => {
 };
 
 const calculateNameValue = (name) => {
-  if (!name) return 0;
+  if (!name || typeof name !== 'string') return 0;
 
   let sum = 0;
   for (const char of name.toUpperCase()) {
@@ -798,34 +799,62 @@ const calculateNameValue = (name) => {
     }
   }
 
+  // Always reduce name value to single digit (no special cases for 11, 22, 33)
+  while (sum > 9) {
+    sum = sum.toString().split('').reduce((s, d) => s + parseInt(d), 0);
+  }
+
   return sum;
 };
 
 const checkNameCompatibility = (nameValue, firstNum) => {
-  const reducedNameValue = sumToSingleDigit(nameValue);
-  const compatibilityRule = NAME_COMPATIBILITY_RULES[reducedNameValue] ||
-  { compatible: [], description: `No specific compatibility rules for ${reducedNameValue}` };
+  // Handle invalid inputs
+  if (!nameValue || !firstNum || nameValue === 0 || firstNum === 0) {
+    return {
+      compatible: false,
+      nameValue: nameValue || 0,
+      description: "Unable to calculate compatibility - please check your name and birth date"
+    };
+  }
+
+  // nameValue is already reduced to single digit in calculateNameValue
+  const compatibilityRule = NAME_COMPATIBILITY_RULES[nameValue] ||
+  { compatible: [], description: `No specific compatibility rules for ${nameValue}` };
 
   const isCompatible = compatibilityRule.compatible.length === 0 ?
     false : compatibilityRule.compatible.includes(firstNum);
 
   return {
     compatible: isCompatible,
-    nameValue: reducedNameValue,
+    nameValue: nameValue,
     description: isCompatible ?
-      `Your name number ${reducedNameValue} is compatible with your birth number ${firstNum}!` :
-      `Your name number ${reducedNameValue} is not compatible with your birth number ${firstNum}. ${compatibilityRule.description}`
+      `Your name number ${nameValue} is compatible with your birth number ${firstNum}!` :
+      `Your name number ${nameValue} is not compatible with your birth number ${firstNum}. ${compatibilityRule.description}`
   };
 };
 
 const calculateNumbers = (birthDate) => {
-  if (!birthDate) return { firstNum: 0, secondNum: 0 };
+  if (!birthDate || typeof birthDate !== 'string') return { firstNum: 1, secondNum: 1 };
 
   try {
     const [year, month, day] = birthDate.split('-').map(Number);
-    let firstNum = sumToSingleDigit(day);
+    
+    // Check if we have valid numbers
+    if (isNaN(year) || isNaN(month) || isNaN(day)) {
+      return { firstNum: 1, secondNum: 1 };
+    }
+    
+    // Always reduce to single digit (1-9)
+    let firstNum = day;
+    while (firstNum > 9) {
+      firstNum = firstNum.toString().split('').reduce((sum, d) => sum + parseInt(d), 0);
+    }
+    
     const allDigits = birthDate.replace(/\D/g, '').split('').map(Number);
-    let secondNum = sumToSingleDigit(allDigits.reduce((sum, d) => sum + d, 0));
+    let secondNum = allDigits.reduce((sum, d) => sum + d, 0);
+    while (secondNum > 9) {
+      secondNum = secondNum.toString().split('').reduce((sum, d) => sum + parseInt(d), 0);
+    }
 
     return {
       firstNum: Math.max(1, Math.min(9, firstNum)),
@@ -833,7 +862,7 @@ const calculateNumbers = (birthDate) => {
     };
   } catch (error) {
     console.error('Calculation error:', error);
-    return { firstNum: 0, secondNum: 0 };
+    return { firstNum: 1, secondNum: 1 };
   }
 };
 
@@ -877,7 +906,13 @@ const calculatePersonalYear = (birthDate) => {
   return sum;
 };
 
-const getYearFortuneData = (personalYear) => {
+const getYearFortuneData = (personalYear, firstNum) => {
+  // Handle invalid inputs
+  if (!personalYear || !firstNum || personalYear < 1 || personalYear > 9 || firstNum < 1 || firstNum > 9) {
+    return { percentage: 50, description: "Neutral year with mixed experiences" };
+  }
+
+  // Default fortune data for all personal years (declare first)
   const fortuneData = {
     1: {
       percentage: 90,
@@ -916,8 +951,32 @@ const getYearFortuneData = (personalYear) => {
       description: "This challenging year tests your resilience. When facing difficulties, focus on basic needs first - don't overwhelm yourself. Remember tough times are temporary and make you stronger."
     },
   };
+
+  // Special cases based on firstNum and personalYear combinations
+  const specialCases = {
+    // firstNum: { personalYear: percentage }
+    1: { 8: 40 },
+    2: { 8: 40, 4: 50 },
+    3: { 6: 18 },
+    4: { 2: 50 },
+    6: { 3: 18 },
+    8: {1: 40, 2: 40}
+  };
+
+  // Check if there's a special case for this combination
+  if (specialCases[firstNum] && specialCases[firstNum][personalYear]) {
+    const percentage = specialCases[firstNum][personalYear];
+    const baseData = fortuneData[personalYear] || { percentage: 50, description: "Neutral year with mixed experiences" };
+    return {
+      percentage: percentage,
+      description: baseData.description
+    };
+  }
+
   return fortuneData[personalYear] || { percentage: 50, description: "Neutral year with mixed experiences" };
 };
+
+
 
 const CircularMeter = ({ percentage }) => {
   const [progress, setProgress] = useState(0);
@@ -1059,7 +1118,7 @@ const CalculatorResult = ({ formData = {}, onReset = () => {} }) => {
   const nameValue = calculateNameValue(formData?.name);
   const nameCompatibility = checkNameCompatibility(nameValue, firstNum);
   const personalYear = calculatePersonalYear(formData?.birthDate);
-  const yearFortune = getYearFortuneData(personalYear);
+  const yearFortune = getYearFortuneData(personalYear, firstNum);
 
 
   if (!formData?.birthDate) {
