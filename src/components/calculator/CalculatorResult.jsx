@@ -763,7 +763,7 @@ const LETTER_VALUES = {
 };
 
 const NAME_COMPATIBILITY_RULES = {
-  1: { compatible: [1, 2, 3, 4, 5, 6, 7, 9], description: "1 works best with 8" },
+  1: { compatible: [1, 2, 3, 4, 5, 6, 7, 9], description: "1 works worst with 8" },
   2: { compatible: [], description: "2 doesn't have compatible numbers" },
   3: { compatible: [], description: "3 doesn't have compatible numbers" },
   4: { compatible: [], description: "4 doesn't have compatible numbers" },
